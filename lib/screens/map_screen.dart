@@ -90,6 +90,9 @@ class MapPageState extends State<MapScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text("test"),
+      ),
       body: FutureBuilder(
         future: GeolocationService.getInitialPosition(),
         builder: (context, snapshot) {
