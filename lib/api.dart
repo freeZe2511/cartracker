@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:cartracker_backend/database.dart';
+import 'package:mongo_dart/mongo_dart.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
 
@@ -8,7 +9,6 @@ import 'coordinate_dao.dart';
 
 class Api {
 
-  int id = 0;
 
   Router get router {
     final router = Router();
@@ -24,7 +24,7 @@ class Api {
     double lat = body["lat"];
     double lng = body["lng"];
     print("$lat, $lng");
-    CoordinateDao.insert(Coordinate(id: id++, lat: lat, lng: lng));
+    await CoordinateDao.insert(Coordinate(id: Uuid().v4(), lat: lat, lng: lng));
     return Response(201, body: jsonEncode(body));
   }
 }

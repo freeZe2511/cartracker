@@ -1,8 +1,10 @@
 import 'package:cartracker_backend/service.dart';
+import 'package:cartracker_backend/database.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart';
 
 void main() async {
+  await Database.init();
   final service = Service();
   final server = await serve(
       Pipeline().addMiddleware(logRequests()).addHandler(service.handler),
