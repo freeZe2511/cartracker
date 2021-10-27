@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:cartracker_backend/database.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
@@ -8,8 +7,6 @@ import 'package:shelf_router/shelf_router.dart';
 import 'coordinate_dao.dart';
 
 class Api {
-
-
   Router get router {
     final router = Router();
 
