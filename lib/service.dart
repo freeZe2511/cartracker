@@ -8,6 +8,7 @@ class Service {
     final router = Router();
 
     router.mount('/api/', Api().router);
+    router.mount('/login/', Login().router);
 
     return router;
   }
