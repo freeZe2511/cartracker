@@ -1,3 +1,4 @@
+import 'package:cartracker_app/screens/map_screen.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -28,8 +29,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     prefixIcon: Icon(Icons.apps), hintText: "Password"),
               ),
               ElevatedButton(
-                onPressed: () {},
                 child: Text("Submit"),
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => MapScreen()));
+                },
               ),
             ],
           ),
