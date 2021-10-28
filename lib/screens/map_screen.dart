@@ -6,16 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:uuid/uuid.dart';
 import 'package:http/http.dart' as http;
-
-import 'login_screen.dart';
+import 'package:uuid/uuid.dart';
 
 class MapScreen extends StatefulWidget {
   const MapScreen({Key? key}) : super(key: key);
 
   static const routeName = '/mapscreen';
-
 
   @override
   State<MapScreen> createState() => MapPageState();
@@ -31,8 +28,6 @@ class MapPageState extends State<MapScreen> {
 
   @override
   void initState() {
-    final args = ModalRoute.of(context)!.settings.arguments;
-
     super.initState();
     GeolocationService.getPositionStream().listen(
       (position) async {
@@ -49,7 +44,7 @@ class MapPageState extends State<MapScreen> {
           ),
         );
         //getTest();
-        addMarker(position, args as String);
+        addMarker(position, "userid");  // sharedpreferences
         addPolyline();
       },
     );
@@ -98,7 +93,6 @@ class MapPageState extends State<MapScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         title: Text("Map"),

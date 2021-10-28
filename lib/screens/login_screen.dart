@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:cartracker_app/screens/map_screen.dart';
 import 'package:flutter/material.dart';
@@ -44,7 +43,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     onSaved: (val) => _username = val,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 't';
+                        return 'Please enter Username';
                       }
                       return null;
                     },
@@ -63,7 +62,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     onSaved: (val) => _password = val,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 't';
+                        return 'Please enter Password';
                       }
                       return null;
                     },
@@ -91,8 +90,7 @@ class _LoginScreenState extends State<LoginScreen> {
       form.save();
       authorized = await authUser(_username, _password);
       if (authorized) {
-        Navigator.pushNamed(
-            context, MapScreen.routeName, arguments: userid);
+        Navigator.pushNamed(context, MapScreen.routeName);
       }
     }
   }
@@ -100,7 +98,8 @@ class _LoginScreenState extends State<LoginScreen> {
   Future<bool> authUser(String username, String password) async {
     bool authorized = false;
 
-    final uri = Uri.parse('http://h2876375.stratoserver.net:9090/api/user/login');
+    final uri =
+        Uri.parse('http://h2876375.stratoserver.net:9090/api/user/login');
     final headers = {'Content-Type': 'application/json'};
     Map<String, dynamic> body = {
       'username': username,
@@ -117,7 +116,7 @@ class _LoginScreenState extends State<LoginScreen> {
     switch (res.statusCode) {
       case 200:
         authorized = !authorized;
-        userid = User.fromJson(jsonDecode(res.body))._userid;
+        userid = jsonDecode(res.body);
         break;
       default:
         _authFail();
