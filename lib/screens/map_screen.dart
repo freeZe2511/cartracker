@@ -9,7 +9,14 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:uuid/uuid.dart';
 import 'package:http/http.dart' as http;
 
+import 'login_screen.dart';
+
 class MapScreen extends StatefulWidget {
+  const MapScreen({Key? key}) : super(key: key);
+
+  static const routeName = '/mapscreen';
+
+
   @override
   State<MapScreen> createState() => MapPageState();
 }
@@ -24,6 +31,8 @@ class MapPageState extends State<MapScreen> {
 
   @override
   void initState() {
+    final args = ModalRoute.of(context)!.settings.arguments;
+
     super.initState();
     GeolocationService.getPositionStream().listen(
       (position) async {
@@ -40,13 +49,13 @@ class MapPageState extends State<MapScreen> {
           ),
         );
         //getTest();
-        addMarker(position);
+        addMarker(position, args as String);
         addPolyline();
       },
     );
   }
 
-  void addMarker(Position position) {
+  void addMarker(Position position, String userid) {
     LatLng pos = LatLng(position.latitude, position.longitude);
     MarkerId markerId = MarkerId(Uuid().v4());
     Marker marker = Marker(
@@ -56,7 +65,7 @@ class MapPageState extends State<MapScreen> {
     setState(() {
       markers[markerId] = marker;
       latlng.add(pos);
-      createMarker(position.latitude, position.longitude);
+      createMarker(position.latitude, position.longitude, userid);
     });
   }
 
@@ -73,11 +82,11 @@ class MapPageState extends State<MapScreen> {
     });
   }
 
-  void createMarker(double lat, double lng) async {
+  void createMarker(double lat, double lng, String userid) async {
     final uri =
         Uri.parse('http://h2876375.stratoserver.net:9090/api/v1/positions');
     final headers = {'Content-Type': 'application/json'};
-    Map<String, dynamic> body = {'lat': lat, 'lng': lng};
+    Map<String, dynamic> body = {'userid': userid, 'lat': lat, 'lng': lng};
 
     http.Response res = await http.post(
       uri,
@@ -89,6 +98,7 @@ class MapPageState extends State<MapScreen> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Map"),

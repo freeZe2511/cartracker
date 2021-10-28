@@ -10,6 +10,9 @@ class CarTrackerApp extends StatelessWidget {
     return MaterialApp(
       title: 'CarTracker',
       home: LoginScreen(),
+      routes: {
+        MapScreen.routeName: (context) => MapScreen(),
+      },
     );
   }
 }
