@@ -1,9 +1,7 @@
 import 'package:cartracker_backend/database.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 
-
 class CoordinateDao {
-
   static const String _collection = "coords";
 
   CoordinateDao._();
@@ -24,7 +22,6 @@ class CoordinateDao {
   static delete(String id) async {
     await Database.db.collection(_collection).remove(where.eq('_id', id));
   }
-
 }
 
 class Coordinate {
@@ -40,8 +37,8 @@ class Coordinate {
         lng = json['lng'];
 
   Map<String, dynamic> toJson() => {
-    'id': id,
-    'lat': lat,
-    'lng': lng,
-  };
+        'id': id,
+        'lat': lat,
+        'lng': lng,
+      };
 }
