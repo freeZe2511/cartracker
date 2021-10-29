@@ -8,8 +8,8 @@ class UserDao {
 
   UserDao._();
 
-  static insert(User u) async {
-    await Database.db.collection(_collection).insert(u.toJson());
+  static create(User u) async {
+    await Database.db.collection(_collection).insert(u.toJson()); // doppelte einträge?
   }
 
   static Future<List<Map<String, dynamic>>?> getAll() async {

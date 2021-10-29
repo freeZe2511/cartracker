@@ -11,6 +11,8 @@ class Auth {
 
     router.post("/login", _login);
 
+    router.post("/create", _createUser);
+
     return router;
   }
 
@@ -22,4 +24,14 @@ class Auth {
     if(id != null) return Response(200, body: jsonEncode(id));
     return Response(404);
   }
+
+  Future<Response> _createUser(Request request) async {
+    var body = jsonDecode(await request.readAsString());
+    String username = body["username"];
+    String password = body["password"];
+    await UserDao.create(User(id: Uuid().v4(), username: username, token: password));
+    return Response(201, body: jsonEncode(username));
+  }
+
+
 }
