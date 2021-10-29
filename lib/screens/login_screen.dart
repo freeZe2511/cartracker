@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:cartracker_app/screens/map_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -16,7 +17,6 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   var _username;
   var _password;
-  var userid;
 
   void _toggle() {
     setState(() => _passwordVisible = !_passwordVisible);
@@ -116,7 +116,8 @@ class _LoginScreenState extends State<LoginScreen> {
     switch (res.statusCode) {
       case 200:
         authorized = !authorized;
-        userid = jsonDecode(res.body);
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setString("userid", jsonDecode(res.body));
         break;
       default:
         _authFail();

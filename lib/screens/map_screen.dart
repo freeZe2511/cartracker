@@ -8,6 +8,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:uuid/uuid.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MapScreen extends StatefulWidget {
   const MapScreen({Key? key}) : super(key: key);
@@ -44,23 +45,24 @@ class MapPageState extends State<MapScreen> {
           ),
         );
         //getTest();
-        addMarker(position, "userid");  // sharedpreferences
+        addMarker(position);  // sharedpreferences
         addPolyline();
       },
     );
   }
 
-  void addMarker(Position position, String userid) {
+  void addMarker(Position position) {
     LatLng pos = LatLng(position.latitude, position.longitude);
     MarkerId markerId = MarkerId(Uuid().v4());
     Marker marker = Marker(
       markerId: markerId,
       position: pos,
     );
+
     setState(() {
       markers[markerId] = marker;
       latlng.add(pos);
-      createMarker(position.latitude, position.longitude, userid);
+      createMarker(position.latitude, position.longitude);
     });
   }
 
@@ -77,11 +79,12 @@ class MapPageState extends State<MapScreen> {
     });
   }
 
-  void createMarker(double lat, double lng, String userid) async {
+  void createMarker(double lat, double lng) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     final uri =
         Uri.parse('http://h2876375.stratoserver.net:9090/api/v1/positions');
     final headers = {'Content-Type': 'application/json'};
-    Map<String, dynamic> body = {'userid': userid, 'lat': lat, 'lng': lng};
+    Map<String, dynamic> body = {'userid': prefs.get("userid"), 'lat': lat, 'lng': lng};
 
     http.Response res = await http.post(
       uri,
