@@ -13,13 +13,13 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  bool _passwordVisible = false;
+  bool _passwordObscure = true;
   final _formKey = GlobalKey<FormState>();
   var _username;
   var _password;
 
   void _toggle() {
-    setState(() => _passwordVisible = !_passwordVisible);
+    setState(() => _passwordObscure = !_passwordObscure);
   }
 
   @override
@@ -54,7 +54,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       hintText: "Password",
                       suffixIcon: IconButton(
                         onPressed: () => _toggle(),
-                        icon: Icon(_passwordVisible
+                        icon: Icon(_passwordObscure
                             ? Icons.visibility_off
                             : Icons.visibility),
                       ),
@@ -66,7 +66,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       }
                       return null;
                     },
-                    obscureText: _passwordVisible,
+                    obscureText: _passwordObscure,
                   ),
                   ElevatedButton(
                     child: Text("Submit"),
