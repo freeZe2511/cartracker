@@ -22,7 +22,7 @@ class UserDao {
   }
 
   static delete(String id) async {
-    await Database.db.collection(_collection).remove(where.eq('_id', id));
+    await Database.db.collection(_collection).remove(where.eq('id', id));
   }
 
   static Future<String?> findOne(String username, String password) async {
@@ -33,6 +33,10 @@ class UserDao {
       print(e);
       return null;
     }
+  }
+
+  static update(){
+
   }
 
 }

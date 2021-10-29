@@ -12,6 +12,12 @@ class Auth {
     router.post("/login", _login);
 
     router.post("/create", _createUser);
+    
+    router.get("/get/:id", _getUserByID);
+    router.get("/get", _getAllUsers);
+    router.delete("/delete/", _deleteUserByID);
+    // router.delete("/delete/:id", _deleteUserByID);
+    router.put("/update/:id", _updateUserByID);
 
     return router;
   }
@@ -31,6 +37,26 @@ class Auth {
     String password = body["password"];
     await UserDao.create(User(id: Uuid().v4(), username: username, token: password));
     return Response(201, body: jsonEncode(username));
+  }
+  
+  Future<Response> _getUserByID(Request request) async {
+    return Response(200);
+  }
+
+  Future<Response> _getAllUsers(Request request) async {
+    return Response(200);
+  }
+
+  Future<Response> _deleteUserByID(Request request) async {
+    // var param = request.params.entries.first;
+    var body = jsonDecode(await request.readAsString());
+    String id = body["id"];
+    await UserDao.delete(id);
+    return Response(200);
+  }
+
+  Future<Response> _updateUserByID(Request request) async {
+    return Response(200);
   }
 
 
