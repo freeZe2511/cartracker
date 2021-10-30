@@ -99,7 +99,7 @@ class _LoginScreenState extends State<LoginScreen> {
     bool authorized = false;
 
     final uri =
-        Uri.parse('http://h2876375.stratoserver.net:9090/api/user/login');
+        Uri.parse('http://h2876375.stratoserver.net:9090/api/v1/user/login');
     final headers = {'Content-Type': 'application/json'};
     Map<String, dynamic> body = {
       'username': username,
