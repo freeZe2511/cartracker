@@ -8,14 +8,13 @@ class UserDao {
 
   UserDao._();
 
-  static create(User u) async {
+  static Future<void> create(User u) async {
     await Database.db.collection(_collection).insert(u.toJson()); // doppelte einträge?
   }
 
-  static Future<User?> readOne(String id) async {
+  static Future<User> readOne(String id) async {
     var u = await Database.db.collection(_collection).findOne(where.eq('id', id));
-    if(u != null) return User.fromJson(u);
-    return null;
+    return User.fromJson(u!); //null?
   }
 
   static Future<List<User>> readMany(List<String> ids) async {
@@ -28,10 +27,6 @@ class UserDao {
     return Database.db.collection(_collection).find().map((doc) => User.fromJson(doc)).toList();
   }
 
-  static delete(String id) async {
-    await Database.db.collection(_collection).remove(where.eq('id', id));
-  }
-
   static Future<String?> findOne(String username, String password) async {
     try {
       var u = await Database.db.collection(_collection).findOne(where.eq('username', username).eq('password', password));
@@ -42,12 +37,16 @@ class UserDao {
     }
   }
 
-  static update(String id, String username, String password) async{
+  static Future<void> update(String id, String username, String password) async{  // return user?
     var modifier = ModifierBuilder();
     modifier.set("username", username);
     modifier.set("password", password);
     print(modifier);
     await Database.db.collection(_collection).updateOne(where.eq('id', id), modifier);
+  }
+
+  static Future<void> delete(String id) async {
+    await Database.db.collection(_collection).remove(where.eq('id', id));   // return user?
   }
 
 }
