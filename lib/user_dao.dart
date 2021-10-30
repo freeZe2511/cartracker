@@ -35,8 +35,12 @@ class UserDao {
     }
   }
 
-  static update(){
-
+  static update(String id, String username, String password) async{
+    var modifier = ModifierBuilder();
+    modifier.set("username", username);
+    modifier.set("password", password);
+    print(modifier);
+    await Database.db.collection(_collection).updateOne(where.eq('id', id), modifier);
   }
 
 }
