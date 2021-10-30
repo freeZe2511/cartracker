@@ -6,20 +6,28 @@ class CoordinateDao {
 
   CoordinateDao._();
 
-  static insert(Coordinate c) async {
+  static Future<void> insert(Coordinate c) async {
     await Database.db.collection(_collection).insert(c.toJson());
   }
 
-  static Future<List<Map<String, dynamic>>?> getAll() async {
-    try {
-      return Database.db.collection(_collection).find().toList();
-    } catch (e) {
-      print(e);
-      return null;
-    }
+  static Future<List<Coordinate>> readMany(String id, int limit) async {
+    return Database.db
+        .collection(_collection)
+        .find(where.eq('id', id).limit(limit)) //limit?
+        .map((doc) => Coordinate.fromJson(doc))
+        .toList();
   }
 
-  static delete(String id) async {
+  static Future<List<Coordinate>> readAll() async {
+    return Database.db
+        .collection(_collection)
+        .find()
+        .map((doc) => Coordinate.fromJson(doc))
+        .toList();
+  }
+
+  static Future<void> delete(String id) async {
+    //return coord?
     await Database.db.collection(_collection).remove(where.eq('_id', id));
   }
 }

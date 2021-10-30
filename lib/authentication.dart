@@ -5,11 +5,11 @@ import 'package:mongo_dart/mongo_dart.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
 
-class Auth {
+class Authentication {
   Router get router {
     final router = Router();
 
-    router.post("/login", _login);  // log out?
+    router.post("/login", _login); // log out?
 
     router.post("/create", _createUser);
     router.get("/get/:id", _getUserByID);
@@ -17,7 +17,7 @@ class Auth {
     router.get("/get/all", _getAllUsers);
     // router.put("/update/:id", _updateUserByID);
     router.put("/update", _updateUserByID);
-    router.delete("/delete", _deleteUserByID);  // delete by id list?
+    router.delete("/delete", _deleteUserByID); // delete by id list?
     // router.delete("/delete/:id", _deleteUserByID);
 
     return router;
@@ -28,7 +28,7 @@ class Auth {
     String username = body["username"];
     String password = body["password"];
     var id = await UserDao.findOne(username, password);
-    if(id != null) return Response(200, body: jsonEncode(id));
+    if (id != null) return Response(200, body: jsonEncode(id));
     return Response(404);
   }
 
@@ -36,22 +36,23 @@ class Auth {
     var body = jsonDecode(await request.readAsString());
     String username = body["username"];
     String password = body["password"];
-    await UserDao.create(User(id: Uuid().v4(), username: username, token: password));   // user id?
+    await UserDao.create(
+        User(id: Uuid().v4(), username: username, token: password)); // user id?
     return Response(201, body: jsonEncode(username));
   }
-  
+
   Future<Response> _getUserByID(Request request) async {
     var body = jsonDecode(await request.readAsString());
-    String id = body["id"];
+    String id = body["id"]; // from parameter!
     User user = await UserDao.readOne(id);
-    return Response(200,body: jsonEncode(user));
+    return Response(200, body: jsonEncode(user));
   }
 
   Future<Response> _getUserByIDList(Request request) async {
     var body = jsonDecode(await request.readAsString());
-      //todo
+    //todo
     List<User> users = await UserDao.readMany(["1", "2"]);
-    return Response(200,body: jsonEncode(users));
+    return Response(200, body: jsonEncode(users));
   }
 
   Future<Response> _getAllUsers(Request request) async {
@@ -75,6 +76,4 @@ class Auth {
     await UserDao.delete(id);
     return Response(200);
   }
-
-
 }
