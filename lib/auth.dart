@@ -14,11 +14,12 @@ class Auth {
     router.post("/create", _createUser);
     
     router.get("/get/:id", _getUserByID);
+    router.get("/get/list", _getUserByIDList);
     router.get("/get", _getAllUsers);
-    router.delete("/delete/", _deleteUserByID);
+    router.delete("/delete", _deleteUserByID);
     // router.delete("/delete/:id", _deleteUserByID);
     // router.put("/update/:id", _updateUserByID);
-    router.put("/update/", _updateUserByID);
+    router.put("/update", _updateUserByID);
 
     return router;
   }
@@ -41,11 +42,22 @@ class Auth {
   }
   
   Future<Response> _getUserByID(Request request) async {
-    return Response(200);
+    var body = jsonDecode(await request.readAsString());
+    String id = body["id"];
+    User? user = await UserDao.readOne(id);
+    return Response(200,body: jsonEncode(user));
+  }
+
+  Future<Response> _getUserByIDList(Request request) async {
+    var body = jsonDecode(await request.readAsString());
+
+    List<User> users = await UserDao.readMany(["1", "2"]);  //todo
+    return Response(200,body: jsonEncode(users));
   }
 
   Future<Response> _getAllUsers(Request request) async {
-    return Response(200);
+    List<User> users = await UserDao.readAll();
+    return Response(200, body: jsonEncode(users));
   }
 
   Future<Response> _deleteUserByID(Request request) async {

@@ -12,13 +12,20 @@ class UserDao {
     await Database.db.collection(_collection).insert(u.toJson()); // doppelte einträge?
   }
 
-  static Future<List<Map<String, dynamic>>?> getAll() async {
-    try {
-      return Database.db.collection(_collection).find().toList();
-    } catch (e) {
-      print(e);
-      return null;
-    }
+  static Future<User?> readOne(String id) async {
+    var u = await Database.db.collection(_collection).findOne(where.eq('id', id));
+    if(u != null) return User.fromJson(u);
+    return null;
+  }
+
+  static Future<List<User>> readMany(List<String> ids) async {
+    return Database.db.collection(_collection).find({
+      "id": {"\$in": ids}
+    }).map((doc) => User.fromJson(doc)).toList();
+  }
+
+  static Future<List<User>> readAll() async {
+    return Database.db.collection(_collection).find().map((doc) => User.fromJson(doc)).toList();
   }
 
   static delete(String id) async {
