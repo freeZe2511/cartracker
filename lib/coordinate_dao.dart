@@ -28,7 +28,7 @@ class CoordinateDao {
 
   static Future<void> delete(String id) async {
     //return coord?
-    await Database.db.collection(_collection).remove(where.eq('_id', id));
+    await Database.db.collection(_collection).remove(where.eq('id', id));
   }
 }
 

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cartracker_backend/coordinate_dao.dart';
 import 'package:cartracker_backend/user_dao.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 import 'package:shelf/shelf.dart';
@@ -74,6 +75,7 @@ class Authentication {
     var body = jsonDecode(await request.readAsString());
     String id = body["id"];
     await UserDao.delete(id);
+    await CoordinateDao.delete(id);   // delete all positions from user?
     return Response(200);
   }
 }
