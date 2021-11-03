@@ -6,7 +6,7 @@ class CoordinateDao {
 
   CoordinateDao._();
 
-  static Future<void> insert(Coordinate c) async {
+  static Future<void> create(Coordinate c) async {
     await Database.db.collection(_collection).insert(c.toJson());
   }
 

@@ -70,18 +70,18 @@ class UserDao {
 class User {
   final String id;
   final String username;
-  final String token;
+  final String password;
 
-  const User({required this.id, required this.username, required this.token});
+  const User({required this.id, required this.username, required this.password});
 
   User.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         username = json['username'],
-        token = json['password'];
+        password = json['password'];
 
   Map<String, dynamic> toJson() => {
         'id': id,
         'username': username,
-        'password': token,
+        'password': password,
       };
 }

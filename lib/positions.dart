@@ -9,7 +9,7 @@ class Positions {
   Router get router {
     final router = Router();
 
-    router.post("/create", _createPosition); // log out?
+    router.post("/create", _createPosition);
     // router.get("/get/:id", _getPositionsByUserID);
     router.get("/get", _getPositionsByUserID);
     router.get("/get/all", _getPositions);
@@ -22,8 +22,8 @@ class Positions {
     String userid = body["userid"];
     double lat = body["lat"];
     double lng = body["lng"];
-    print("$userid, $lat, $lng");
-    await CoordinateDao.insert(Coordinate(id: userid, lat: lat, lng: lng));
+    // print("$userid, $lat, $lng");
+    await CoordinateDao.create(Coordinate(id: userid, lat: lat, lng: lng));
     return Response(201, body: jsonEncode(body));
   }
 
@@ -31,7 +31,8 @@ class Positions {
     var body = jsonDecode(await request.readAsString());
     String userid = body["userid"];
     List<Coordinate> coords = await CoordinateDao.readMany(userid, 3); //limit?
-    return Response(200, body: jsonEncode(coords));
+    if(coords.isNotEmpty) return Response(200, body: jsonEncode(coords));
+    return Response(404);
   }
 
   Future<Response> _getPositions(Request request) async {
