@@ -39,8 +39,8 @@ class AdminAuthentication {
   //   var body = jsonDecode(await request.readAsString());
   //   String username = body["username"];
   //   String password = body["password"];
-  //   await UserDao.create(
-  //       User(id: Uuid().v4(), username: username, password: password)); // user id?
+  //   await AdminDao.create(
+  //       Admin(id: Uuid().v4(), username: username, password: password)); // user id?
   //   return Response(201, body: jsonEncode(username));
   // }
   //
