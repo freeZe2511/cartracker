@@ -16,3 +16,4 @@ dependencies:
   mongo_dart: ^0.7.2
   shelf: ^1.2.0
   shelf_router: ^1.1.1
+  shelf_static: ^1.1.0
