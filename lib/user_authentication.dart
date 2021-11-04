@@ -6,7 +6,7 @@ import 'package:mongo_dart/mongo_dart.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
 
-class Authentication {
+class UserAuthentication {
   Router get router {
     final router = Router();
 
