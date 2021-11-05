@@ -7,7 +7,7 @@ class Service {
   Handler get handler {
     final router = Router();
 
-    router.mount('/api/', Api().router);
+    router.mount('/api/v1/', Api().router);
 
     return router;
   }
