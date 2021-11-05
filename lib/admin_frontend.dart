@@ -12,7 +12,8 @@ class AdminFrontend {
     final router = Router();
 
     router.mount("/auth/", AdminAuthentication().router);
-    
+    // router.mount("/data/", Data().router);
+
     router.get("/assets/<file|.*>", createStaticHandler('admin_frontend_files'));
     router.get("/node_modules/<file|.*>", createStaticHandler('admin_frontend_files'));
     router.get("/", _indexing);
