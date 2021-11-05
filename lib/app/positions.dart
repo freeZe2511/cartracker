@@ -1,9 +1,10 @@
 import 'dart:convert';
 
+import 'package:cartracker_backend/database/user_dao.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
 
-import 'coordinate_dao.dart';
+import '../database/coordinate_dao.dart';
 
 class Positions {
   Router get router {
@@ -20,11 +21,14 @@ class Positions {
   Future<Response> _createPosition(Request request) async {
     var body = jsonDecode(await request.readAsString());
     String userid = body["userid"];
+    if(await UserDao.checkID(userid) == null){
+      return Response(401, body: jsonEncode(body));
+    }
     double lat = body["lat"];
     double lng = body["lng"];
-    // print("$userid, $lat, $lng");
     await CoordinateDao.create(Coordinate(id: userid, lat: lat, lng: lng));
     return Response(201, body: jsonEncode(body));
+
   }
 
   Future<Response> _getPositionsByUserID(Request request) async {

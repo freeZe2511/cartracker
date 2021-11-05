@@ -1,16 +1,12 @@
-import 'package:cartracker_backend/database.dart';
+import 'package:cartracker_backend/database/database.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 
-class AdminDao {
+class AdminDataDao {
   static const String _collection = "admins";
 
-  AdminDao._();
+  AdminDataDao._();
 
-  static Future<void> create(Admin a) async {
-    await Database.db
-        .collection(_collection)
-        .insert(a.toJson()); // doppelte einträge?
-  }
+
 
   // static Future<Admin> readOne(String id) async {
   //   var a =
@@ -41,40 +37,40 @@ class AdminDao {
       var u = await Database.db
           .collection(_collection)
           .findOne(where.eq('username', username).eq('password', password));
-      if (u != null) return Admin.fromJson(u).id;
+      if (u != null) return AdminData.fromJson(u).id;
     } catch (e) {
       print(e);
       return null;
     }
   }
 
-  // static Future<void> update(
-  //     String id, String username, String password) async {
-  //   // return user?
-  //   var modifier = ModifierBuilder();
-  //   modifier.set("username", username);
-  //   modifier.set("password", password);
-  //   print(modifier);
-  //   await Database.db
-  //       .collection(_collection)
-  //       .updateOne(where.eq('id', id), modifier);
-  // }
-  //
-  // static Future<void> delete(String id) async {
-  //   await Database.db
-  //       .collection(_collection)
-  //       .remove(where.eq('id', id)); // return user?
-  // }
+// static Future<void> update(
+//     String id, String username, String password) async {
+//   // return user?
+//   var modifier = ModifierBuilder();
+//   modifier.set("username", username);
+//   modifier.set("password", password);
+//   print(modifier);
+//   await Database.db
+//       .collection(_collection)
+//       .updateOne(where.eq('id', id), modifier);
+// }
+//
+// static Future<void> delete(String id) async {
+//   await Database.db
+//       .collection(_collection)
+//       .remove(where.eq('id', id)); // return user?
+// }
 }
 
-class Admin {
+class AdminData {
   final String id;
   final String username;
   final String password;
 
-  const Admin({required this.id, required this.username, required this.password});
+  const AdminData({required this.id, required this.username, required this.password});
 
-  Admin.fromJson(Map<String, dynamic> json)
+  AdminData.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         username = json['username'],
         password = json['password'];

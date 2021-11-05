@@ -1,8 +1,8 @@
-import 'package:cartracker_backend/positions.dart';
+import 'package:cartracker_backend/app/positions.dart';
 import 'package:shelf_router/shelf_router.dart';
 
-import 'admin_frontend.dart';
-import 'user_authentication.dart';
+import '../website/admin_frontend.dart';
+import '../app/user_authentication.dart';
 
 class Api {
   Router get router {
