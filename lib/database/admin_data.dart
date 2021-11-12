@@ -43,15 +43,15 @@ class AdminData {
     final pipeline = AggregationPipelineBuilder()
         .addStage(Lookup.withPipeline(
           from: "coords",
-          let: {"c_id": "id"},
+          let: {"u_id": Field("id")},
           pipeline: [
-            Match((where.eq("c_id", "id")).map["\$query"]),
+            Match(Expr(Eq(Field("id"), Var("u_id")))),
             Sort({
-              'natural': -1,
+              '_id': -1,
             }),
             Limit(1)
           ],
-          as: "position",
+          as: "latest-pos",
         )).build();
 
     var a = await Database.db
