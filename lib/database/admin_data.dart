@@ -1,12 +1,11 @@
 import 'package:cartracker_backend/database/database.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 
-class AdminDataDao {
-  static const String _collection = "admins";
+class AdminData {
+  static const String _collectionUser = "users";
+  static const String _collectionCoords = "coords";
 
-  AdminDataDao._();
-
-
+  AdminData._();
 
   // static Future<Admin> readOne(String id) async {
   //   var a =
@@ -32,16 +31,34 @@ class AdminDataDao {
   //       .toList();
   // }
 
-  static Future<String?> findOne(String username, String password) async {
-    try {
-      var u = await Database.db
-          .collection(_collection)
-          .findOne(where.eq('username', username).eq('password', password));
-      if (u != null) return AdminData.fromJson(u).id;
-    } catch (e) {
-      print(e);
-      return null;
-    }
+  static Future<List<Map<String, dynamic>>> readAllUsers() async {
+    // final pipeline = AggregationPipelineBuilder()
+    //     .addStage(Lookup(
+    //         from: "coords",
+    //         localField: "id",
+    //         foreignField: "id",
+    //         as: "positions",))
+    //     .build();
+
+    final pipeline = AggregationPipelineBuilder()
+        .addStage(Lookup.withPipeline(
+          from: "coords",
+          let: {"c_id": "id"},
+          pipeline: [
+            Match((where.eq("c_id", "id")).map["\$query"]),
+            Sort({
+              'natural': -1,
+            }),
+            Limit(1)
+          ],
+          as: "position",
+        )).build();
+
+    var a = await Database.db
+        .collection(_collectionUser)
+        .aggregateToStream(pipeline)
+        .toList();
+    return a;
   }
 
 // static Future<void> update(
@@ -61,23 +78,4 @@ class AdminDataDao {
 //       .collection(_collection)
 //       .remove(where.eq('id', id)); // return user?
 // }
-}
-
-class AdminData {
-  final String id;
-  final String username;
-  final String password;
-
-  const AdminData({required this.id, required this.username, required this.password});
-
-  AdminData.fromJson(Map<String, dynamic> json)
-      : id = json['id'],
-        username = json['username'],
-        password = json['password'];
-
-  Map<String, dynamic> toJson() => {
-    'id': id,
-    'username': username,
-    'password': password,
-  };
 }

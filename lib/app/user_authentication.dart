@@ -1,8 +1,6 @@
 import 'dart:convert';
 
-import 'package:cartracker_backend/database/coordinate_dao.dart';
 import 'package:cartracker_backend/database/user_dao.dart';
-import 'package:mongo_dart/mongo_dart.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
 
@@ -19,8 +17,8 @@ class UserAuthentication {
     var body = jsonDecode(await request.readAsString());
     String username = body["username"];
     String password = body["password"];
-    var id = await UserDao.findOne(username, password);
-    if (id != null) return Response(200, body: jsonEncode(id));
+    var token = await UserDao.findOne(username, password);
+    if (token != null) return Response(200, body: jsonEncode(token));
     return Response(404);
   }
 }

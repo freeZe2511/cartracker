@@ -12,17 +12,18 @@ class UserDao {
         .insert(u.toJson()); // doppelte einträge?
   }
 
-  static Future<User> readOne(String id) async {
+  // todo: read without token
+  static Future<User> readOne(String username) async {
     var u =
-        await Database.db.collection(_collection).findOne(where.eq('id', id));
+        await Database.db.collection(_collection).findOne(where.eq('username', username));
     return User.fromJson(u!); //null?
   }
 
-  static Future<List<User>> readMany(List<String> ids) async {
+  static Future<List<User>> readMany(List<String> usernames) async {
     return Database.db
         .collection(_collection)
         .find({
-          "id": {"\$in": ids}
+          "username": {"\$in": usernames}
         })
         .map((doc) => User.fromJson(doc))
         .toList();
@@ -41,7 +42,7 @@ class UserDao {
       var u = await Database.db
           .collection(_collection)
           .findOne(where.eq('username', username).eq('password', password));
-      if (u != null) return User.fromJson(u).id;
+      if (u != null) return User.fromJson(u).token;
     } catch (e) {
       print(e);
       return null;
@@ -62,21 +63,21 @@ class UserDao {
   }
 
   static Future<void> update(
-      String id, String username, String password) async {
+      String username, String newUsername, String newPassword) async {
     // return user?
     var modifier = ModifierBuilder();
-    modifier.set("username", username);
-    modifier.set("password", password);
+    modifier.set("username", newUsername);
+    modifier.set("password", newPassword);
     print(modifier);
     await Database.db
         .collection(_collection)
-        .updateOne(where.eq('id', id), modifier);
+        .updateOne(where.eq('username', username), modifier);
   }
 
-  static Future<void> delete(String id) async {
+  static Future<void> delete(String username) async {
     await Database.db
         .collection(_collection)
-        .remove(where.eq('id', id)); // return user?
+        .remove(where.eq('username', username)); // return user?
   }
 }
 
@@ -84,17 +85,20 @@ class User {
   final String id;
   final String username;
   final String password;
+  final String token;
 
-  const User({required this.id, required this.username, required this.password});
+  const User({required this.id, required this.username, required this.password, required this.token});
 
   User.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         username = json['username'],
-        password = json['password'];
+        password = json['password'],
+        token = json['token'];
 
   Map<String, dynamic> toJson() => {
         'id': id,
         'username': username,
         'password': password,
+        'token': token
       };
 }

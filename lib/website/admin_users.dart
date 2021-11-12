@@ -1,12 +1,11 @@
 import 'dart:convert';
 
+import 'package:cartracker_backend/database/admin_data.dart';
 import 'package:cartracker_backend/database/coordinate_dao.dart';
 import 'package:cartracker_backend/database/user_dao.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
-
-import '../database/admin_dao.dart';
 
 class AdminUsers {
   Router get router {
@@ -15,15 +14,8 @@ class AdminUsers {
     // router.get("/user/:id", _getUserByID);
     // router.get("/userlist", _getUserByIDList);
     router.get("/users", _getAllUsers);
-    // // router.put("/update/:id", _updateUserByID);
-    // router.put("/update", _updateUserByID);
-    // router.delete("/delete", _deleteUserByID); // delete by id list?
-    // // router.delete("/delete/:id", _deleteUserByID);
 
     router.post("/create", _createUser);
-    // router.get("/get/:id", _getUserByID);
-    // router.get("/get/list", _getUserByIDList);
-    // router.get("/get/all", _getAllUsers);
     // router.put("/update/:id", _updateUserByID);
     router.put("/update", _updateUserByID);
     router.delete("/delete", _deleteUserByID); // delete by id list?
@@ -35,9 +27,9 @@ class AdminUsers {
   Future<Response> _getAllUsers(Request request) async {
     var body = jsonDecode(await request.readAsString());
 
-    // username pw
+    var res = await AdminData.readAllUsers();
 
-    return Response(200);
+    return Response(200, body: jsonEncode(res));
   }
 
 // Future<Response> _getUserByID(Request request) async {
@@ -51,8 +43,11 @@ class AdminUsers {
     var body = jsonDecode(await request.readAsString());
     String username = body["username"];
     String password = body["password"];
-    await UserDao.create(
-        User(id: Uuid().v4(), username: username, password: password)); // user id?
+    await UserDao.create(User(
+        id: Uuid().v4(),
+        username: username,
+        password: password,
+        token: Uuid().v4())); // user id?
     return Response(201, body: jsonEncode(username));
   }
 
@@ -89,8 +84,7 @@ class AdminUsers {
     var body = jsonDecode(await request.readAsString());
     String id = body["id"];
     await UserDao.delete(id);
-    await CoordinateDao.delete(id);   // delete all positions from user?
+    await CoordinateDao.delete(id); // delete all positions from user?
     return Response(200);
   }
-
 }
