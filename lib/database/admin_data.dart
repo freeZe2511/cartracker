@@ -31,15 +31,15 @@ class AdminData {
   //       .toList();
   // }
 
-  static Future<List<Map<String, dynamic>>> readAllUsers() async {
-    // final pipeline = AggregationPipelineBuilder()
-    //     .addStage(Lookup(
-    //         from: "coords",
-    //         localField: "id",
-    //         foreignField: "id",
-    //         as: "positions",))
-    //     .build();
+  // final pipeline = AggregationPipelineBuilder()
+  //     .addStage(Lookup(
+  //         from: "coords",
+  //         localField: "id",
+  //         foreignField: "id",
+  //         as: "positions",))
+  //     .build();
 
+  static Future<List<Map<String, dynamic>>> readFullUsersWithLatestPos() async {
     final pipeline = AggregationPipelineBuilder()
         .addStage(Lookup.withPipeline(
           from: "coords",
@@ -52,13 +52,37 @@ class AdminData {
             Limit(1)
           ],
           as: "latest-pos",
-        )).build();
+        )).addStage(Project({"token": 0}))
+        .build();
 
-    var a = await Database.db
+    return await Database.db
         .collection(_collectionUser)
         .aggregateToStream(pipeline)
         .toList();
-    return a;
+  }
+
+  static Future<List<Map<String, dynamic>>> readBasicUsersWithLatestPositions(
+      int limit) async {
+    final pipeline = AggregationPipelineBuilder()
+        .addStage(Lookup.withPipeline(
+          from: "coords",
+          let: {"u_id": Field("id")},
+          pipeline: [
+            Match(Expr(Eq(Field("id"), Var("u_id")))),
+            Sort({
+              '_id': -1,
+            }),
+            Limit(limit)
+          ],
+          as: "latest-positions",
+        ))
+        .addStage(Project({"_id": 0, "password": 0, "token": 0}))
+        .build();
+
+    return await Database.db
+        .collection(_collectionUser)
+        .aggregateToStream(pipeline)
+        .toList();
   }
 
 // static Future<void> update(

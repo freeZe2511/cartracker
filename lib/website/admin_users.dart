@@ -26,18 +26,16 @@ class AdminUsers {
 
   Future<Response> _getAllUsers(Request request) async {
     var body = jsonDecode(await request.readAsString());
-
-    var res = await AdminData.readAllUsers();
-
+    var res = await AdminData.readFullUsersWithLatestPos();
     return Response(200, body: jsonEncode(res));
   }
 
-// Future<Response> _getUserByID(Request request) async {
-//   var body = jsonDecode(await request.readAsString());
-//   String id = body["id"]; // from parameter!
-//   User user = await UserDao.readOne(id);
-//   return Response(200, body: jsonEncode(user));
-// }
+  // Future<Response> _getUserByID(Request request) async {
+  //   var body = jsonDecode(await request.readAsString());
+  //   String id = body["id"]; // from parameter!
+  //   User user = await UserDao.readOne(id);
+  //   return Response(200, body: jsonEncode(user));
+  // }
 
   Future<Response> _createUser(Request request) async {
     var body = jsonDecode(await request.readAsString());
