@@ -30,6 +30,20 @@ function initMap(): void {
 
     marker.setMap(map)
     //-------------------
+
+    let coords = getCoords();
+    console.log(coords);
+
+
+
+
+
+}
+
+function getCoords(): any {
+    axios.get("/api/v1/admin/map/coords").then(res => {
+        return res;
+    })
 }
 
 //TODO: Comment out after there is a server sided response for the request in the function checkLogin()

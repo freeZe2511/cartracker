@@ -8,25 +8,21 @@ class AdminMap {
   Router get router {
     final router = Router();
 
-    // router.get("/user/:id", _getUserByID);
+    router.get("/user/<id>&<limit>", _getUserByID);
     // router.get("/userlist", _getUserByIDList);
-    router.get("/coords", _getAllRecentCoords);
+    router.get("/coords/<limit>", _getUsersWithRecentCoords);
 
     return router;
   }
 
-  Future<Response> _getAllRecentCoords(Request request) async {
-    var body = jsonDecode(await request.readAsString());
-    const limit = 50; // als request?
-    var res = await AdminData.readBasicUsersWithLatestPositions(limit);
+  Future<Response> _getUsersWithRecentCoords(Request request, String limit) async {
+    var res = await AdminData.readBasicUsersWithLatestPositions(int.parse(limit));
     return Response(200, body: jsonEncode(res));
   }
 
-// Future<Response> _getUserByID(Request request) async {
-//   var body = jsonDecode(await request.readAsString());
-//   String id = body["id"]; // from parameter!
-//   User user = await UserDao.readOne(id);
-//   return Response(200, body: jsonEncode(user));
-// }
+  Future<Response> _getUserByID(Request request, String id, String limit) async {
+    var res = await AdminData.readBasicUserByID(id, int.parse(limit)); //from parameters
+    return Response(200, body: jsonEncode(res));
+  }
 
 }

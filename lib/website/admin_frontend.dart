@@ -19,18 +19,18 @@ class AdminFrontend {
 
     router.get("/assets/<file|.*>", createStaticHandler('admin_frontend_files'));
     router.get("/node_modules/<file|.*>", createStaticHandler('admin_frontend_files'));
-    router.get("/", _indexing);
-    router.get("/home", _homeing);
+    router.get("/", _getIndex);
+    router.get("/home", _getHome);
 
     return router;
   }
 
-  Response _indexing(Request request) {
+  Response _getIndex(Request request) {
     final indexFile = File('admin_frontend_files/index.html').readAsStringSync();
     return Response(200, body: indexFile, headers: {'content-type':'text/html'});
   }
 
-  Response _homeing(Request request) {
+  Response _getHome(Request request) {
     final indexFile = File('admin_frontend_files/home.html').readAsStringSync();
     return Response(200, body: indexFile, headers: {'content-type':'text/html'});
   }
