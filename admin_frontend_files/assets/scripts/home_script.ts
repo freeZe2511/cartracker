@@ -5,6 +5,8 @@ let initMapCenterLatLong: google.maps.LatLng;
 //Temporary Marker Variable for testing purposes --> has to be changed to an array of google.maps.Marker
 let marker: google.maps.Marker;
 
+let markers = [];
+
 document.addEventListener('DOMContentLoaded', () => {
     //TODO: Comment out after there is a server sided response for the request in the function checkLogin()
     /*if (!checkLogin()) {
@@ -19,7 +21,7 @@ function initMap(): void {
     //Initialises the Map with the corresponding Coordinates and a Zoom of 13
     map = new google.maps.Map(document.getElementById('map'), {
         center: initMapCenterLatLong,
-        zoom: 13
+        zoom: 15
     });
 
     //----- Testing -----
@@ -31,19 +33,24 @@ function initMap(): void {
     marker.setMap(map)
     //-------------------
 
-    let coords = getCoords();
-    console.log(coords);
-
-
-
-
+    getCoords();
 
 }
 
-function getCoords(): any {
-    axios.get("/api/v1/admin/map/coords").then(res => {
-        return res;
-    })
+function getCoords(): void {
+    axios.get("/api/v1/admin/map/coords/1").then(res => {
+        let a = res.data["data"];
+        for (const i in a) {
+
+            markers.push(new google.maps.Marker({
+                position: new google.maps.LatLng(a[i]["latest-positions"][0]["lat"], a[i]["latest-positions"][0]["lng"]),
+                title: a[i]["username"]
+            }));
+
+        }
+    }).catch((error) => {
+        console.log(error);
+    });
 }
 
 //TODO: Comment out after there is a server sided response for the request in the function checkLogin()

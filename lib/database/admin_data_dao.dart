@@ -1,11 +1,11 @@
 import 'package:cartracker_backend/database/database.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 
-class AdminData {
+class AdminDataDao {
   static const String _collectionUser = "users";
   static const String _collectionCoords = "coords";
 
-  AdminData._();
+  AdminDataDao._();
 
   // static Future<Admin> readOne(String id) async {
   //   var a =
@@ -39,10 +39,10 @@ class AdminData {
   //         as: "positions",))
   //     .build();
 
-  static Future<List<Map<String, dynamic>>> readFullUsersWithLatestPos() async {
+  static Future<AdminData> readFullUsersWithLatestPos() async {
     final pipeline = AggregationPipelineBuilder()
         .addStage(Lookup.withPipeline(
-          from: "coords",
+          from: _collectionCoords,
           let: {"u_id": Field("id")},
           pipeline: [
             Match(Expr(Eq(Field("id"), Var("u_id")))),
@@ -56,17 +56,19 @@ class AdminData {
         .addStage(Project({"token": 0}))
         .build();
 
-    return await Database.db
+    var data = await Database.db
         .collection(_collectionUser)
         .aggregateToStream(pipeline)
         .toList();
+
+    return AdminData(data: data);
   }
 
-  static Future<List<Map<String, dynamic>>> readBasicUsersWithLatestPositions(
+  static Future<AdminData> readBasicUsersWithLatestPositions(
       int limit) async {
     final pipeline = AggregationPipelineBuilder()
         .addStage(Lookup.withPipeline(
-          from: "coords",
+          from: _collectionCoords,
           let: {"u_id": Field("id")},
           pipeline: [
             Match(Expr(Eq(Field("id"), Var("u_id")))),
@@ -80,18 +82,20 @@ class AdminData {
         .addStage(Project({"_id": 0, "password": 0, "token": 0}))
         .build();
 
-    return await Database.db
+    var data = await Database.db
         .collection(_collectionUser)
         .aggregateToStream(pipeline)
         .toList();
+
+    return AdminData(data: data);
   }
 
-  static Future<List<Map<String, dynamic>>> readBasicUserByID(
+  static Future<AdminData> readBasicUserByID(
       String id, int limit) async {
     final pipeline = AggregationPipelineBuilder()
         .addStage(Match(Expr(Eq(Field("id"), id))))
         .addStage(Lookup.withPipeline(
-          from: "coords",
+          from: _collectionCoords,
           let: {"u_id": Field("id")},
           pipeline: [
             Match(Expr(Eq(Field("id"), Var("u_id")))),
@@ -105,10 +109,12 @@ class AdminData {
         .addStage(Project({"_id": 0, "password": 0, "token": 0}))
         .build();
 
-    return await Database.db
+    var data = await Database.db
         .collection(_collectionUser)
         .aggregateToStream(pipeline)
         .toList();
+
+    return AdminData(data: data);
   }
 
 // static Future<void> update(
@@ -128,4 +134,17 @@ class AdminData {
 //       .collection(_collection)
 //       .remove(where.eq('id', id)); // return user?
 // }
+}
+
+class AdminData {
+  final Object data;
+
+  const AdminData({required this.data});
+
+  AdminData.fromJson(Object json)
+      : data = json;
+
+  Map<String, dynamic> toJson() => {
+    'data': data,
+  };
 }

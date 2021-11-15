@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:cartracker_backend/database/admin_data.dart';
+import 'package:cartracker_backend/database/admin_data_dao.dart';
 import 'package:cartracker_backend/database/coordinate_dao.dart';
 import 'package:cartracker_backend/database/user_dao.dart';
 import 'package:mongo_dart/mongo_dart.dart';
@@ -26,7 +26,7 @@ class AdminUsers {
 
   Future<Response> _getAllUsers(Request request) async {
     var body = jsonDecode(await request.readAsString());
-    var res = await AdminData.readFullUsersWithLatestPos();
+    var res = await AdminDataDao.readFullUsersWithLatestPos();
     return Response(200, body: jsonEncode(res));
   }
 
