@@ -33,19 +33,23 @@ function initMap(): void {
     marker.setMap(map)
     //-------------------
 
-    getCoords();
+    createMarkers();
 
 }
 
-function getCoords(): void {
+function createMarkers(): void {
     axios.get("/api/v1/admin/map/coords/1").then(res => {
-        let a = res.data["data"];
-        for (const i in a) {
+        let users = res.data["data"];
+        for (const user of users) {
+            for (const pos of user["latest-positions"]) {
+                let tempMarker = new google.maps.Marker({
+                    position: new google.maps.LatLng(pos["lat"], pos["lng"]),
+                    title: user["username"]
+                });
+                markers.push(tempMarker);
+                tempMarker.setMap(map);
 
-            markers.push(new google.maps.Marker({
-                position: new google.maps.LatLng(a[i]["latest-positions"][0]["lat"], a[i]["latest-positions"][0]["lng"]),
-                title: a[i]["username"]
-            }));
+            }
 
         }
     }).catch((error) => {

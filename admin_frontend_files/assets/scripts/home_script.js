@@ -26,16 +26,22 @@ function initMap() {
     });
     marker.setMap(map);
     //-------------------
-    getCoords();
+    createMarkers();
 }
-function getCoords() {
+function createMarkers() {
     axios.get("/api/v1/admin/map/coords/1").then(function (res) {
-        var a = res.data["data"];
-        for (var i in a) {
-            markers.push(new google.maps.Marker({
-                position: new google.maps.LatLng(a[i]["latest-positions"][0]["lat"], a[i]["latest-positions"][0]["lng"]),
-                title: a[i]["username"]
-            }));
+        var users = res.data["data"];
+        for (var _i = 0, users_1 = users; _i < users_1.length; _i++) {
+            var user = users_1[_i];
+            for (var _a = 0, _b = user["latest-positions"]; _a < _b.length; _a++) {
+                var pos = _b[_a];
+                var tempMarker = new google.maps.Marker({
+                    position: new google.maps.LatLng(pos["lat"], pos["lng"]),
+                    title: user["username"]
+                });
+                markers.push(tempMarker);
+                tempMarker.setMap(map);
+            }
         }
     }).catch(function (error) {
         console.log(error);
