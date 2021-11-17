@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {User} from "../models/user";
 
 @Component({
@@ -12,13 +12,16 @@ export class UserListComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
   _users: User[] = [
-    new User("123542351235", "test1", []),
-    new User("234235335235", "test2", []),
-    new User("312364357514", "test3", []),
-    new User("413124125125", "test4", []),
-    new User("534645788546", "test5", []),
+    new User("143745854762562", "test1", []),
+    new User("245262457457626", "test2", []),
+    new User("324645898223412", "test3", []),
+    new User("442666234234326", "test4", []),
+    new User("578685685675433", "test5", []),
   ]
+
+  displayedColumns: string[] = ['id', 'username', 'symbol'];
+  dataSource = this._users;
+
 
 }

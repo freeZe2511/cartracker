@@ -9,7 +9,13 @@ import { MapComponent } from './map/map.component';
 import { UserListComponent } from './user-list/user-list.component';
 import { UserComponent } from './user/user.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { GoogleMapsModule } from '@angular/google-maps'
+import { GoogleMapsModule } from '@angular/google-maps';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
+import {MatTableModule} from "@angular/material/table";
+import {MatSortModule} from "@angular/material/sort";
+import { SidebarComponent } from './sidebar/sidebar.component';
+import {MatButtonModule} from "@angular/material/button";
+import {MatSidenavModule} from "@angular/material/sidenav";
 
 @NgModule({
   declarations: [
@@ -18,13 +24,19 @@ import { GoogleMapsModule } from '@angular/google-maps'
     HeaderComponent,
     MapComponent,
     UserListComponent,
-    UserComponent
+    UserComponent,
+    SidebarComponent
   ],
   imports: [
     BrowserModule,
     NgbModule,
     GoogleMapsModule,
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule,
+    MatTableModule,
+    MatSortModule,
+    MatButtonModule,
+    MatSidenavModule
   ],
   providers: [],
   bootstrap: [AppComponent]
