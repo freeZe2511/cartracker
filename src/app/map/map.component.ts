@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {MapService} from "../services/map.service";
+import {User} from "../models/user";
 
 @Component({
   selector: 'app-map',
@@ -11,7 +12,6 @@ export class MapComponent implements OnInit {
   constructor(private mapService: MapService) { }
 
   ngOnInit(): void {
-    this.mapService.getPositions();
     this.createMarkers();
   }
 
@@ -34,9 +34,16 @@ export class MapComponent implements OnInit {
   }
 
   createMarkers(): void {
-    for (const user of this.mapService.users) {
-      console.log("user")
+    // let users = await this.mapService.getUserPositions();
+    let users = this.mapService.getUserPositions();
+    console.log(users)
+    for (const user of users) {
+      this.markers.push({
+        position: {lat: 50, lng: 10},
+        title: user.username
+      })
     }
+
 
   }
 

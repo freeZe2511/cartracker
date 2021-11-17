@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpService} from "./http.service";
 import {User} from "../models/user";
+import {firstValueFrom} from "rxjs";
 
 
 @Injectable({
@@ -12,8 +13,10 @@ export class MapService {
 
   _users: User[] = [];
 
-  getPositions(): void {
+  getUserPositions(): User[] {
     this.httpService.getCurrentUserPos().subscribe(res => this.handleData(res["data"]));
+    // return firstValueFrom(this.httpService.getCurrentUserPos());
+    return this._users;
   }
 
   handleData(data: any): void {

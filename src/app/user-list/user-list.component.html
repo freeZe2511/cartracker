@@ -1,1 +1,26 @@
 <app-header></app-header>
+
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-lg-12  mt-5">
+      <div class="main-box clearfix">
+        <div class="table-responsive">
+          <table class="table user-list">
+            <thead>
+            <tr>
+              <th><span>User</span></th>
+              <th><span>Created</span></th>
+              <th class="text-center"><span>Status</span></th>
+              <th><span>Zone</span></th>
+              <th>&nbsp;</th>
+            </tr>
+            </thead>
+            <tbody>
+            <app-user *ngFor="let user of this._users" [user]="user"></app-user>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
