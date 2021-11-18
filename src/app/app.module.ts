@@ -17,6 +17,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import {MatButtonModule} from "@angular/material/button";
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatPaginatorModule} from "@angular/material/paginator";
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import {MatPaginatorModule} from "@angular/material/paginator";
         MatSortModule,
         MatButtonModule,
         MatSidenavModule,
-        MatPaginatorModule
+        MatPaginatorModule,
+        AppRoutingModule
     ],
   providers: [],
   bootstrap: [AppComponent]

@@ -23,21 +23,21 @@ export class UserListComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
-  _users: User[] = [
-    new User("943745854762562", "testuser01", []),
-    new User("545262457457626", "testuser02", []),
-    new User("924645898223412", "testuser03", []),
-    new User("242666234234326", "testuser04", []),
-    new User("478685685675433", "testuser05", []),
-    new User("835236345233223", "testuser06", []),
-    new User("663474532235346", "testuser07", []),
-    new User("334235346435754", "testuser08", []),
-    new User("568569789082296", "testuser09", []),
-    new User("659659652867567", "testuser10", []),
-    new User("428574564575688", "testuser11", []),
-  ]
+  _users: User[] = [];
+  //   new User("943745854762562", "testuser01", []),
+  //   new User("545262457457626", "testuser02", []),
+  //   new User("924645898223412", "testuser03", []),
+  //   new User("242666234234326", "testuser04", []),
+  //   new User("478685685675433", "testuser05", []),
+  //   new User("835236345233223", "testuser06", []),
+  //   new User("663474532235346", "testuser07", []),
+  //   new User("334235346435754", "testuser08", []),
+  //   new User("568569789082296", "testuser09", []),
+  //   new User("659659652867567", "testuser10", []),
+  //   new User("428574564575688", "testuser11", []),
+  // ]
 
-  displayedColumns: string[] = ['id', 'username', 'password', 'zone', 'created', 'actions'];
+  displayedColumns: string[] = ['id', 'username', 'password', 'zone', 'status', 'created', 'actions'];
   dataSource = new MatTableDataSource(this._users);
 
 

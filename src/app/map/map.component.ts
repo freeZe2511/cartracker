@@ -9,43 +9,50 @@ import {User} from "../models/user";
 })
 export class MapComponent implements OnInit {
 
-  constructor(private mapService: MapService) { }
+  constructor(private mapService: MapService) {}
+
+  users: User[] = [];
 
   ngOnInit(): void {
-    this.createMarkers();
+    // this.createMarkers().then()
+    this.mapService.getUserPositions2().subscribe( (res: User[]) => {
+      this.users = res;
+      this.users.forEach(u => console.log(u.latestPositions[0]))
+    });
   }
 
-  markers = [
-    {
-      position: { lat: 38.9987208, lng: -77.2538699 },
-      title: "test"
-    },
-    {
-      position: { lat: 50.58, lng: 8.67 },
-    },
-  ]
+
 
   mapOptions: google.maps.MapOptions = {
     center: new google.maps.LatLng(50.58727, 8.67554),
-    zoom : 14,
+    zoom : 2,
     streetViewControl: false,
     fullscreenControl: false
 
   }
 
-  createMarkers(): void {
-    // let users = await this.mapService.getUserPositions();
-    let users = this.mapService.getUserPositions();
-    console.log(users)
-    for (const user of users) {
-      this.markers.push({
-        position: {lat: 50, lng: 10},
-        title: user.username
-      })
-    }
-
-
+  markerOptions: google.maps.MarkerOptions = {
+    opacity: 0.8
   }
+
+  // markers = [
+  //   {
+  //     position: { lat: 38.9987208, lng: -77.2538699 },
+  //     title: "test"
+  //   },
+  // ]
+  //
+  // async createMarkers(): Promise<void> {
+  //   let users = await this.mapService.getUserPositions();
+  //   for (const user of users) {
+  //     if(user.latestPositions[0] != undefined){
+  //       this.markers.push({
+  //         position: {lat: user.latestPositions[0].lat, lng: user.latestPositions[0].lng},
+  //         title: user.username
+  //       })
+  //     }
+  //   }
+  // }
 
 
 
