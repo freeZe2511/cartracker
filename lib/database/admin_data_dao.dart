@@ -39,7 +39,7 @@ class AdminDataDao {
   //         as: "positions",))
   //     .build();
 
-  static Future<AdminData> readFullUsersWithLatestPos() async {
+  static Future<List<Map<String, dynamic>>> readFullUsersWithLatestPos() async {
     final pipeline = AggregationPipelineBuilder()
         .addStage(Lookup.withPipeline(
           from: _collectionCoords,
@@ -56,15 +56,15 @@ class AdminDataDao {
         .addStage(Project({"token": 0}))
         .build();
 
-    var data = await Database.db
+    return await Database.db
         .collection(_collectionUser)
         .aggregateToStream(pipeline)
         .toList();
 
-    return AdminData(data: data);
+    // return AdminData(data: data);
   }
 
-  static Future<AdminData> readBasicUsersWithLatestPositions(
+  static Future<List<Map<String, dynamic>>> readBasicUsersWithLatestPositions(
       int limit) async {
     final pipeline = AggregationPipelineBuilder()
         .addStage(Lookup.withPipeline(
@@ -82,15 +82,15 @@ class AdminDataDao {
         .addStage(Project({"_id": 0, "password": 0, "token": 0}))
         .build();
 
-    var data = await Database.db
+    return await Database.db
         .collection(_collectionUser)
         .aggregateToStream(pipeline)
         .toList();
 
-    return AdminData(data: data);
+    // return AdminData(data: data);
   }
 
-  static Future<AdminData> readBasicUserByID(
+  static Future<List<Map<String, dynamic>>> readBasicUserByID(
       String id, int limit) async {
     final pipeline = AggregationPipelineBuilder()
         .addStage(Match(Expr(Eq(Field("id"), id))))
@@ -109,12 +109,12 @@ class AdminDataDao {
         .addStage(Project({"_id": 0, "password": 0, "token": 0}))
         .build();
 
-    var data = await Database.db
+    return await Database.db
         .collection(_collectionUser)
         .aggregateToStream(pipeline)
         .toList();
 
-    return AdminData(data: data);
+    // return AdminData(data: data);
   }
 
 // static Future<void> update(
@@ -136,15 +136,15 @@ class AdminDataDao {
 // }
 }
 
-class AdminData {
-  final Object data;
-
-  const AdminData({required this.data});
-
-  AdminData.fromJson(Object json)
-      : data = json;
-
-  Map<String, dynamic> toJson() => {
-    'data': data,
-  };
-}
+// class AdminData {
+//   final Object data;
+//
+//   const AdminData({required this.data});
+//
+//   AdminData.fromJson(Object json)
+//       : data = json;
+//
+//   Map<String, dynamic> toJson() => {
+//     'data': data,
+//   };
+// }
