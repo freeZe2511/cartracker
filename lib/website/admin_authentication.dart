@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
 
-import 'admin_dao.dart';
+import '../database/admin_dao.dart';
 
 class AdminAuthentication {
   Router get router {
