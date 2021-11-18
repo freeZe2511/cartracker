@@ -12,8 +12,13 @@ export class HttpService {
   constructor(private http: HttpClient) {
   }
 
+  // generalisieren
   getCurrentUserPos(): Observable<User[]> {
    return this.http.get<User[]>("http://localhost:9090/api/v1/admin/map/coords/1");
+  }
+
+  getUserList(): Observable<User[]> {
+    return this.http.get<User[]>("http://localhost:9090/api/v1/admin/user/users");
   }
 
 
