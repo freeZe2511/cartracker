@@ -14,7 +14,10 @@ export class MapService {
   _users: User[] = [];
 
   getUserPositions(): User[] {
-    this.httpService.getCurrentUserPos().subscribe(res => this.handleData(res["data"]));
+    this.httpService.getCurrentUserPos().subscribe(res => {
+      console.log(res);
+      this.handleData(res["data"]);
+    });
     // return firstValueFrom(this.httpService.getCurrentUserPos());
     return this._users;
   }

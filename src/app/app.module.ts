@@ -16,6 +16,7 @@ import {MatSortModule} from "@angular/material/sort";
 import { SidebarComponent } from './sidebar/sidebar.component';
 import {MatButtonModule} from "@angular/material/button";
 import {MatSidenavModule} from "@angular/material/sidenav";
+import {MatPaginatorModule} from "@angular/material/paginator";
 
 @NgModule({
   declarations: [
@@ -27,17 +28,18 @@ import {MatSidenavModule} from "@angular/material/sidenav";
     UserComponent,
     SidebarComponent
   ],
-  imports: [
-    BrowserModule,
-    NgbModule,
-    GoogleMapsModule,
-    HttpClientModule,
-    BrowserAnimationsModule,
-    MatTableModule,
-    MatSortModule,
-    MatButtonModule,
-    MatSidenavModule
-  ],
+    imports: [
+        BrowserModule,
+        NgbModule,
+        GoogleMapsModule,
+        HttpClientModule,
+        BrowserAnimationsModule,
+        MatTableModule,
+        MatSortModule,
+        MatButtonModule,
+        MatSidenavModule,
+        MatPaginatorModule
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })
