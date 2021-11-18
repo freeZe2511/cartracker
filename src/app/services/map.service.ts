@@ -12,7 +12,7 @@ export class MapService {
   constructor(private httpService: HttpService) {
   }
 
-  getUserPositions(): any {
+  getUserPositions2(): any {
     // this.httpService.getCurrentUserPos().subscribe(res => {
     //   console.log(res)
     //   // for (const user of res) {
@@ -24,7 +24,7 @@ export class MapService {
     return firstValueFrom(this.httpService.getCurrentUserPos());
   }
 
-  getUserPositions2(): any {
+  getUserPositions(): any {
     return this.httpService.getCurrentUserPos();
   }
 

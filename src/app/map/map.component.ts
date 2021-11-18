@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {MapService} from "../services/map.service";
 import {User} from "../models/user";
+import {interval, startWith, Subscription, switchMap} from "rxjs";
 
 @Component({
   selector: 'app-map',
@@ -9,23 +10,41 @@ import {User} from "../models/user";
 })
 export class MapComponent implements OnInit {
 
-  constructor(private mapService: MapService) {}
+  constructor(private mapService: MapService) {
+  }
 
   users: User[] = [];
+  timeInterval!: Subscription;
 
   ngOnInit(): void {
     // this.createMarkers().then()
-    this.mapService.getUserPositions2().subscribe( (res: User[]) => {
-      this.users = res;
-      this.users.forEach(u => console.log(u.latestPositions[0]))
+    // this.mapService.getUserPositions2().subscribe( (res: User[]) => {
+    //   this.users = res;
+    //   this.users.forEach(u => console.log(u.latestPositions[0]))
+    // });
+
+
+    // this.timeInterval = interval(5000).pipe(
+    //   startWith(0), switchMap(() => this.mapService.getUserPositions2())
+    // ).subscribe( (res: User[]) => {
+    //   this.users = res;
+    //   this.users.forEach(u => console.log(u.latestPositions[0]))
+    // });
+
+    this.timeInterval = interval(1000).pipe(
+      switchMap(() => this.mapService.getUserPositions()),
+    ).subscribe({
+      next: (res: any) => this.users = res,
+      error: (e) => console.error(e),
+      complete: () => console.info('complete')
     });
+
+
   }
-
-
 
   mapOptions: google.maps.MapOptions = {
     center: new google.maps.LatLng(50.58727, 8.67554),
-    zoom : 2,
+    zoom: 2,
     streetViewControl: false,
     fullscreenControl: false
 
@@ -53,7 +72,6 @@ export class MapComponent implements OnInit {
   //     }
   //   }
   // }
-
 
 
   // m: google.maps.Marker = new google.maps.Marker({
