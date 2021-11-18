@@ -51,7 +51,7 @@ class AdminDataDao {
             }),
             Limit(1)
           ],
-          as: "latest-pos",
+          as: "latestPos",
         ))
         .addStage(Project({"token": 0}))
         .build();
@@ -77,7 +77,7 @@ class AdminDataDao {
             }),
             Limit(limit)
           ],
-          as: "latest-positions",
+          as: "latestPositions",
         ))
         .addStage(Project({"_id": 0, "password": 0, "token": 0}))
         .build();
@@ -104,7 +104,7 @@ class AdminDataDao {
             }),
             Limit(limit)
           ],
-          as: "latest-positions",
+          as: "latestPositions",
         ))
         .addStage(Project({"_id": 0, "password": 0, "token": 0}))
         .build();

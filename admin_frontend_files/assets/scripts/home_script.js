@@ -28,11 +28,11 @@ function initMap() {
     marker.setMap(map);
     //-------------------
     createMarkers();
-    setInterval(reloadMarkers, 1000);
+    setInterval(reloadMarkers, 1000); // dummy for real time updates (needs obvs performance refactors)
 }
 function createMarkers() {
     axios.get("/api/v1/admin/map/coords/1").then(function (res) {
-        var users = res.data["data"];
+        var users = res.data;
         for (var _i = 0, users_1 = users; _i < users_1.length; _i++) {
             var user = users_1[_i];
             for (var _a = 0, _b = user["latest-positions"]; _a < _b.length; _a++) {

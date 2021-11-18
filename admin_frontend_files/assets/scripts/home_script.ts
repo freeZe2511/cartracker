@@ -35,13 +35,13 @@ function initMap(): void {
     //-------------------
 
     createMarkers();
-    setInterval(reloadMarkers, 1000);
+    setInterval(reloadMarkers, 1000);   // dummy for real time updates (needs obvs performance refactors)
 
 }
 
 function createMarkers(): void {
     axios.get("/api/v1/admin/map/coords/1").then(res => {
-        let users = res.data["data"];
+        let users = res.data;
         for (const user of users) {
             for (const pos of user["latest-positions"]) {
                 let tempMarker = new google.maps.Marker({

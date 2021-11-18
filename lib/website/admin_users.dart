@@ -25,7 +25,6 @@ class AdminUsers {
   }
 
   Future<Response> _getAllUsers(Request request) async {
-    var body = jsonDecode(await request.readAsString());
     var res = await AdminDataDao.readFullUsersWithLatestPos();
     return Response(200, body: jsonEncode(res));
   }
