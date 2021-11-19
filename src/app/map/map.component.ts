@@ -1,7 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {MapService} from "../services/map.service";
 import {User} from "../models/user";
-import {interval, startWith, Subscription, switchMap} from "rxjs";
+import {interval, map, startWith, Subscription, switchMap} from "rxjs";
+import {GoogleMap, MapInfoWindow, MapMarker} from "@angular/google-maps";
 
 @Component({
   selector: 'app-map',
@@ -10,11 +11,18 @@ import {interval, startWith, Subscription, switchMap} from "rxjs";
 })
 export class MapComponent implements OnInit {
 
+  @ViewChild(GoogleMap, {static: false}) map!: GoogleMap
+  @ViewChild(MapInfoWindow, {static: false}) info!: MapInfoWindow
+
   constructor(private mapService: MapService) {
   }
 
   users: User[] = [];
   timeInterval!: Subscription;
+
+  markers: any[] = [];
+  infoContent = "";
+  center!: google.maps.LatLngLiteral;
 
   ngOnInit(): void {
     // this.createMarkers().then()
@@ -42,36 +50,49 @@ export class MapComponent implements OnInit {
 
   }
 
+
   mapOptions: google.maps.MapOptions = {
     center: new google.maps.LatLng(50.58727, 8.67554),
-    zoom: 2,
+    zoom: 12,
     streetViewControl: false,
-    fullscreenControl: false
+    fullscreenControl: false,
+    // maxZoom: 15,
+    // minZoom: 6
 
   }
 
   markerOptions: google.maps.MarkerOptions = {
-    opacity: 0.8
+    opacity: 0.8,
   }
 
-  // markers = [
-  //   {
-  //     position: { lat: 38.9987208, lng: -77.2538699 },
-  //     title: "test"
-  //   },
-  // ]
-  //
-  // async createMarkers(): Promise<void> {
-  //   let users = await this.mapService.getUserPositions();
-  //   for (const user of users) {
-  //     if(user.latestPositions[0] != undefined){
-  //       this.markers.push({
-  //         position: {lat: user.latestPositions[0].lat, lng: user.latestPositions[0].lng},
-  //         title: user.username
-  //       })
-  //     }
-  //   }
-  // }
+  addMarker() {
+    this.markers.push({
+      position: {
+        lat: 10.1, //this.center.lat + ((Math.random() - 0.5) * 2) / 10,
+        lng: 10.1, //this.center.lng + ((Math.random() - 0.5) * 2) / 10,
+      },
+      label: {
+        color: "red",
+        text: 'Marker label ' + (this.markers.length + 1),
+      },
+      title: 'Marker title ' + (this.markers.length + 1),
+      info: 'Marker info ' + (this.markers.length + 1),
+      options: {
+        // animation: google.maps.Animation.BOUNCE,
+      },
+    })
+
+
+  }
+
+  openInfo(marker: MapMarker, content: any) {
+    this.infoContent = content
+    this.info.open(marker)
+  }
+
+  logCenter() {
+    console.log(JSON.stringify(this.map.getCenter()))
+  }
 
 
   // m: google.maps.Marker = new google.maps.Marker({

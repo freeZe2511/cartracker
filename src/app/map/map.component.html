@@ -1,8 +1,11 @@
 <app-header></app-header>
 <div class="fullscreen" id="map">
   <google-map width="100%" height="100%" [options]="mapOptions">
-<!--    <map-marker *ngFor="let marker of this.markers" [title]="marker.title" [position]="marker.position"></map-marker>-->
-    <map-marker *ngFor="let user of this.users; let i = index" [title]="user.username" [options]="markerOptions" [position]="{lat: user.latestPositions[0].lat, lng: user.latestPositions[0].lng}"></map-marker>
+    <map-marker #markerElem="mapMarker" *ngFor="let marker of this.markers" [title]="marker.title" [position]="marker.position" [options]="marker.options" (mapClick)="openInfo(markerElem, marker.info)" ></map-marker>
+    <map-info-window>{{ infoContent }}</map-info-window>
+    <map-marker  *ngFor="let user of this.users; let i = index" [label]="user.username" [title]="user.username" [options]="markerOptions" [position]="{lat: user.latestPositions[0].lat, lng: user.latestPositions[0].lng}"></map-marker>
   </google-map>
+  <button (click)="addMarker()">Add marker</button>
+  <button (click)="logCenter()">Log center</button>
   <app-sidebar></app-sidebar>
 </div>

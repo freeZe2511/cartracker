@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
 import {User} from "../models/user";
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
