@@ -7,7 +7,6 @@ import { LoginComponent } from './login/login.component';
 import { HeaderComponent } from './header/header.component';
 import { MapComponent } from './map/map.component';
 import { UserListComponent } from './user-list/user-list.component';
-import { UserComponent } from './user/user.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
@@ -26,7 +25,6 @@ import { AppRoutingModule } from './app-routing.module';
     HeaderComponent,
     MapComponent,
     UserListComponent,
-    UserComponent,
     SidebarComponent
   ],
     imports: [

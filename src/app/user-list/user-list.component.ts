@@ -40,5 +40,12 @@ export class UserListComponent implements OnInit {
   displayedColumns: string[] = ['id', 'username', 'password', 'zone', 'status', 'created', 'actions'];
   dataSource = new MatTableDataSource(this.users);
 
+  // https://www.freakyjolly.com/angular-material-table-operations-using-dialog/
+  // createUser()
+  // addUser(u: User){
+  //   this.dataSource.data.push(u);
+  //   this.dataSource._updateChangeSubscription();
+  // }
+
 
 }
