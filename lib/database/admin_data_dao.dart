@@ -1,4 +1,4 @@
-import 'package:cartracker_backend/database.dart';
+import 'package:cartracker_backend/database/database.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 
 class AdminDataDao {

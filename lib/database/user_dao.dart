@@ -1,4 +1,4 @@
-import 'package:cartracker_backend/database.dart';
+import 'package:cartracker_backend/database/database.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 
 class UserDao {
@@ -63,7 +63,7 @@ class UserDao {
   }
 
   static Future<void> update(
-      String username, String newUsername, String newPassword) async {
+      String id, String newUsername, String newPassword) async {
     // return user?
     var modifier = ModifierBuilder();
     modifier.set("username", newUsername);
@@ -71,13 +71,13 @@ class UserDao {
     print(modifier);
     await Database.db
         .collection(_collection)
-        .updateOne(where.eq('username', username), modifier);
+        .updateOne(where.eq('id', id), modifier);
   }
 
-  static Future<void> delete(String username) async {
+  static Future<void> delete(String id) async {
     await Database.db
         .collection(_collection)
-        .remove(where.eq('username', username)); // return user?
+        .remove(where.eq('id', id)); // return user?
   }
 }
 

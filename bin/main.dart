@@ -1,4 +1,4 @@
-import 'package:cartracker_backend/database.dart';
+import 'package:cartracker_backend/database/database.dart';
 import 'package:cartracker_backend/routing/service.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart';
