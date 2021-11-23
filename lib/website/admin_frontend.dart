@@ -17,21 +17,7 @@ class AdminFrontend {
     router.mount("/user/", AdminUsers().router);
     router.mount("/map/", AdminMap().router);
 
-    router.get("/assets/<file|.*>", createStaticHandler('admin_frontend_files'));
-    router.get("/node_modules/<file|.*>", createStaticHandler('admin_frontend_files'));
-    router.get("/", _getIndex);
-    router.get("/home", _getHome);
-
     return router;
   }
 
-  Response _getIndex(Request request) {
-    final indexFile = File('admin_frontend_files/index.html').readAsStringSync();
-    return Response(200, body: indexFile, headers: {'content-type':'text/html'});
-  }
-
-  Response _getHome(Request request) {
-    final indexFile = File('admin_frontend_files/home.html').readAsStringSync();
-    return Response(200, body: indexFile, headers: {'content-type':'text/html'});
-  }
 }
