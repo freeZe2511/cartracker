@@ -1,16 +1,31 @@
-import 'package:cartracker_backend/app/positions.dart';
+import 'package:cartracker_backend/controller/auth.dart';
+import 'package:cartracker_backend/controller/map.dart';
+import 'package:cartracker_backend/controller/position.dart';
+import 'package:cartracker_backend/controller/users.dart';
 import 'package:shelf_router/shelf_router.dart';
-
-import '../website/admin_frontend.dart';
-import '../app/user_authentication.dart';
 
 class Api {
   Router get router {
     final router = Router();
+    final userController = UserController();
+    final mapController = MapController();
+    final posController = PositionController();
+    final authController = AuthenticationController();
 
-    router.mount('/user/', UserAuthentication().router);
-    router.mount('/pos/', Positions().router);
-    router.mount('/admin/', AdminFrontend().router);
+    router.post("/login", authController.login); //admin und user zsm
+    // logout
+
+    router.post(("/pos"), posController.createPos);
+
+    router.get("/map/<limit>", mapController.getMap);
+    router.get("/map/<id>&<limit>", mapController.getMapUserByID);
+    // routes?
+
+    router.post("/user", userController.createUser);
+    router.get("/users", userController.getUsers);
+    //router.get("users", userServive.getUsers); // by list und/oder id
+    router.put("/user/<id>", userController.updateUser);
+    router.delete("/user/<id>", userController.deleteUser);
 
     return router;
   }
