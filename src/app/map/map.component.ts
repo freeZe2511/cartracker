@@ -42,7 +42,12 @@ export class MapComponent implements OnInit {
     this.timeInterval = interval(1000).pipe(
       switchMap(() => this.mapService.getUserPositions()),
     ).subscribe({
-      next: (res: any) => this.users = res,
+      next: (res: any) => {
+        // for (const re of res) {
+        //   this.addMarker(re);
+        // }
+        this.users = res;
+      },
       error: (e) => console.error(e),
       complete: () => console.info('complete')
     });
@@ -53,7 +58,7 @@ export class MapComponent implements OnInit {
 
   mapOptions: google.maps.MapOptions = {
     center: new google.maps.LatLng(50.58727, 8.67554),
-    zoom: 12,
+    zoom: 2,
     streetViewControl: false,
     fullscreenControl: false,
     // maxZoom: 15,
@@ -65,15 +70,20 @@ export class MapComponent implements OnInit {
     opacity: 0.8,
   }
 
-  addMarker() {
+  polylineOptions: google.maps.PolylineOptions = {
+    path: []
+  }
+
+  addMarker(re: User) {
+    //if(re not in this.users)
     this.markers.push({
       position: {
-        lat: 10.1, //this.center.lat + ((Math.random() - 0.5) * 2) / 10,
-        lng: 10.1, //this.center.lng + ((Math.random() - 0.5) * 2) / 10,
+        lat: re.latestPositions[0].lat +5,
+        lng: re.latestPositions[0].lng,
       },
       label: {
         color: "red",
-        text: 'Marker label ' + (this.markers.length + 1),
+        text: re.username,
       },
       title: 'Marker title ' + (this.markers.length + 1),
       info: 'Marker info ' + (this.markers.length + 1),
@@ -81,7 +91,6 @@ export class MapComponent implements OnInit {
         // animation: google.maps.Animation.BOUNCE,
       },
     })
-
 
   }
 

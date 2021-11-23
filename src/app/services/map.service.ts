@@ -2,7 +2,6 @@ import {Injectable} from '@angular/core';
 import {HttpService} from "./http.service";
 import {User} from "../models/user";
 import {firstValueFrom, Observable} from "rxjs";
-import {HttpClient} from "@angular/common/http";
 
 
 @Injectable({
@@ -12,21 +11,14 @@ export class MapService {
   constructor(private httpService: HttpService) {
   }
 
-  getUserPositions2(): any {
-    // this.httpService.getCurrentUserPos().subscribe(res => {
-    //   console.log(res)
-    //   // for (const user of res) {
-    //   //   this._users.push(new User(user["id"], user["username"], user["latest-positions"][0]))
-    //   // }
-    //   this._users = res;
-    //   console.log(this._users)
-    // });
-    return firstValueFrom(this.httpService.getCurrentUserPos());
+  getUserPositions2(): Promise<User[]> {
+    return firstValueFrom(this.httpService.get("http://localhost:9090/api/v1/map/1"));
   }
 
   getUserPositions(): any {
-    return this.httpService.getCurrentUserPos();
+    return this.httpService.get("http://localhost:9090/api/v1/map/1");
   }
+
 
   // handleData(data: any): void {
   //   for (const user of data) {
@@ -48,6 +40,8 @@ export class MapService {
   // get users(): User[] {
   //   return this._users;
   // }
+
+
 
 
 
