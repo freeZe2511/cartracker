@@ -8,6 +8,8 @@ import {UserService} from "../services/users.service";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {EditUserModalComponent} from "../edit-user-modal/edit-user-modal.component";
 import {AddUserModalComponent} from "../add-user-modal/add-user-modal.component";
+import {MapComponent} from "../map/map.component";
+import {MapService} from "../services/map.service";
 
 @Component({
   selector: 'app-user-list',
@@ -16,7 +18,7 @@ import {AddUserModalComponent} from "../add-user-modal/add-user-modal.component"
 })
 export class UserListComponent implements OnInit {
 
-  constructor(private userService: UserService, private modalService: NgbModal) {
+  constructor(private userService: UserService, private modalService: NgbModal, private mapService: MapService) {
   }
 
   users: User[] = [];
@@ -41,6 +43,10 @@ export class UserListComponent implements OnInit {
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+  }
+
+  public centerOnUser(userid: string) {
+    this.mapService.centerOnMarker(userid);
   }
 
   public async add() {

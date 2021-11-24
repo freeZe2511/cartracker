@@ -1,13 +1,19 @@
-import {Injectable} from '@angular/core';
+import {Injectable, ViewChild} from '@angular/core';
 import {HttpService} from "./http.service";
 import {User} from "../models/user";
 import {firstValueFrom, Observable} from "rxjs";
+import MapOptions = google.maps.MapOptions;
+import {MapComponent} from "../map/map.component";
 
 
 @Injectable({
   providedIn: 'root',
 })
 export class MapService {
+  @ViewChild(MapComponent) mapComponent!: MapComponent;
+
+  public markers: Map<string, google.maps.Marker> = new Map();
+
   constructor(private httpService: HttpService) {
   }
 
@@ -17,6 +23,12 @@ export class MapService {
 
   getUserPositions(): any {
     return this.httpService.get("http://localhost:9090/api/v1/map/1");
+  }
+  public centerOnMarker(userid: string) {
+    if (this.markers.has(userid)) {
+      console.log(this.mapComponent);
+      this.mapComponent.mapOptions.center = this.markers.get(userid)!.getPosition();
+    }
   }
 
 
