@@ -43,9 +43,8 @@ export class UserListComponent implements OnInit {
     this.dataSource.sort = this.sort;
   }
 
-  public async edit(user: User) {
-    const modalReference = this.modalService.open(EditUserModalComponent);
-    modalReference.componentInstance.user = user;
+  public async add() {
+    const modalReference = this.modalService.open(AddUserModalComponent);
 
     try {
       const resultUser: User = await modalReference.result;
@@ -55,8 +54,9 @@ export class UserListComponent implements OnInit {
     }
   }
 
-  public async add() {
-    const modalReference = this.modalService.open(AddUserModalComponent);
+  public async edit(user: User) {
+    const modalReference = this.modalService.open(EditUserModalComponent);
+    modalReference.componentInstance.user = user;
 
     try {
       const resultUser: User = await modalReference.result;
@@ -64,6 +64,10 @@ export class UserListComponent implements OnInit {
     } catch(error) {
       console.log(error);
     }
+  }
+
+  public async delete(userid: string) {
+    this.userService.deleteUser(userid);
   }
 
   displayedColumns: string[] = ['id', 'username', 'password', 'zone', 'status', 'created', 'actions'];
