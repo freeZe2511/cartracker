@@ -1,10 +1,8 @@
 <app-header></app-header>
 <div class="m-0 p-0 container-fluid">
   <google-map class="m-0" id="map" width="100vw" height="100vh" [options]="mapOptions">
-<!--    <map-marker #markerElem="mapMarker" *ngFor="let marker of this.markers" [title]="marker.title" [position]="marker.position" [options]="marker.options" (mapClick)="openInfo(markerElem, marker.info)" ></map-marker>-->
     <map-info-window>{{ infoContent }}</map-info-window>
     <ng-container *ngFor="let user of this.users; let i = index;">
-<!--      <map-marker *ngIf="user.latestPositions != undefined" [label]="user.username" [title]="user.username" [options]="markerOptions" [position]="{lat: user.latestPositions[0].lat, lng: user.latestPositions[0].lng}"></map-marker>-->
       <map-polyline [options]="polylineOptions"></map-polyline>
     </ng-container>
   </google-map>
