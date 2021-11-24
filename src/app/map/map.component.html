@@ -1,7 +1,6 @@
 <app-header></app-header>
 <div class="m-0 p-0 container-fluid">
   <google-map class="m-0" id="map" width="100vw" height="100vh" [options]="mapOptions">
-    <map-info-window>{{ infoContent }}</map-info-window>
     <ng-container *ngFor="let user of this.users; let i = index;">
       <map-polyline [options]="polylineOptions"></map-polyline>
     </ng-container>
