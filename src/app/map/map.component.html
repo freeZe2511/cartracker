@@ -3,8 +3,10 @@
   <google-map class="m-0" id="map" width="100vw" height="100vh" [options]="mapOptions">
     <map-marker #markerElem="mapMarker" *ngFor="let marker of this.markers" [title]="marker.title" [position]="marker.position" [options]="marker.options" (mapClick)="openInfo(markerElem, marker.info)" ></map-marker>
     <map-info-window>{{ infoContent }}</map-info-window>
-    <map-marker  *ngFor="let user of this.users; let i = index" [label]="user.username" [title]="user.username" [options]="markerOptions" [position]="{lat: user.latestPositions[0].lat, lng: user.latestPositions[0].lng}"></map-marker>
-    <map-polyline *ngFor="let user of this.users;" [options]="polylineOptions"></map-polyline>
+    <ng-container *ngFor="let user of this.users; let i = index;">
+      <map-marker *ngIf="user.latestPositions" [label]="user.username" [title]="user.username" [options]="markerOptions" [position]="{lat: user.latestPositions[0].lat, lng: user.latestPositions[0].lng}"></map-marker>
+      <map-polyline [options]="polylineOptions"></map-polyline>
+    </ng-container>
   </google-map>
 <!--  <button (click)="addMarker()">Add marker</button>-->
 <!--  <button (click)="logCenter()">Log center</button>-->

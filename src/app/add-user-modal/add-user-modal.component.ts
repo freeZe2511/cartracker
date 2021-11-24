@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {User} from "../models/user";
+import {User, UserWithoutPosition} from "../models/user";
 import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
@@ -9,9 +9,11 @@ import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
 })
 export class AddUserModalComponent{
 
-  public user!: User;
+  public user!: UserWithoutPosition;
 
-  constructor(public activeModal: NgbActiveModal) { }
+  constructor(public activeModal: NgbActiveModal) {
+    this.user = new UserWithoutPosition('', '', '');
+  }
 
   save(): void {
     if(this.isNotEmpty(this.user.username) && this.isNotEmpty(this.user.password)) {

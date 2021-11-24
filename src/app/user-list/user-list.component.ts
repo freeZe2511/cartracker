@@ -49,7 +49,7 @@ export class UserListComponent implements OnInit {
 
     try {
       const resultUser: User = await modalReference.result;
-      //TODO: PUT Request
+      this.userService.createUser(resultUser);
     } catch(error) {
       console.log(error);
     }
@@ -60,7 +60,7 @@ export class UserListComponent implements OnInit {
 
     try {
       const resultUser: User = await modalReference.result;
-      //TODO: POST Request
+      this.userService.updateUser(resultUser);
     } catch(error) {
       console.log(error);
     }

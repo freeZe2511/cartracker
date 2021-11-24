@@ -12,8 +12,22 @@ export class UserService {
   constructor(private httpService: HttpService) {
   }
 
-  getUsersList(): any {
+  public getUsersList(): any {
     return this.httpService.getUserList();
+  }
+
+  public createUser(user: User) {
+    this.httpService.post("http://localhost:9090/api/v1/user", {
+      username: user.username,
+      password: user.password
+    });
+  }
+
+  public updateUser(user: User) {
+    this.httpService.put("http://localhost:9090/api/v1/user/" + user.id, {
+      username: user.username,
+      password: user.password
+    });
   }
 
 }

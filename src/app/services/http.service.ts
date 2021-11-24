@@ -13,28 +13,28 @@ export class HttpService {
   }
 
   // generalisieren
-  getCurrentUserPos(): Observable<User[]> {
+  public getCurrentUserPos(): Observable<User[]> {
     return this.http.get<User[]>("http://localhost:9090/api/v1/map/1");
   }
 
-  getUserList(): Observable<User[]> {
+  public getUserList(): Observable<User[]> {
     return this.http.get<User[]>("http://localhost:9090/api/v1/users");
   }
 
   // <T> ?
-  get(url: string, options?: any): Observable<any> {
+  public get(url: string, options?: any): Observable<any> {
     return this.http.get(url, options);
   }
 
-  post(url: string, body: any | null, options?: any): Observable<any> {
+  public post(url: string, body: any | null, options?: any): Observable<any> {
     return this.http.post(url, body, options);
   }
 
-  put(url: string, body: any | null, options?: any): Observable<any> {
+  public put(url: string, body: any | null, options?: any): Observable<any> {
     return this.http.put(url, body, options);
   }
 
-  delete(url: string, options?: any): Observable<any> {
+  public delete(url: string, options?: any): Observable<any> {
     return this.http.delete(url, options);
   }
 
