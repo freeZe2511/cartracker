@@ -75,23 +75,23 @@ export class MapComponent implements OnInit {
   }
 
   addMarker(re: User) {
-    //if(re not in this.users)
-    this.markers.push({
-      position: {
-        lat: re.latestPositions[0].lat +5,
-        lng: re.latestPositions[0].lng,
-      },
-      label: {
-        color: "red",
-        text: re.username,
-      },
-      title: 'Marker title ' + (this.markers.length + 1),
-      info: 'Marker info ' + (this.markers.length + 1),
-      options: {
-        // animation: google.maps.Animation.BOUNCE,
-      },
-    })
-
+    if(re.latestPositions != undefined) {
+      this.markers.push({
+        position: {
+          lat: re.latestPositions[0].lat + 5,
+          lng: re.latestPositions[0].lng,
+        },
+        label: {
+          color: "red",
+          text: re.username,
+        },
+        title: 'Marker title ' + (this.markers.length + 1),
+        info: 'Marker info ' + (this.markers.length + 1),
+        options: {
+          // animation: google.maps.Animation.BOUNCE,
+        },
+      })
+    }
   }
 
   openInfo(marker: MapMarker, content: any) {

@@ -3,8 +3,11 @@ import {User} from "../models/user";
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
-import {interval, Subscription, switchMap} from "rxjs";
+import {interval, Observable, Subscription, switchMap} from "rxjs";
 import {UserService} from "../services/users.service";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {EditUserModalComponent} from "../edit-user-modal/edit-user-modal.component";
+import {AddUserModalComponent} from "../add-user-modal/add-user-modal.component";
 
 @Component({
   selector: 'app-user-list',
@@ -13,7 +16,7 @@ import {UserService} from "../services/users.service";
 })
 export class UserListComponent implements OnInit {
 
-  constructor(private userService: UserService) {
+  constructor(private userService: UserService, private modalService: NgbModal) {
   }
 
   users: User[] = [];
@@ -23,7 +26,10 @@ export class UserListComponent implements OnInit {
     this.timeInterval = interval(1000).pipe(
       switchMap(() => this.userService.getUsersList()),
     ).subscribe({
-      next: (res: any) => this.dataSource.data = res,
+      next: (res: any) => {
+        this.dataSource.data = res;
+        this.users = res;
+      },
       error: (e) => console.error(e),
       complete: () => console.info('complete')
     });
@@ -37,8 +43,35 @@ export class UserListComponent implements OnInit {
     this.dataSource.sort = this.sort;
   }
 
+  public async add() {
+    const modalReference = this.modalService.open(AddUserModalComponent);
+
+    try {
+      const resultUser: User = await modalReference.result;
+      this.userService.createUser(resultUser);
+    } catch(error) {
+      console.log(error);
+    }
+  }
+
+  public async edit(user: User) {
+    const modalReference = this.modalService.open(EditUserModalComponent);
+    modalReference.componentInstance.user = user;
+
+    try {
+      const resultUser: User = await modalReference.result;
+      this.userService.updateUser(resultUser);
+    } catch(error) {
+      console.log(error);
+    }
+  }
+
+  public async delete(userid: string) {
+    this.userService.deleteUser(userid);
+  }
+
   displayedColumns: string[] = ['id', 'username', 'password', 'zone', 'status', 'created', 'actions'];
-  dataSource = new MatTableDataSource(this.users);
+  dataSource = new MatTableDataSource(this.userService.users);
 
   // https://www.freakyjolly.com/angular-material-table-operations-using-dialog/
   // createUser()
