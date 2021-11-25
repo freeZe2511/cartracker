@@ -1,7 +1,7 @@
 .header-dark {
   background: 0 0/cover #1e2833;
   height: 4em;
-  margin-bottom: -4em
+  /*margin-bottom: -4em*/
 }
 
 .header-dark .navbar {

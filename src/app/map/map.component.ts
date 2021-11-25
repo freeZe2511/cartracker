@@ -15,8 +15,7 @@ export class MapComponent implements OnInit {
   @ViewChild(GoogleMap, {static: false}) map!: GoogleMap
   @ViewChild(MapInfoWindow, {static: false}) info!: MapInfoWindow
 
-  constructor(public mapService: MapService) {
-  }
+  constructor(public mapService: MapService) { }
 
   public users: User[] = [];
   public timeInterval!: Subscription;

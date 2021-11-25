@@ -4,5 +4,12 @@
   height: 800px !important;
 }
 
+mat-sidenav-container{
+  height: calc(100vh - 4em);
+}
+
+mat-sidenav-content{
+  height: 100%;
+}
 
 
