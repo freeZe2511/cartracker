@@ -20,6 +20,8 @@ import { MatPaginatorModule } from "@angular/material/paginator";
 import { AppRoutingModule } from './app-routing.module';
 import { EditUserModalComponent } from './edit-user-modal/edit-user-modal.component';
 import { AddUserModalComponent } from './add-user-modal/add-user-modal.component';
+import { SidebarZoneComponent } from './sidebar-zone/sidebar-zone.component';
+import { SidebarZoneCollapsedComponent } from './sidebar-zone-collapsed/sidebar-zone-collapsed.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,9 @@ import { AddUserModalComponent } from './add-user-modal/add-user-modal.component
     UserListComponent,
     SidebarComponent,
     EditUserModalComponent,
-    AddUserModalComponent
+    AddUserModalComponent,
+    SidebarZoneComponent,
+    SidebarZoneCollapsedComponent
   ],
     imports: [
         BrowserModule,

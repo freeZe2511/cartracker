@@ -7,9 +7,13 @@ import {User} from "../models/user";
   providedIn: 'root',
 })
 export class UserService {
-  users: User[] = [];
+  public users: Map<string, User[]> = new Map();
+  public zones: string[];
 
   constructor(private httpService: HttpService) {
+    this.zones = [
+      "all"
+    ]
   }
 
   public getUsersList(): any {

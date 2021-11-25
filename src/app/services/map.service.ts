@@ -26,6 +26,7 @@ export class MapService {
   getUserPositions(): any {
     return this.httpService.get("http://localhost:9090/api/v1/map/1");
   }
+
   public centerOnMarker(userid: string) {
     if (this.markers.has(userid)) {
       this.centeredMarkerPos = this.markers.get(userid)!.getPosition();

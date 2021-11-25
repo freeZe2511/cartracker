@@ -18,19 +18,18 @@ import {MapService} from "../services/map.service";
 })
 export class UserListComponent implements OnInit {
 
-  constructor(private userService: UserService, private modalService: NgbModal, private mapService: MapService) {
+  constructor(private _user: UserService, private modalService: NgbModal, private mapService: MapService) {
   }
 
-  users: User[] = [];
   timeInterval!: Subscription;
 
   ngOnInit(): void {
     this.timeInterval = interval(1000).pipe(
-      switchMap(() => this.userService.getUsersList()),
+      switchMap(() => this._user.getUsersList()),
     ).subscribe({
       next: (res: any) => {
         this.dataSource.data = res;
-        this.users = res;
+        this._user.users.set("all", res);
       },
       error: (e) => console.error(e),
       complete: () => console.info('complete')
@@ -54,7 +53,7 @@ export class UserListComponent implements OnInit {
 
     try {
       const resultUser: User = await modalReference.result;
-      this.userService.createUser(resultUser);
+      this._user.createUser(resultUser);
     } catch(error) {
       console.log(error);
     }
@@ -66,18 +65,18 @@ export class UserListComponent implements OnInit {
 
     try {
       const resultUser: User = await modalReference.result;
-      this.userService.updateUser(resultUser);
+      this._user.updateUser(resultUser);
     } catch(error) {
       console.log(error);
     }
   }
 
   public async delete(userid: string) {
-    this.userService.deleteUser(userid);
+    this._user.deleteUser(userid);
   }
 
   displayedColumns: string[] = ['id', 'username', 'password', 'zone', 'status', 'created', 'actions'];
-  dataSource = new MatTableDataSource(this.userService.users);
+  dataSource = new MatTableDataSource(this._user.users.get("all"));
 
   // https://www.freakyjolly.com/angular-material-table-operations-using-dialog/
   // createUser()
