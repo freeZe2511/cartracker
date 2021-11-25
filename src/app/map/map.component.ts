@@ -63,7 +63,7 @@ export class MapComponent implements OnInit {
   }
 
   private addNewMarker(user: User) {
-    if (user.latestPositions != undefined) {
+    if (user.latestPositions != undefined && user.latestPositions[0] != undefined) {
       let oldMarker: google.maps.Marker | undefined;
       let newPos = {lat: user.latestPositions[0].lat, lng: user.latestPositions[0].lng}
       oldMarker = this.mapService.markers.get(user.id);
