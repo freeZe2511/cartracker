@@ -40,17 +40,21 @@ export class MapComponent implements OnInit {
           }
         }
 
-        if (this.mapService.centeredMarkerPos) {
-          this.map.googleMap?.setCenter(this.mapService.centeredMarkerPos);
-          if (!this.mapService.keepCentered) {
-            this.mapService.centeredMarkerPos = undefined;
-          }
-        }
+        this.centerOnMarker();
       },
       error: (e) => console.error(e),
       complete: () => console.info('complete')
     });
 
+  }
+
+  private centerOnMarker() {
+    if (this.mapService.centeredMarkerPos) {
+      this.map.googleMap?.setCenter(this.mapService.centeredMarkerPos);
+      if (!this.mapService.keepCentered) {
+        this.mapService.centeredMarkerPos = undefined;
+      }
+    }
   }
 
   private isNewMarker(user: User): boolean {
