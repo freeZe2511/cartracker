@@ -4,11 +4,19 @@
   height: 800px !important;
 }
 
-mat-sidenav-container{
+mat-sidenav-container {
   height: calc(100vh - 4em);
 }
 
-mat-sidenav-content{
+mat-sidenav {
+  background: #1e2833;
+  border-top: 2px solid white;
+  padding: 1em;
+  width: 30vh;
+  color: white;
+}
+
+mat-sidenav-content {
   height: 100%;
 }
 
