@@ -13,6 +13,8 @@ export class MapService {
   @ViewChild(MapComponent) mapComponent!: MapComponent;
 
   public markers: Map<string, google.maps.Marker> = new Map();
+  public centeredMarkerPos: google.maps.LatLng | undefined | null;
+  public keepCentered: boolean = false; //set if marker should be followed
 
   constructor(private httpService: HttpService) {
   }
@@ -26,8 +28,7 @@ export class MapService {
   }
   public centerOnMarker(userid: string) {
     if (this.markers.has(userid)) {
-      console.log(this.mapComponent);
-      this.mapComponent.mapOptions.center = this.markers.get(userid)!.getPosition();
+      this.centeredMarkerPos = this.markers.get(userid)!.getPosition();
     }
   }
 

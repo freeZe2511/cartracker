@@ -39,6 +39,13 @@ export class MapComponent implements OnInit {
             this.addNewMarker(user);
           }
         }
+
+        if (this.mapService.centeredMarkerPos) {
+          this.map.googleMap?.setCenter(this.mapService.centeredMarkerPos);
+          if (!this.mapService.keepCentered) {
+            this.mapService.centeredMarkerPos = undefined;
+          }
+        }
       },
       error: (e) => console.error(e),
       complete: () => console.info('complete')
