@@ -4,7 +4,13 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class SidebarService {
-  sidebarIsOpened = true;
+  public sidebarIsOpened;
 
-  constructor() { }
+  constructor() {
+    this.sidebarIsOpened = false;
+  }
+
+  public toggleSidebar() {
+    this.sidebarIsOpened = !this.sidebarIsOpened;
+  }
 }

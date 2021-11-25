@@ -4,6 +4,7 @@ import {User} from "../models/user";
 import {interval, Subscription, switchMap} from "rxjs";
 import {GoogleMap, MapInfoWindow, MapMarker} from "@angular/google-maps";
 import Animation = google.maps.Animation;
+import {SidebarService} from "../services/sidebar.service";
 
 @Component({
   selector: 'app-map',
@@ -15,7 +16,7 @@ export class MapComponent implements OnInit {
   @ViewChild(GoogleMap, {static: false}) map!: GoogleMap
   @ViewChild(MapInfoWindow, {static: false}) info!: MapInfoWindow
 
-  constructor(public mapService: MapService) { }
+  constructor(public _map: MapService, public _sidebar: SidebarService) { }
 
   public users: User[] = [];
   public timeInterval!: Subscription;
@@ -25,12 +26,12 @@ export class MapComponent implements OnInit {
 
   ngOnInit(): void {
     this.timeInterval = interval(1000).pipe(
-      switchMap(() => this.mapService.getUserPositions()),
+      switchMap(() => this._map.getUserPositions()),
     ).subscribe({
       next: (res: any) => {
         this.users = res;
         for (let user of res) {
-          if(this.mapService.markers.has(user.id)) {
+          if(this._map.markers.has(user.id)) {
             if (this.isNewMarker(user)) {
               this.addNewMarker(user);
             }
@@ -48,16 +49,16 @@ export class MapComponent implements OnInit {
   }
 
   private centerOnMarker() {
-    if (this.mapService.centeredMarkerPos) {
-      this.map.googleMap?.setCenter(this.mapService.centeredMarkerPos);
-      if (!this.mapService.keepCentered) {
-        this.mapService.centeredMarkerPos = undefined;
+    if (this._map.centeredMarkerPos) {
+      this.map.googleMap?.setCenter(this._map.centeredMarkerPos);
+      if (!this._map.keepCentered) {
+        this._map.centeredMarkerPos = undefined;
       }
     }
   }
 
   private isNewMarker(user: User): boolean {
-    let pos = this.mapService.markers.get(user.id)!.getPosition();
+    let pos = this._map.markers.get(user.id)!.getPosition();
     return user.latestPositions![0].lat != pos?.lat() || user.latestPositions![0].lng != pos?.lng();
   }
 
@@ -65,8 +66,8 @@ export class MapComponent implements OnInit {
     if (user.latestPositions != undefined && user.latestPositions[0] != undefined) {
       let oldMarker: google.maps.Marker | undefined;
       let newPos = {lat: user.latestPositions[0].lat, lng: user.latestPositions[0].lng}
-      oldMarker = this.mapService.markers.get(user.id);
-      this.mapService.markers.set(user.id, new google.maps.Marker({
+      oldMarker = this._map.markers.get(user.id);
+      this._map.markers.set(user.id, new google.maps.Marker({
         position: newPos,
         title: user.username,
         label: {
@@ -75,7 +76,7 @@ export class MapComponent implements OnInit {
         }
       }));
       if (oldMarker) oldMarker.setMap(null);
-      this.mapService.markers.get(user.id)!.setMap(this.map.googleMap!);
+      this._map.markers.get(user.id)!.setMap(this.map.googleMap!);
       //TODO: add click Event Listener
     }
   }

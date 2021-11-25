@@ -1,6 +1,6 @@
 <app-header></app-header>
 <mat-sidenav-container [hasBackdrop]="false">
-  <mat-sidenav id="sidebar" [opened]="true">
+  <mat-sidenav id="sidebar" [opened]="_sidebar.sidebarIsOpened">
     <app-sidebar></app-sidebar>
   </mat-sidenav>
 
