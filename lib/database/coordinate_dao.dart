@@ -1,5 +1,6 @@
 import 'package:cartracker_backend/database/database.dart';
 import 'package:mongo_dart/mongo_dart.dart';
+import 'package:objectid/objectid.dart' as obj_id;
 
 class CoordinateDao {
   static const String _collection = "coords";
@@ -14,6 +15,16 @@ class CoordinateDao {
     return Database.db
         .collection(_collection)
         .find(where.eq('id', id).limit(limit)) //limit?
+        .map((doc) => Coordinate.fromJson(doc))
+        .toList();
+  }
+
+  //TODO: Has to be tested
+  static Future<List<Coordinate>> readRoute(String id, int timeInHours, int timeInMinutes) async {
+    return Database.db
+        .collection(_collection)
+        .find(where.eq('id', id).gt('_id', obj_id.ObjectId.fromTimestamp(
+            DateTime.now().subtract(Duration(hours: timeInHours, minutes: timeInMinutes)))))
         .map((doc) => Coordinate.fromJson(doc))
         .toList();
   }

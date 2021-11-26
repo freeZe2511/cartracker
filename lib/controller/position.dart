@@ -24,7 +24,7 @@ class PositionController {
   //   if(coords.isNotEmpty) return Response(200, body: jsonEncode(coords));
   //   return Response(404);
   // }
-  //
+
   // Future<Response> _getPositions(Request request) async {
   //   List<Coordinate> coords = await CoordinateDao.readAll();
   //   return Response(200, body: jsonEncode(coords));
