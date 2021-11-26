@@ -17,13 +17,15 @@ class PositionController {
     return Response(201, body: jsonEncode(body));
   }
 
-  // Future<Response> _getPositionsByUserID(Request request) async {
-  //   var body = jsonDecode(await request.readAsString());
-  //   String userid = body["userid"];
-  //   List<Coordinate> coords = await CoordinateDao.readMany(userid, 3); //limit?
-  //   if(coords.isNotEmpty) return Response(200, body: jsonEncode(coords));
-  //   return Response(404);
-  // }
+  Future<Response> getRoute(Request request) async {
+    var body = jsonDecode(await request.readAsString());
+    String userid = body["userid"];
+    int hours = body["timeInHours"];
+    int minutes = body["timeInMinutes"];
+    List<Coordinate> coords = await CoordinateDao.readRoute(userid, hours, minutes);
+    if(coords.isNotEmpty) return Response(200, body: jsonEncode(coords));
+    return Response(404);
+  }
 
   // Future<Response> _getPositions(Request request) async {
   //   List<Coordinate> coords = await CoordinateDao.readAll();
