@@ -47,7 +47,7 @@
 										<i class="fa fa-plus-square fa-stack-1x fa-inverse"></i>
 									</span>
       </a></th>
-      <td mat-cell *matCellDef="let user"> <a class="btn table-link" (click)="centerOnUser(user.id)">
+      <td mat-cell *matCellDef="let user"> <a class="btn table-link" (click)="centerOnUser(user.id, user.latestPos[0])">
 									<span class="fa-stack">
 										<i class="fa fa-square fa-stack-2x"></i>
 										<i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>

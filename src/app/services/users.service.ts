@@ -7,13 +7,15 @@ import {User} from "../models/user";
   providedIn: 'root',
 })
 export class UserService {
-  public users: Map<string, User[]> = new Map();
+  public users: User[];
   public zones: string[];
 
   constructor(private httpService: HttpService) {
     this.zones = [
-      "all"
+      "All",
+      "Gießen"
     ]
+    this.users = [];
   }
 
   public getUsersList(): any {
@@ -21,7 +23,6 @@ export class UserService {
   }
 
   public createUser(user: User) {
-    console.log(user);
     this.httpService.post("http://localhost:9090/api/v1/user", {
       username: user.username,
       password: user.password

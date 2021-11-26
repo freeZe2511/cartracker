@@ -2,8 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {MapService} from "../services/map.service";
 import {User} from "../models/user";
 import {interval, Subscription, switchMap} from "rxjs";
-import {GoogleMap, MapInfoWindow, MapMarker} from "@angular/google-maps";
-import Animation = google.maps.Animation;
+import {GoogleMap, MapInfoWindow} from "@angular/google-maps";
 import {SidebarService} from "../services/sidebar.service";
 
 @Component({
@@ -13,19 +12,32 @@ import {SidebarService} from "../services/sidebar.service";
 })
 export class MapComponent implements OnInit {
 
-  @ViewChild(GoogleMap, {static: false}) map!: GoogleMap
+  @ViewChild(GoogleMap, {static: true}) map!: GoogleMap
   @ViewChild(MapInfoWindow, {static: false}) info!: MapInfoWindow
 
-  constructor(public _map: MapService, public _sidebar: SidebarService) { }
-
+  public mapOptions: google.maps.MapOptions;
+  public polylineOptions: google.maps.PolylineOptions;
+  public center!: google.maps.LatLngLiteral;
   public users: User[] = [];
   public timeInterval!: Subscription;
 
-  public infoContent = "";
-  public center!: google.maps.LatLngLiteral;
+  constructor(public _map: MapService, public _sidebar: SidebarService) {
+    this.mapOptions = {
+      center: new google.maps.LatLng(50.58727, 8.67554),
+      zoom: 9,
+      streetViewControl: false,
+      fullscreenControl: false,
+      // maxZoom: 15,
+      // minZoom: 6
+    }
+
+    this.polylineOptions = {
+      path: []
+    }
+  }
 
   ngOnInit(): void {
-    this.timeInterval = interval(1000).pipe(
+    this.timeInterval = interval(100).pipe(
       switchMap(() => this._map.getUserPositions()),
     ).subscribe({
       next: (res: any) => {
@@ -33,26 +45,27 @@ export class MapComponent implements OnInit {
         for (let user of res) {
           if(this._map.markers.has(user.id)) {
             if (this.isNewMarker(user)) {
-              this.addNewMarker(user);
+              this.editMarker(user);
             }
           } else {
             this.addNewMarker(user);
           }
         }
+        // console.log(this._map.getRoute());
 
         this.centerOnMarker();
       },
       error: (e) => console.error(e),
       complete: () => console.info('complete')
     });
-
   }
 
   private centerOnMarker() {
-    if (this._map.centeredMarkerPos) {
-      this.map.googleMap?.setCenter(this._map.centeredMarkerPos);
-      if (!this._map.keepCentered) {
-        this._map.centeredMarkerPos = undefined;
+    let userid: string | undefined = this._map.centeredMarkerUserid;
+    if (userid) {
+      this.map.googleMap?.setCenter(this._map.markers.get(userid)!.getPosition()!)
+      if(!this._map.keepCentered) {
+        this._map.centeredMarkerUserid = undefined;
       }
     }
   }
@@ -65,7 +78,7 @@ export class MapComponent implements OnInit {
   private addNewMarker(user: User) {
     if (user.latestPositions != undefined && user.latestPositions[0] != undefined) {
       let oldMarker: google.maps.Marker | undefined;
-      let newPos = {lat: user.latestPositions[0].lat, lng: user.latestPositions[0].lng}
+      let newPos = {lat: user.latestPositions[0].lat, lng: user.latestPositions[0].lng};
       oldMarker = this._map.markers.get(user.id);
       this._map.markers.set(user.id, new google.maps.Marker({
         position: newPos,
@@ -81,22 +94,10 @@ export class MapComponent implements OnInit {
     }
   }
 
-  mapOptions: google.maps.MapOptions = {
-    center: new google.maps.LatLng(50.58727, 8.67554),
-    zoom: 9,
-    streetViewControl: false,
-    fullscreenControl: false,
-    // maxZoom: 15,
-    // minZoom: 6
+  private editMarker(user: User) {
+    if (user.latestPositions != undefined && user.latestPositions[0] != undefined) {
+      let newPos = {lat: user.latestPositions[0].lat, lng: user.latestPositions[0].lng};
+      this._map.markers.get(user.id)!.setPosition(newPos);
+    }
   }
-
-  markerOptions: google.maps.MarkerOptions = {
-    opacity: 0.8,
-  }
-
-  //TODO: routes
-  polylineOptions: google.maps.PolylineOptions = {
-    path: []
-  }
-
 }

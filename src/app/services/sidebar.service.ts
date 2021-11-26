@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
 })
 export class SidebarService {
   public sidebarIsOpened;
+  public openedZones: Array<string> = new Array<string>();
 
   constructor() {
     this.sidebarIsOpened = false;
@@ -12,5 +13,13 @@ export class SidebarService {
 
   public toggleSidebar() {
     this.sidebarIsOpened = !this.sidebarIsOpened;
+  }
+
+  public openZone(zone: string) {
+    this.openedZones.push(zone);
+  }
+
+  public closeZone(zone: string) {
+    this.openedZones.splice(this.openedZones.indexOf(zone));
   }
 }

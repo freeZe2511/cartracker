@@ -1,4 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
+import {SidebarService} from "../services/sidebar.service";
 
 @Component({
   selector: 'app-sidebar-zone-collapsed',
@@ -6,9 +7,9 @@ import {Component, Input, OnInit} from '@angular/core';
   styleUrls: ['./sidebar-zone-collapsed.component.css']
 })
 export class SidebarZoneCollapsedComponent implements OnInit {
-  @Input() users: any;
+  @Input() zone!: string;
 
-  constructor() { }
+  constructor(public _sidebar: SidebarService) { }
 
   ngOnInit(): void {
   }

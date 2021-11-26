@@ -1,10 +1,11 @@
 <h2>Active Users</h2>
 <div class="container-fluid">
-  <ul>
-  <li *ngFor="let users of _user.users | keyvalue">
-    <app-sidebar-zone-collapsed [users]="users"></app-sidebar-zone-collapsed>
-  </li>
-  </ul>
+  <ng-container *ngFor="let zone of _user.zones">
+    <app-sidebar-zone-collapsed *ngIf="!_sidebar.openedZones.includes(zone)" [zone]="zone">
+    </app-sidebar-zone-collapsed>
+    <app-sidebar-zone *ngIf="_sidebar.openedZones.includes(zone)" [zone]="zone">
+    </app-sidebar-zone>
+  </ng-container>
 </div>
 
 

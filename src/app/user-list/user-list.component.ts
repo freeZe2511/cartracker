@@ -1,5 +1,5 @@
 import {Component, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
-import {User} from "../models/user";
+import {Position, User} from "../models/user";
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
@@ -10,6 +10,7 @@ import {EditUserModalComponent} from "../edit-user-modal/edit-user-modal.compone
 import {AddUserModalComponent} from "../add-user-modal/add-user-modal.component";
 import {MapComponent} from "../map/map.component";
 import {MapService} from "../services/map.service";
+import {NavigationService} from "../services/navigation.service";
 
 @Component({
   selector: 'app-user-list',
@@ -18,8 +19,8 @@ import {MapService} from "../services/map.service";
 })
 export class UserListComponent implements OnInit {
 
-  constructor(private _user: UserService, private modalService: NgbModal, private mapService: MapService) {
-  }
+  constructor(private _user: UserService, private modalService: NgbModal, private mapService: MapService,
+              public _navigation: NavigationService) { }
 
   timeInterval!: Subscription;
 
@@ -29,7 +30,7 @@ export class UserListComponent implements OnInit {
     ).subscribe({
       next: (res: any) => {
         this.dataSource.data = res;
-        this._user.users.set("all", res);
+        this._user.users = res;
       },
       error: (e) => console.error(e),
       complete: () => console.info('complete')
@@ -44,8 +45,9 @@ export class UserListComponent implements OnInit {
     this.dataSource.sort = this.sort;
   }
 
-  public centerOnUser(userid: string) {
-    this.mapService.centerOnMarker(userid);
+  public centerOnUser(userid: string, pos: Position) {
+    this.mapService.centerOnMarker(userid, pos);
+    this._navigation.goToHome();
   }
 
   public async add() {
@@ -76,7 +78,7 @@ export class UserListComponent implements OnInit {
   }
 
   displayedColumns: string[] = ['id', 'username', 'password', 'zone', 'status', 'created', 'actions'];
-  dataSource = new MatTableDataSource(this._user.users.get("all"));
+  dataSource = new MatTableDataSource(this._user.users);
 
   // https://www.freakyjolly.com/angular-material-table-operations-using-dialog/
   // createUser()
