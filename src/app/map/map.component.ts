@@ -32,7 +32,9 @@ export class MapComponent implements OnInit {
     }
 
     this.polylineOptions = {
-      path: []
+      path: [],
+      strokeColor: '#3b3bf6',
+      strokeWeight: 4
     }
   }
 
@@ -51,9 +53,9 @@ export class MapComponent implements OnInit {
             this.addNewMarker(user);
           }
         }
-        // console.log(this._map.getRoute());
-
         this.centerOnMarker();
+
+        this.setRoute();
       },
       error: (e) => console.error(e),
       complete: () => console.info('complete')
@@ -66,6 +68,18 @@ export class MapComponent implements OnInit {
       this.map.panTo(this._map.markers.get(userid)!.getPosition()!)
       if(!this._map.keepCentered) {
         this._map.centeredMarkerUserid = undefined;
+      }
+    }
+  }
+
+  private setRoute() {
+    if(this._map.route) {
+      if(this._map.route.positions) {
+        let pathArray: google.maps.LatLng[] = [];
+        for (let pos of this._map.route?.positions) {
+          pathArray.push(new google.maps.LatLng(pos.lat, pos.lng));
+        }
+        this.polylineOptions.path = pathArray;
       }
     }
   }
@@ -87,6 +101,7 @@ export class MapComponent implements OnInit {
           color: "black",
           text: user.username
         }
+        //icon: "../../assets/markers/marker_red_dot.png"
       }));
       if (oldMarker) oldMarker.setMap(null);
       this._map.markers.get(user.id)!.setMap(this.map.googleMap!);

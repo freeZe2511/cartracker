@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpService} from "./http.service";
 import {Route} from "../models/route";
 import {UserService} from "./users.service";
-import {Position, User} from "../models/user";
+import {Position, PositionClass, User} from "../models/user";
 
 
 @Injectable({
@@ -15,10 +15,11 @@ export class MapService {
   public keepCentered: boolean = false; //TODO: set if marker should be followed
 
   constructor(private _http: HttpService, private _user: UserService) {
-    this.route = new Route("bb371c0c-c705-40b3-8a07-795b2a62d9a5", 0, 15);
+    this.route =
+      new Route("bb371c0c-c705-40b3-8a07-795b2a62d9a5", 0, 15, this.hardCodedPositions());
   }
 
-  // public getRoute(): any {
+  // public getRoutePositions(): any {
   //   this.httpService.get("http://localhost:9090/api/v1/route").subscribe({
   //     next: (res: any) => {
   //       return res;
@@ -36,6 +37,31 @@ export class MapService {
     if (pos) {
       this.centeredMarkerUserid = userid;
     }
+  }
+
+  private hardCodedPositions(): Position[]{
+    return [
+      new PositionClass("testing", "24f60449-91ce-471c-896e-40db08987f3a", 50.45, 8.4),
+      new PositionClass("testing", "24f60449-91ce-471c-896e-40db08987f3a", 50.45, 8.41),
+      new PositionClass("testing", "24f60449-91ce-471c-896e-40db08987f3a", 50.45, 8.42),
+      new PositionClass("testing", "24f60449-91ce-471c-896e-40db08987f3a", 50.45, 8.44),
+      new PositionClass("testing", "24f60449-91ce-471c-896e-40db08987f3a", 50.45, 8.46),
+      new PositionClass("testing", "24f60449-91ce-471c-896e-40db08987f3a", 50.5, 8.47),
+      new PositionClass("testing", "24f60449-91ce-471c-896e-40db08987f3a", 50.52, 8.5),
+      new PositionClass("testing", "24f60449-91ce-471c-896e-40db08987f3a", 50.53, 8.52),
+      new PositionClass("testing", "24f60449-91ce-471c-896e-40db08987f3a", 50.56, 8.55),
+      new PositionClass("testing", "24f60449-91ce-471c-896e-40db08987f3a", 50.54, 8.55),
+      new PositionClass("testing", "24f60449-91ce-471c-896e-40db08987f3a", 50.42, 8.55),
+      new PositionClass("testing", "24f60449-91ce-471c-896e-40db08987f3a", 50.4, 8.55),
+      new PositionClass("testing", "24f60449-91ce-471c-896e-40db08987f3a", 50.37, 8.53),
+      new PositionClass("testing", "24f60449-91ce-471c-896e-40db08987f3a", 50.36, 8.5),
+      new PositionClass("testing", "24f60449-91ce-471c-896e-40db08987f3a", 50.34, 8.5),
+      new PositionClass("testing", "24f60449-91ce-471c-896e-40db08987f3a", 50.32, 8.5),
+      new PositionClass("testing", "24f60449-91ce-471c-896e-40db08987f3a", 50.3, 8.5),
+      new PositionClass("testing", "24f60449-91ce-471c-896e-40db08987f3a", 50.3, 8.48),
+      new PositionClass("testing", "24f60449-91ce-471c-896e-40db08987f3a", 50.3, 8.47),
+      new PositionClass("testing", "24f60449-91ce-471c-896e-40db08987f3a", 50.3, 8.43),
+    ]
   }
 
 }

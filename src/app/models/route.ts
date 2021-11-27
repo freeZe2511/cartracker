@@ -6,9 +6,10 @@ export class Route {
   public timeInMinutes: number;
   public positions?: Position[];
 
-  constructor(userid: string, timeInHours: number, timeInMinutes: number) {
+  constructor(userid: string, timeInHours: number, timeInMinutes: number, positions?: Position[]) {
     this.userid = userid;
     this.timeInHours = timeInHours;
     this.timeInMinutes = timeInMinutes;
+    this.positions = positions;
   }
 }
