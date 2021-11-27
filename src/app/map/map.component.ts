@@ -63,7 +63,7 @@ export class MapComponent implements OnInit {
   private centerOnMarker() {
     let userid: string | undefined = this._map.centeredMarkerUserid;
     if (userid) {
-      this.map.googleMap?.setCenter(this._map.markers.get(userid)!.getPosition()!)
+      this.map.panTo(this._map.markers.get(userid)!.getPosition()!)
       if(!this._map.keepCentered) {
         this._map.centeredMarkerUserid = undefined;
       }
