@@ -94,7 +94,7 @@ export class MapComponent implements OnInit {
       let oldMarker: google.maps.Marker | undefined;
       let newPos = {lat: user.latestPositions[0].lat, lng: user.latestPositions[0].lng};
       oldMarker = this._map.markers.get(user.id);
-      this._map.markers.set(user.id, new google.maps.Marker({
+      let newMarker: google.maps.Marker = new google.maps.Marker({
         position: newPos,
         title: user.username,
         label: {
@@ -102,9 +102,11 @@ export class MapComponent implements OnInit {
           text: user.username
         }
         //icon: "../../assets/markers/marker_red_dot.png"
-      }));
+      });
+      this._map.markers.set(user.id, newMarker);
       if (oldMarker) oldMarker.setMap(null);
-      this._map.markers.get(user.id)!.setMap(this.map.googleMap!);
+      newMarker.setMap(this.map.googleMap!);
+      newMarker.addListener('click', () => this._map.setUserClicked(user.id))
       //TODO: add click Event Listener
     }
   }

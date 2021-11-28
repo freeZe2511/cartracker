@@ -10,14 +10,14 @@
   <div class="row p-1">
     <ng-container *ngIf="zone == 'All'">
       <div class="col-12" *ngFor="let user of _user.users">
-        <div class="row pl-3 pb-1">
+        <div class="row pl-3 pb-1" [class.highlighted-green]="_sidebar.highlightedUser == user.id" (click)="userClicked(user.id)">
           {{user.username}}
         </div>
       </div>
     </ng-container>
     <ng-container *ngIf="zone != 'All'">
       <div class="col" *ngFor="let user of _user.users">
-        <div class="row pl-3 pb-1" *ngIf="user.zone == zone">
+        <div class="row pl-3 pb-1" [class.highlighted-green]="_sidebar.highlightedUser == user.id" (click)="userClicked(user.id)">
           {{user.username}}
         </div>
       </div>

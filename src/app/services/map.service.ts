@@ -3,6 +3,7 @@ import {HttpService} from "./http.service";
 import {Route} from "../models/route";
 import {UserService} from "./users.service";
 import {Position, PositionClass, User} from "../models/user";
+import {SidebarService} from "./sidebar.service";
 
 
 @Injectable({
@@ -14,7 +15,7 @@ export class MapService {
   public centeredMarkerUserid: string | undefined;
   public keepCentered: boolean = false; //TODO: set if marker should be followed
 
-  constructor(private _http: HttpService, private _user: UserService) {
+  constructor(private _http: HttpService, private _user: UserService, private _sidebar: SidebarService) {
     this.route =
       new Route("bb371c0c-c705-40b3-8a07-795b2a62d9a5", 0, 15, this.hardCodedPositions());
   }
@@ -37,6 +38,26 @@ export class MapService {
     if (pos) {
       this.centeredMarkerUserid = userid;
     }
+  }
+
+  public setUserClicked(userid: string) {
+    if (this.centeredMarkerUserid) {
+      let olduserid: string = this.centeredMarkerUserid;
+      this.markers.get(olduserid)!.addListener('click', () => this.setUserClicked(olduserid));
+    }
+    this.markers.get(userid)!.addListener('click', () => this.unsetUserClicked(userid));
+    this.centeredMarkerUserid = userid;
+    this.keepCentered = true;
+    this._sidebar.openSidebar();
+    this._sidebar.highlightUser(userid);
+  }
+
+  public unsetUserClicked(userid: string) {
+    this.markers.get(userid)!.addListener('click', () => this.setUserClicked(userid));
+    this.centeredMarkerUserid = undefined;
+    this.keepCentered = false;
+    this._sidebar.closeSidebar();
+    this._sidebar.unhighlightUser(userid);
   }
 
   private hardCodedPositions(): Position[]{
