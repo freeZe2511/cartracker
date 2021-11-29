@@ -101,7 +101,7 @@ export class MapComponent implements OnInit {
           color: "black",
           text: user.username
         }
-        //icon: "../../assets/markers/marker_red_dot.png"
+        //icon: "../../assets/markers/marker_red.png"
       });
       this._map.markers.set(user.id, newMarker);
       if (oldMarker) oldMarker.setMap(null);

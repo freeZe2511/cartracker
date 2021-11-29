@@ -17,7 +17,7 @@
     </ng-container>
     <ng-container *ngIf="zone != 'All'">
       <div class="col" *ngFor="let user of _user.users">
-        <div class="row pl-3 pb-1" [class.highlighted-green]="_sidebar.highlightedUser == user.id" (click)="userClicked(user.id)">
+        <div class="row pl-3 pb-1" *ngIF="zone == user.zone" [class.highlighted-green]="_sidebar.highlightedUser == user.id" (click)="userClicked(user.id)">
           {{user.username}}
         </div>
       </div>

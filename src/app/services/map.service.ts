@@ -20,15 +20,17 @@ export class MapService {
       new Route("bb371c0c-c705-40b3-8a07-795b2a62d9a5", 0, 15, this.hardCodedPositions());
   }
 
-  // public getRoutePositions(): any {
-  //   this.httpService.get("http://localhost:9090/api/v1/route").subscribe({
-  //     next: (res: any) => {
-  //       return res;
-  //     },
-  //     error: (e) => console.error(e),
-  //     complete: () => console.info('complete')
-  //   });
-  // }
+  public getRoutePositions(): any {
+    let data: string = this.route!.userid + "&&" + this.route!.timeInHours + "&&" + this.route!.timeInMinutes;
+    this._http.get("http://localhost:9090/api/v1/route/" + data).subscribe({
+      next: (res: any) => {
+        this.route!.positions = res;
+        return res;
+      },
+      error: (e) => console.error(e),
+      complete: () => console.info('complete')
+    });
+  }
 
   public getUserPositions(): any {
     return this._http.get("http://localhost:9090/api/v1/map/1");
