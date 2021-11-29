@@ -17,12 +17,12 @@ class PositionController {
     return Response(201, body: jsonEncode(body));
   }
 
-  Future<Response> getRoute(Request request) async {
-    var body = jsonDecode(await request.readAsString());
-    String userid = body["userid"];
-    int hours = body["timeInHours"];
-    int minutes = body["timeInMinutes"];
-    List<Coordinate> coords = await CoordinateDao.readRoute(userid, hours, minutes);
+  Future<Response> getRoute(Request request, String id, String hoursString, String minutesString) async {
+    print(id + " && " + hoursString + " && " + minutesString);
+    int hours = int.parse(hoursString);
+    int minutes = int.parse(minutesString);
+    print(id + " && " + hours.toString() + " && " + minutes.toString());
+    List<Coordinate> coords = await CoordinateDao.readRoute(id, hours, minutes);
     if(coords.isNotEmpty) return Response(200, body: jsonEncode(coords));
     return Response(404);
   }

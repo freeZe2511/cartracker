@@ -17,7 +17,7 @@ class Api {
 
     router.post(("/pos"), posController.createPos);
 
-    router.get("/route", posController.getRoute);
+    router.get("/route/<id>&&<hours>&&<minutes>", posController.getRoute);
 
     router.get("/map/<limit>", mapController.getMap);
     router.get("/map/<id>&<limit>", mapController.getMapUserByID);

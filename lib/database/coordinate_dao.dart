@@ -21,10 +21,12 @@ class CoordinateDao {
 
   //TODO: Has to be tested
   static Future<List<Coordinate>> readRoute(String id, int timeInHours, int timeInMinutes) async {
+    obj_id.ObjectId myObjID = obj_id.ObjectId.fromTimestamp(
+        DateTime.now().subtract(Duration(hours: timeInHours, minutes: timeInMinutes)));
+    print(myObjID);
     return Database.db
         .collection(_collection)
-        .find(where.eq('id', id).gt('_id', obj_id.ObjectId.fromTimestamp(
-            DateTime.now().subtract(Duration(hours: timeInHours, minutes: timeInMinutes)))))
+        .find(where.eq('id', id).gt('_id', myObjID.toString()))
         .map((doc) => Coordinate.fromJson(doc))
         .toList();
   }
