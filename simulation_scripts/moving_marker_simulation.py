@@ -1,33 +1,41 @@
 import requests
 import time
+import json
+import console
 
 AMOUNT_CORDS = 160
 
 url="http://localhost:9090/api/v1/pos"
 
-userid = "bb371c0c-c705-40b3-8a07-795b2a62d9a5"
-lat = 50.4
-lng = 8.4
+(consoleWidth, consoleHeight) = console.getTerminalSize()
 
-print("---------- SCRIPT STARTED ----------")
+seperator = "-" * (consoleWidth - 1) + "\n"
+headerSeperatorHalf = "-" * int(((consoleWidth - 18) / 2))
+print(console.colors.PINK, seperator, headerSeperatorHalf, " SCRIPT STARTED ", headerSeperatorHalf, seperator, console.colors.ENDC)
 
-print("Enter a user-ID: ")
-userid = input()
-
-print("Enter starting lat: ")
-lat = float(input())
-
-print("Enter starting lng: ")
-lng = float(input())
-
-print("There are gonna be send 160 GPS-Coordinates!", "Do you want to enter a new amount? Y/N")
+print("Running in default mode!", "Do you want to enter new data? [Y/N]")
 if input() == "Y":
+    print("Enter a user-ID: ")
+    userid = input()
+    print("Enter starting lat: ")
+    lat = float(input())
+    print("Enter starting lng: ")
+    lng = float(input())
     print("Enter new amount: ")
     AMOUNT_CORDS = int(input())
+else:
+    idsFile = open("ids.txt", "r")
+    idsFileContent = idsFile.read().replace("'", "\"")
+    user = json.loads(idsFileContent)[0]
+    userid = user['userid']
+    lat = user['lat']
+    lng = user['lng']
 
-for i in range(10, -1, -1):
+print("")
+
+for i in range(5, -1, -1):
     time.sleep(1)
-    print("Sending data in: {}\n".format(i))
+    print(console.colors.WARNING + "Sending data in: {}\n".format(i) + console.colors.ENDC)
 
 for i in range(0, AMOUNT_CORDS):
     mod = i % 80
@@ -55,9 +63,13 @@ for i in range(0, AMOUNT_CORDS):
     payload = {'userid': userid, 'lat': lat, 'lng': lng}
     response = requests.post(url, json = payload)
 
-    print(response.text) #TEXT/HTML
-    print(response.status_code, response.reason, "\n")
+    if response.status_code == 201:
+        print(console.colors.GREEN)
+    else:
+        print(console.colors.RED)
+
+    print("Coordinate {}:\t".format(i+1), response.status_code, response.reason, "\n" + console.colors.ENDC)
 
     time.sleep(0.4)
 
-print("---------- SCRIPT ENDED ----------")
+print(console.colors.PINK, seperator, headerSeperatorHalf, " SCRIPT STOPPED ", headerSeperatorHalf, seperator, console.colors.ENDC)
