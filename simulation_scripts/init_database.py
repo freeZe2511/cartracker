@@ -1,6 +1,7 @@
 import requests
 import json
 import urllib3
+import os
 from imports import console
 
 (consoleWidth, consoleHeight) = console.getTerminalSize()
@@ -30,7 +31,11 @@ for user in createUser:
     user.pop('lat', None)
     user.pop('lng', None)
 
-ids_file = open("dataFiles/ids.txt", "w")
+try:
+    ids_file = open("dataFiles/ids.txt", "w+")
+except FileNotFoundError:
+    os.mkdir('dataFiles')
+    ids_file = open("dataFiles/ids.txt", "w+")
 
 isInitiated = True
 
@@ -50,7 +55,7 @@ try:
     else:
         print(console.colors.RED, "Failed Initiating Users\n", console.colors.ENDC)
 
-        setCords = users
+    setCords = users
 
     for user in setCords:
         user.pop('username', None)

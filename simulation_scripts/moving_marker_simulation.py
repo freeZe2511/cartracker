@@ -78,9 +78,9 @@ try:
 except (ConnectionRefusedError, urllib3.exceptions.NewConnectionError, urllib3.exceptions.MaxRetryError, requests.exceptions.ConnectionError):
     print(console.colors.RED, "Couldn't connect to the Server!\n", console.colors.ENDC)
 except (OSError):
-    print(console.colors.RED, "Couldn't open the file: \"dataFiles/ids.txt\"!\n", console.colors.ENDC)
+    print(console.colors.RED, "Couldn't open the file: \"dataFiles/ids.txt\"!\n", "Did You run the init_database.py file?\n", console.colors.ENDC)
 except (ValueError):
     print(console.colors.RED, "You have to enter a number at lat / lng!\n", console.colors.ENDC)
 
 
-print(console.colors.PINK, seperator, headerSeperatorHalf, " SCRIPT STOPPED ", headerSeperatorHalf, seperator + "\n", console.colors.ENDC)
+print(console.colors.PINK, seperator, headerSeperatorHalf, " SCRIPT STOPPED ", headerSeperatorHalf + "\n", seperator, console.colors.ENDC)
