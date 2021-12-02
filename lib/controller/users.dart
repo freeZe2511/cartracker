@@ -11,12 +11,13 @@ class UserController {
     var body = jsonDecode(await request.readAsString());
     String username = body["username"];
     String password = body["password"];
+    String userID = Uuid().v4();
     await UserDao.create(User(
-        id: Uuid().v4(),
+        id: userID,
         username: username,
         password: password,
         token: Uuid().v4())); // user id?
-    return Response(201, body: jsonEncode(username));
+    return Response(201, body: jsonEncode(userID));
   }
 
   Future<Response> getUsers(Request request) async {
