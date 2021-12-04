@@ -26,7 +26,12 @@ class CoordinateDao {
     print(myObjID);
     return Database.db
         .collection(_collection)
-        .find(where.eq('id', id).gt('_id', myObjID))
+        .find(
+          {
+            'id': { '\$eq': id},
+            '_id': { '\$gt': myObjID} // TODO
+          }
+        )
         .map((doc) => Coordinate.fromJson(doc))
         .toList();
   }

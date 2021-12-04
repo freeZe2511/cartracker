@@ -16,12 +16,14 @@ class UserController {
         id: userID,
         username: username,
         password: password,
-        token: Uuid().v4())); // user id?
+        token: Uuid().v4(),
+        status: "inactive"));
     return Response(201, body: jsonEncode(userID));
   }
 
   Future<Response> getUsers(Request request) async {
     var res = await AdminDataDao.readFullUsersWithLatestPos();
+    // var res = await UserDao.readAll();
     return Response(200, body: jsonEncode(res));
   }
 

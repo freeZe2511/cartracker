@@ -86,19 +86,22 @@ class User {
   final String username;
   final String password;
   final String token;
+  final String status;
 
-  const User({required this.id, required this.username, required this.password, required this.token});
+  const User({required this.id, required this.username, required this.password, required this.token, required this.status});
 
   User.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         username = json['username'],
         password = json['password'],
-        token = json['token'];
+        token = json['token'],
+        status = json['status'];
 
   Map<String, dynamic> toJson() => {
         'id': id,
         'username': username,
         'password': password,
-        'token': token
+        'token': token,
+        'status': status
       };
 }
