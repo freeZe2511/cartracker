@@ -17,11 +17,14 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { MatButtonModule } from "@angular/material/button";
 import { MatSidenavModule } from "@angular/material/sidenav";
 import { MatPaginatorModule } from "@angular/material/paginator";
+import { MatCheckboxModule } from "@angular/material/checkbox";
+import { MatInputModule } from '@angular/material/input';
 import { AppRoutingModule } from './app-routing.module';
 import { EditUserModalComponent } from './edit-user-modal/edit-user-modal.component';
 import { AddUserModalComponent } from './add-user-modal/add-user-modal.component';
 import { SidebarZoneComponent } from './sidebar-zone/sidebar-zone.component';
 import { SidebarZoneCollapsedComponent } from './sidebar-zone-collapsed/sidebar-zone-collapsed.component';
+import { UserInfoWindowComponent } from './user-info-window/user-info-window.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +37,8 @@ import { SidebarZoneCollapsedComponent } from './sidebar-zone-collapsed/sidebar-
     EditUserModalComponent,
     AddUserModalComponent,
     SidebarZoneComponent,
-    SidebarZoneCollapsedComponent
+    SidebarZoneCollapsedComponent,
+    UserInfoWindowComponent
   ],
     imports: [
         BrowserModule,
@@ -47,8 +51,10 @@ import { SidebarZoneCollapsedComponent } from './sidebar-zone-collapsed/sidebar-
         MatButtonModule,
         MatSidenavModule,
         MatPaginatorModule,
+        MatCheckboxModule,
+        MatInputModule,
         AppRoutingModule,
-        FormsModule
+        FormsModule,
     ],
   providers: [],
   bootstrap: [AppComponent]

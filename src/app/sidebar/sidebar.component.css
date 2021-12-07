@@ -1,2 +1,3 @@
-
-
+.sidebar_active_users_col {
+  height: calc(100vh - 4em - 250px);
+}

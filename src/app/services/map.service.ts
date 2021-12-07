@@ -16,20 +16,22 @@ export class MapService {
   public keepCentered: boolean = false; //TODO: set if marker should be followed
 
   constructor(private _http: HttpService, private _user: UserService, private _sidebar: SidebarService) {
-    this.route =
-      new Route("bb371c0c-c705-40b3-8a07-795b2a62d9a5", 0, 15, this.hardCodedPositions());
+    // this.route =
+    //   new Route("1015a3c1-be93-423e-95db-46ebfbf38a0e", 0, 1);
   }
 
   public getRoutePositions(): any {
-    let data: string = this.route!.userid + "&&" + this.route!.timeInHours + "&&" + this.route!.timeInMinutes;
-    this._http.get("http://localhost:9090/api/v1/route/" + data).subscribe({
-      next: (res: any) => {
-        this.route!.positions = res;
-        return res;
-      },
-      error: (e) => console.error(e),
-      complete: () => console.info('complete')
-    });
+    if (this.route) {
+      let data: string = this.route!.userid + "&&" + this.route!.timeInHours + "&&" + this.route!.timeInMinutes;
+      this._http.get("http://localhost:9090/api/v1/route/" + data).subscribe({
+        next: (res: any) => {
+          this.route!.positions = res;
+          return res;
+        },
+        error: (e) => this.route = undefined,
+        complete: () => console.info('complete')
+      });
+    }
   }
 
   public getUserPositions(): any {
@@ -49,6 +51,7 @@ export class MapService {
     }
     this.markers.get(userid)!.addListener('click', () => this.unsetUserClicked(userid));
     this.centeredMarkerUserid = userid;
+    this._sidebar.updateUserInfoWindowSettings(userid, this.route);
     this.keepCentered = true;
     this._sidebar.openSidebar();
     this._sidebar.highlightUser(userid);
@@ -62,7 +65,7 @@ export class MapService {
     this._sidebar.unhighlightUser(userid);
   }
 
-  private hardCodedPositions(): Position[]{
+  private hardCodedPositions(): Position[] {
     return [
       new PositionClass("testing", "24f60449-91ce-471c-896e-40db08987f3a", 50.45, 8.4),
       new PositionClass("testing", "24f60449-91ce-471c-896e-40db08987f3a", 50.45, 8.41),

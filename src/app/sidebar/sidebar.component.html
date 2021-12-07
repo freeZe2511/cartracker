@@ -1,11 +1,15 @@
-<h2>Active Users</h2>
-<div class="container-fluid">
-  <ng-container *ngFor="let zone of _user.zones">
-    <app-sidebar-zone-collapsed *ngIf="!_sidebar.openedZones.includes(zone)" [zone]="zone">
-    </app-sidebar-zone-collapsed>
-    <app-sidebar-zone *ngIf="_sidebar.openedZones.includes(zone)" [zone]="zone">
-    </app-sidebar-zone>
-  </ng-container>
+<div class="overflow-auto" [class.sidebar_active_users_col]="_sidebar.highlightedUser">
+  <h2>Active Users</h2>
+  <div class="container-fluid">
+    <ng-container *ngFor="let zone of _user.zones">
+      <app-sidebar-zone-collapsed *ngIf="!_sidebar.openedZones.includes(zone)" [zone]="zone">
+      </app-sidebar-zone-collapsed>
+      <app-sidebar-zone *ngIf="_sidebar.openedZones.includes(zone)" [zone]="zone">
+      </app-sidebar-zone>
+    </ng-container>
+  </div>
 </div>
+
+<app-user-info-window *ngIf="_sidebar.highlightedUser"></app-user-info-window>
 
 

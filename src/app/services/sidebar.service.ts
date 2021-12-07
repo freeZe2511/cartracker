@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {UserService} from "./users.service";
-import {MapService} from "./map.service";
+import {Route} from "../models/route";
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +9,9 @@ export class SidebarService {
   public sidebarIsOpened: boolean;
   public highlightedUser?: string;
   public openedZones: Array<string> = new Array<string>();
+  public userSettings = {
+    route: false,
+  }
 
   constructor(private _user: UserService) {
     this.sidebarIsOpened = false;
@@ -40,5 +43,13 @@ export class SidebarService {
 
   public unhighlightUser(userid: string) {
     this.highlightedUser = undefined;
+  }
+
+  public updateUserInfoWindowSettings(userid: string, route: Route | undefined) {
+    if (route) {
+      this.userSettings.route = userid == route.userid;
+    } else {
+      this.userSettings.route = false;
+    }
   }
 }

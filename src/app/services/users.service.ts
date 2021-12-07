@@ -13,7 +13,23 @@ export class UserService {
   constructor(private httpService: HttpService) {
     this.zones = [
       "All",
-      "Gießen"
+      "Gießen",
+      "a",
+      "b",
+      "c",
+      "d",
+      "e",
+      "f",
+      "g",
+      "h",
+      "i",
+      "j",
+      "k",
+      "l",
+      "m",
+      "n",
+      "o",
+      "p"
     ]
     this.users = [];
   }

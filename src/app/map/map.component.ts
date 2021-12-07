@@ -43,6 +43,8 @@ export class MapComponent implements OnInit {
       switchMap(() => this._map.getUserPositions()),
     ).subscribe({
       next: (res: any) => {
+        this._map.getRoutePositions();
+
         this.users = res;
         for (let user of res) {
           if(this._map.markers.has(user.id)) {
@@ -80,7 +82,11 @@ export class MapComponent implements OnInit {
           pathArray.push(new google.maps.LatLng(pos.lat, pos.lng));
         }
         this.polylineOptions.path = pathArray;
+      } else {
+        this.polylineOptions.path = [];
       }
+    } else {
+      this.polylineOptions.path = [];
     }
   }
 
