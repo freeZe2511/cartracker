@@ -4,9 +4,9 @@ import {MapComponent} from "./map/map.component";
 import {UserListComponent} from "./user-list/user-list.component";
 
 const routes: Routes = [
+  { path: 'home', redirectTo: '/map' },
   { path: 'map', component: MapComponent },
   { path: 'users', component: UserListComponent },
-  { path: '', component: MapComponent },
 ];
 
 

@@ -39,7 +39,7 @@ export class MapComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.timeInterval = interval(100).pipe(
+    this.timeInterval = interval(1000).pipe(
       switchMap(() => this._map.getUserPositions()),
     ).subscribe({
       next: (res: any) => {
@@ -58,10 +58,13 @@ export class MapComponent implements OnInit {
         this.centerOnMarker();
 
         this.setRoute();
+
+        // this.map.controls[google.maps.ControlPosition.BOTTOM_RIGHT].push(document.getElementById("toggleSidebar"));
       },
       error: (e) => console.error(e),
       complete: () => console.info('complete')
     });
+
   }
 
   private centerOnMarker() {

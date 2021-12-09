@@ -9,7 +9,7 @@ import {NavigationService} from "../services/navigation.service";
 })
 export class HeaderComponent implements OnInit {
 
-  constructor(public _sidebar: SidebarService, public _navigation: NavigationService) { }
+  constructor() { }
 
   ngOnInit(): void {
   }
