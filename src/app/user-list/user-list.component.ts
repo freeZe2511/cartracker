@@ -1,16 +1,15 @@
-import {Component, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {Position, User} from "../models/user";
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
-import {interval, Observable, Subscription, switchMap} from "rxjs";
+import {interval, Subscription, switchMap} from "rxjs";
 import {UserService} from "../services/users.service";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {EditUserModalComponent} from "../edit-user-modal/edit-user-modal.component";
 import {AddUserModalComponent} from "../add-user-modal/add-user-modal.component";
-import {MapComponent} from "../map/map.component";
 import {MapService} from "../services/map.service";
-import {NavigationService} from "../services/navigation.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-user-list',
@@ -20,7 +19,8 @@ import {NavigationService} from "../services/navigation.service";
 export class UserListComponent implements OnInit {
 
   constructor(private _user: UserService, private modalService: NgbModal, private mapService: MapService,
-              public _navigation: NavigationService) { }
+              public router: Router) {
+  }
 
   timeInterval!: Subscription;
 
@@ -47,7 +47,9 @@ export class UserListComponent implements OnInit {
 
   public centerOnUser(userid: string, pos: Position) {
     this.mapService.centerOnMarker(userid, pos);
-    this._navigation.goToHome();
+    this.router.navigate(['map']);
+
+    // this.router.navigate(['map']).then(() => this.mapService.centerOnMarker(userid, pos));
   }
 
   public async add() {
@@ -56,7 +58,7 @@ export class UserListComponent implements OnInit {
     try {
       const resultUser: User = await modalReference.result;
       this._user.createUser(resultUser);
-    } catch(error) {
+    } catch (error) {
       console.log(error);
     }
   }
@@ -68,7 +70,7 @@ export class UserListComponent implements OnInit {
     try {
       const resultUser: User = await modalReference.result;
       this._user.updateUser(resultUser);
-    } catch(error) {
+    } catch (error) {
       console.log(error);
     }
   }

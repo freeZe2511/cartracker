@@ -59,7 +59,7 @@ export class MapComponent implements OnInit {
 
         this.setRoute();
 
-        // this.map.controls[google.maps.ControlPosition.BOTTOM_RIGHT].push(document.getElementById("toggleSidebar"));
+        // this.map.controls[google.maps.ControlPosition.TOP_RIGHT].push(document.getElementById("toggleSidebar"));
       },
       error: (e) => console.error(e),
       complete: () => console.info('complete')
