@@ -17,14 +17,38 @@ import {Router} from "@angular/router";
   styleUrls: ['./user-list.component.css']
 })
 export class UserListComponent implements OnInit {
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
+
+  timeInterval!: Subscription;
 
   constructor(private _user: UserService, private modalService: NgbModal, private mapService: MapService,
               public router: Router) {
   }
 
-  timeInterval!: Subscription;
-
   ngOnInit(): void {
+    this.initUsers();
+
+    this.updateUsersEverySecond();
+  }
+
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
+
+  private initUsers() {
+    this._user.getUsersList().subscribe({
+      next: (res: any) => {
+        this.dataSource.data = res;
+        this._user.users = res;
+      },
+      error: (e: any) => console.error(e),
+      complete: () => console.info('complete')
+    });
+  }
+
+  private updateUsersEverySecond() {
     this.timeInterval = interval(1000).pipe(
       switchMap(() => this._user.getUsersList()),
     ).subscribe({
@@ -35,14 +59,6 @@ export class UserListComponent implements OnInit {
       error: (e) => console.error(e),
       complete: () => console.info('complete')
     });
-  }
-
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort) sort!: MatSort;
-
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
   }
 
   public centerOnUser(userid: string, pos: Position) {

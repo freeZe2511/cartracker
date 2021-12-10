@@ -16,6 +16,9 @@ export class SidebarZoneComponent implements OnInit {
   constructor(public _sidebar: SidebarService, public _user: UserService, public _map: MapService) { }
 
   ngOnInit(): void {
+    this._user.initUserArray();
+
+    this._user.updateUserArrayEverySecond();
   }
 
   public userClicked(userid :string ) {
