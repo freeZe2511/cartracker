@@ -65,8 +65,9 @@ export class MapComponent implements OnInit {
     });
   }
 
+  // TODO
   public addZone() {
-
+    console.log("TODO")
   }
 
   private drawZones(){
