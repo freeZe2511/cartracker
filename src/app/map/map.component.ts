@@ -39,6 +39,30 @@ export class MapComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.initMap();
+
+    this.updateMapEverySecond();
+  }
+
+  private initMap() {
+    this._map.markers.clear();
+    this._map.getUserPositions().subscribe({
+      next: (res: any) => {
+        this.users = res;
+        for (let user of res) {
+          this.addNewMarker(user);
+        }
+
+        this.centerOnMarker();
+
+        // this.map.controls[google.maps.ControlPosition.TOP_RIGHT].push(document.getElementById("toggleSidebar"));
+      },
+      error: (e: any) => console.error(e),
+      complete: () => console.info('complete')
+    });
+  }
+
+  private updateMapEverySecond() {
     this.timeInterval = interval(1000).pipe(
       switchMap(() => this._map.getUserPositions()),
     ).subscribe({
@@ -64,7 +88,6 @@ export class MapComponent implements OnInit {
       error: (e) => console.error(e),
       complete: () => console.info('complete')
     });
-
   }
 
   private centerOnMarker() {

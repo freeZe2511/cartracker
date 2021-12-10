@@ -31,10 +31,12 @@ export class UserInfoWindowComponent implements OnInit {
   }
 
   public updateRouteSettings() {
+    console.log("setting route...");
     let hours: string = (document.getElementById("inputRouteTimeInHours") as HTMLInputElement).value;
     let minutes: string = (document.getElementById("inputRouteTimeInMinutes") as HTMLInputElement).value;
     if (hours.match(/\d+/g) && minutes.match(/\d+/g)) {
       this._map.route = new Route(this._map.centeredMarkerUserid!, +hours, +minutes);
+      console.log("ROUTE SET");
     }
   }
 }
