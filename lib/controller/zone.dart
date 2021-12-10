@@ -19,7 +19,7 @@ class ZoneController {
       pos2.add(p);
     }
 
-    if(pos2.length == 1 || pos2.length >= 3){
+    if((pos2.length == 1 && radius != 0)|| (pos2.length >= 3 && radius == 0)){
       await ZoneDao.create(Zone(
           id: id,
           name: name,
