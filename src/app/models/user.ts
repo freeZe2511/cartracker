@@ -8,7 +8,7 @@ export interface User {
 
 export interface Position {
   _id: string,
-  id: string,
+  id: string, //userid
   lat: number,
   lng: number;
 }

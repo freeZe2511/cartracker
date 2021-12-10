@@ -42,6 +42,8 @@ export class MapComponent implements OnInit {
     this.initMap();
 
     this.updateMapEverySecond();
+
+    this.drawZones()
   }
 
   private initMap() {
@@ -55,10 +57,57 @@ export class MapComponent implements OnInit {
 
         this.centerOnMarker();
 
-        // this.map.controls[google.maps.ControlPosition.TOP_RIGHT].push(document.getElementById("toggleSidebar"));
+        this.map.controls[google.maps.ControlPosition.TOP_RIGHT].push(document.getElementById("addZone")!);
+        this.map.controls[google.maps.ControlPosition.RIGHT_CENTER].push(document.getElementById("toggleSidebar")!);
       },
       error: (e: any) => console.error(e),
       complete: () => console.info('complete')
+    });
+  }
+
+  public addZone() {
+
+  }
+
+  private drawZones(){
+    this._map.getZones().subscribe({
+      next: (res: any) => {
+        for (let z of res){
+          if(z.radius != 0) this.drawCircle(z);
+          if(z.radius == 0) this.drawPolygon(z);
+        }
+      },
+      error: (e: any) => console.error(e),
+      complete: () => console.info('complete')
+    })
+  }
+
+  private drawCircle(z: any){
+    const circleZone = new google.maps.Circle({
+      strokeColor: "#FF0000",
+      strokeOpacity: 0.8,
+      strokeWeight: 2,
+      fillColor: "rgba(255,138,138)",
+      fillOpacity: 0.2,
+      map: this.map.googleMap,
+      center: new google.maps.LatLng(z.pos[0].lat, z.pos[0].lng),
+      radius: z.radius
+    });
+  }
+
+  private drawPolygon(z: any){
+    let polygonCoords = [];
+    for (const pos of z.pos) {
+      polygonCoords.push(pos)
+    }
+    const polygonZone = new google.maps.Polygon({
+      paths: polygonCoords,
+      strokeColor: "#FF0000",
+      strokeOpacity: 0.8,
+      strokeWeight: 2,
+      fillColor: "rgba(255,138,138)",
+      fillOpacity: 0.2,
+      map: this.map.googleMap,
     });
   }
 

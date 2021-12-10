@@ -35,6 +35,10 @@ export class MapService {
     return this._http.get("http://localhost:9090/api/v1/map/1");
   }
 
+  public getZones(): any {
+    return this._http.get("http://localhost:9090/api/v1/zones");
+  }
+
   public centerOnMarker(userid: string, pos: Position) {
     if (pos) {
       this.centeredMarkerUserid = userid;

@@ -36,6 +36,10 @@ export class UserService {
     this.users = [];
   }
 
+  public initZoneArray(){
+    // TODO
+  }
+
   public getUsersList(): any {
     return this.httpService.getUserList();
   }
