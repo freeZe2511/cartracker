@@ -22,6 +22,17 @@ class ZoneDao {
         .toList();
   }
 
+  static Future<void> update(String id, String newName, double newRadius, List newPos) async {
+    var modifier = ModifierBuilder();
+    modifier.set("name", newName);
+    modifier.set("radius", newRadius);
+    modifier.set("pos", newPos);
+    print(modifier);
+    await Database.db
+        .collection(_collection)
+        .updateOne(where.eq('id', id), modifier);
+  }
+
   static Future<void> delete(String id) async {
     await Database.db
         .collection(_collection)

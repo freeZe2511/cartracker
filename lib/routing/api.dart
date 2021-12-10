@@ -26,8 +26,9 @@ class Api {
 
     router.post("/zone", zoneController.createZone);
     router.get("/zones", zoneController.getZones);
-    router.get("/zones/<id>", zoneController.getZoneByID); // TODO needed?
-    // TODO update + delete?
+    router.get("/zone/<id>", zoneController.getZoneByID); // TODO needed?
+    router.put("/zone/<id>", zoneController.updateZone);
+    router.delete("/zone/<id>", zoneController.deleteZone);
 
     router.post("/user", userController.createUser);
     router.get("/users", userController.getUsers);
