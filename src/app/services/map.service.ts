@@ -15,10 +15,7 @@ export class MapService {
   public centeredMarkerUserid: string | undefined;
   public keepCentered: boolean = false; //TODO: set if marker should be followed
 
-  constructor(private _http: HttpService, private _user: UserService, private _sidebar: SidebarService) {
-    // this.route =
-    //   new Route("1015a3c1-be93-423e-95db-46ebfbf38a0e", 0, 1);
-  }
+  constructor(private _http: HttpService, private _user: UserService, private _sidebar: SidebarService) { }
 
   public getRoutePositions(): any {
     if (this.route) {
@@ -63,31 +60,6 @@ export class MapService {
     this.keepCentered = false;
     this._sidebar.closeSidebar();
     this._sidebar.unhighlightUser(userid);
-  }
-
-  private hardCodedPositions(): Position[] {
-    return [
-      new PositionClass("testing", "24f60449-91ce-471c-896e-40db08987f3a", 50.45, 8.4),
-      new PositionClass("testing", "24f60449-91ce-471c-896e-40db08987f3a", 50.45, 8.41),
-      new PositionClass("testing", "24f60449-91ce-471c-896e-40db08987f3a", 50.45, 8.42),
-      new PositionClass("testing", "24f60449-91ce-471c-896e-40db08987f3a", 50.45, 8.44),
-      new PositionClass("testing", "24f60449-91ce-471c-896e-40db08987f3a", 50.45, 8.46),
-      new PositionClass("testing", "24f60449-91ce-471c-896e-40db08987f3a", 50.5, 8.47),
-      new PositionClass("testing", "24f60449-91ce-471c-896e-40db08987f3a", 50.52, 8.5),
-      new PositionClass("testing", "24f60449-91ce-471c-896e-40db08987f3a", 50.53, 8.52),
-      new PositionClass("testing", "24f60449-91ce-471c-896e-40db08987f3a", 50.56, 8.55),
-      new PositionClass("testing", "24f60449-91ce-471c-896e-40db08987f3a", 50.54, 8.55),
-      new PositionClass("testing", "24f60449-91ce-471c-896e-40db08987f3a", 50.42, 8.55),
-      new PositionClass("testing", "24f60449-91ce-471c-896e-40db08987f3a", 50.4, 8.55),
-      new PositionClass("testing", "24f60449-91ce-471c-896e-40db08987f3a", 50.37, 8.53),
-      new PositionClass("testing", "24f60449-91ce-471c-896e-40db08987f3a", 50.36, 8.5),
-      new PositionClass("testing", "24f60449-91ce-471c-896e-40db08987f3a", 50.34, 8.5),
-      new PositionClass("testing", "24f60449-91ce-471c-896e-40db08987f3a", 50.32, 8.5),
-      new PositionClass("testing", "24f60449-91ce-471c-896e-40db08987f3a", 50.3, 8.5),
-      new PositionClass("testing", "24f60449-91ce-471c-896e-40db08987f3a", 50.3, 8.48),
-      new PositionClass("testing", "24f60449-91ce-471c-896e-40db08987f3a", 50.3, 8.47),
-      new PositionClass("testing", "24f60449-91ce-471c-896e-40db08987f3a", 50.3, 8.43),
-    ]
   }
 
 }
