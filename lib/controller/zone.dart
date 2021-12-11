@@ -18,7 +18,7 @@ class ZoneController {
       pos2.add(p);
     }
 
-    if ((pos2.length == 1 && radius != 0) ||
+    if ((pos2.length == 1 && radius > 0) ||
         (pos2.length >= 3 && radius == 0)) {
       await ZoneDao.create(Zone(id: id, name: name, radius: radius, pos: pos2));
 
@@ -48,7 +48,7 @@ class ZoneController {
       pos2.add(p);
     }
 
-    if ((pos2.length == 1 && radius != 0) ||
+    if ((pos2.length == 1 && radius > 0) ||
         (pos2.length >= 3 && radius == 0)) {
       await ZoneDao.update(id, name, radius, pos2);
       return Response(200, body: jsonEncode(body));
