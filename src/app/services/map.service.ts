@@ -46,11 +46,11 @@ export class MapService {
   public createZone(zone: ZoneClass) {
     this._http.post("http://localhost:9090/api/v1/zone", {
       name: zone.name,
-      radius: zone.radius + 0.0,
+      radius: zone.radius,
       pos: [
         {
-          lat: zone.pos[0].lat + 0.0,
-          lng: zone.pos[0].lng + 0.0
+          lat: zone.pos[0].lat,
+          lng: zone.pos[0].lng
         }
       ]
     }).subscribe({

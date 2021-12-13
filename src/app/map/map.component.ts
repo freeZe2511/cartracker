@@ -76,6 +76,7 @@ export class MapComponent implements OnInit {
     try {
       this.newZone = await modalReference.result;
       this.newZone!.radius *= 1000;
+      Math.round(this.newZone!.radius);
       this._map.createZone(this.newZone!);
       this.drawZones();
     } catch (error) {

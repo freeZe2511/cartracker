@@ -11,7 +11,7 @@
   </div>
   <div class="form-group">
     <label for="zoneRadiusInput">Radius [km]</label>
-    <input type="number" class="form-control" id="zoneRadiusInput" [(ngModel)]="zone.radius">
+    <input type="number" class="form-control" id="zoneRadiusInput" min="0.001" [(ngModel)]="zone.radius">
   </div>
 </div>
 <div class="modal-footer">
