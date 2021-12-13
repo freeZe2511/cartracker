@@ -1,7 +1,8 @@
 #map {
+  display: block;
   padding: 5% 1% 1% 1%;
   width: 100% !important;
-  height: 800px !important;
+  height: 100% !important;
 }
 
 mat-sidenav-container {
@@ -14,10 +15,36 @@ mat-sidenav {
   padding: 1em;
   width: 25em;
   color: white;
+  overflow: visible !important;
+  height: 100%;
+}
+
+mat-sidenav::after {
+  display: block;
+  position: absolute;
+  content: "⯇";
+  background: #1e2833;
+  padding: 15px;
+  right: -30px;
+  top: calc(50% - 15px - 0.5ch);
+  border-radius: 0 50% 50% 0;
 }
 
 mat-sidenav-content {
   height: 100%;
+}
+
+#map::before {
+  display: block;
+  position: absolute;
+  color: white;
+  content: "⯈";
+  background: #1e2833;
+  padding: 15px;
+  left: -1em;
+  top: calc(50% - 15px - 0.5em);
+  border-radius: 0 50% 50% 0;
+  z-index: 1;
 }
 
 

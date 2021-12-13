@@ -17,3 +17,11 @@ mat-label {
 span{
   color: white !important;
 }
+
+#sidenav_toggle_button {
+  height: 2.6rem;
+  width: 2.6rem;
+  border-radius: 0 70% 70% 0;
+  text-align: center;
+  align-items: center;
+}

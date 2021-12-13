@@ -43,6 +43,8 @@ export class MapComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.setSidenavTogglerButton();
+
     this.initMap();
     this._map.getZones();
 
@@ -61,7 +63,6 @@ export class MapComponent implements OnInit {
         this.centerOnMarker();
 
         this.map.controls[google.maps.ControlPosition.TOP_RIGHT].push(this.createAddZoneActivateButton());
-        this.map.controls[google.maps.ControlPosition.RIGHT_CENTER].push(this.createToggleSidebarButton());
       },
       error: (e: any) => console.error(e),
       complete: () => console.info('complete')
@@ -233,6 +234,32 @@ export class MapComponent implements OnInit {
     if (user.latestPositions != undefined && user.latestPositions[0] != undefined) {
       let newPos = {lat: user.latestPositions[0].lat, lng: user.latestPositions[0].lng};
       this._map.markers.get(user.id)!.setPosition(newPos);
+    }
+  }
+
+  private setSidenavTogglerButton() {
+    let sidenav = document.getElementById('sidebar');
+
+    if (sidenav) {
+      sidenav.addEventListener('click', (e) => {
+        if (sidenav) {
+          if (e.offsetX > sidenav.offsetWidth) {
+            this._sidebar.toggleSidebar();
+          }
+        }
+      });
+    }
+
+    let map = document.getElementById('map');
+
+    if (map) {
+      map.addEventListener('click', (e) => {
+        if (map) {
+          if (e.offsetX < 30 && e.offsetY > (map.offsetHeight / 2 - 21) && e.offsetY < (map.offsetHeight / 2 + 21)) {
+            this._sidebar.toggleSidebar();
+          }
+        }
+      });
     }
   }
 
