@@ -1,10 +1,24 @@
 <div class="overflow-auto" [class.sidebar_active_users_col]="_sidebar.highlightedUser">
+  <div class="container-fluid d-flex justify-content-center mt-2">
+    <mat-form-field id="displayZoneDropdown" appearance="outline">
+      <mat-label>Displayed Zone</mat-label>
+      <mat-select [(value)]="selectedZone" (selectionChange)="setSelectedZone()">
+        <mat-option [value]="undefined">
+          <span>None</span>
+        </mat-option>
+        <mat-option *ngFor="let zone of _map.zones | slice:1" [value]="zone">
+          <span>{{zone.name}}</span>
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
   <h2>Active Users</h2>
   <div class="container-fluid">
-    <ng-container *ngFor="let zone of _user.zones">
-      <app-sidebar-zone-collapsed *ngIf="!_sidebar.openedZones.includes(zone)" [zone]="zone">
+    <ng-container *ngFor="let zone of _map.zones">
+      <app-sidebar-zone-collapsed *ngIf="!_sidebar.openedZones.includes(zone.name)" [zone]="zone.name">
       </app-sidebar-zone-collapsed>
-      <app-sidebar-zone *ngIf="_sidebar.openedZones.includes(zone)" [zone]="zone">
+      <app-sidebar-zone *ngIf="_sidebar.openedZones.includes(zone.name)" [zone]="zone.name">
       </app-sidebar-zone>
     </ng-container>
   </div>

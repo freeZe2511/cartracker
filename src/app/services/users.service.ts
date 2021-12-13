@@ -9,30 +9,9 @@ import {interval, Subscription, switchMap} from "rxjs";
 })
 export class UserService {
   public users: User[];
-  public zones: string[];
   private timeInterval!: Subscription;
 
   constructor(private httpService: HttpService) {
-    this.zones = [
-      "All",
-      "Gießen",
-      "a",
-      "b",
-      "c",
-      "d",
-      "e",
-      "f",
-      "g",
-      "h",
-      "i",
-      "j",
-      "k",
-      "l",
-      "m",
-      "n",
-      "o",
-      "p"
-    ]
     this.users = [];
   }
 

@@ -3,6 +3,7 @@ import {HttpService} from "./http.service";
 import {Route} from "../models/route";
 import {UserService} from "./users.service";
 import {Position, PositionClass, User} from "../models/user";
+import {Zone, ZoneClass} from "../models/zone"
 import {SidebarService} from "./sidebar.service";
 
 
@@ -14,8 +15,15 @@ export class MapService {
   public route?: Route;
   public centeredMarkerUserid: string | undefined;
   public keepCentered: boolean = false; //TODO: set if marker should be followed
+  public allZone: Zone;
+  public zones: Zone[];
+  public zoneToDrawOnMap: Zone | undefined;
+  public drawnZone: google.maps.Circle | google.maps.Polygon | undefined;
 
-  constructor(private _http: HttpService, private _user: UserService, private _sidebar: SidebarService) { }
+  constructor(private _http: HttpService, private _user: UserService, private _sidebar: SidebarService) {
+    this.allZone = new ZoneClass("All", [], 0);
+    this.zones = [];
+  }
 
   public getRoutePositions(): any {
     if (this.route) {
@@ -35,8 +43,34 @@ export class MapService {
     return this._http.get("http://localhost:9090/api/v1/map/1");
   }
 
-  public getZones(): any {
-    return this._http.get("http://localhost:9090/api/v1/zones");
+  public createZone(zone: ZoneClass) {
+    this._http.post("http://localhost:9090/api/v1/zone", {
+      name: zone.name,
+      radius: zone.radius + 0.0,
+      pos: [
+        {
+          lat: zone.pos[0].lat + 0.0,
+          lng: zone.pos[0].lng + 0.0
+        }
+      ]
+    }).subscribe({
+      next: (res: any) => {
+        console.log(res);
+      },
+      error: (e) => console.error(e),
+      complete: () => console.info('complete')
+    });
+  }
+
+  public getZones() {
+    this._http.get("http://localhost:9090/api/v1/zones").subscribe({
+      next: (res: any) => {
+        this.zones = res;
+        this.zones.unshift(this.allZone);
+      },
+      error: (e: any) => console.error(e),
+      complete: () => console.info('complete')
+    });
   }
 
   public centerOnMarker(userid: string, pos: Position) {

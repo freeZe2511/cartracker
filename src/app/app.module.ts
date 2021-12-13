@@ -19,12 +19,16 @@ import { MatSidenavModule } from "@angular/material/sidenav";
 import { MatPaginatorModule } from "@angular/material/paginator";
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MatInputModule } from '@angular/material/input';
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatOptionModule} from "@angular/material/core";
 import { AppRoutingModule } from './app-routing.module';
 import { EditUserModalComponent } from './edit-user-modal/edit-user-modal.component';
 import { AddUserModalComponent } from './add-user-modal/add-user-modal.component';
 import { SidebarZoneComponent } from './sidebar-zone/sidebar-zone.component';
 import { SidebarZoneCollapsedComponent } from './sidebar-zone-collapsed/sidebar-zone-collapsed.component';
 import { UserInfoWindowComponent } from './user-info-window/user-info-window.component';
+import { AddZoneModalComponent } from './add-zone-modal/add-zone-modal.component';
+import {MatSelectModule} from "@angular/material/select";
 
 @NgModule({
   declarations: [
@@ -38,7 +42,8 @@ import { UserInfoWindowComponent } from './user-info-window/user-info-window.com
     AddUserModalComponent,
     SidebarZoneComponent,
     SidebarZoneCollapsedComponent,
-    UserInfoWindowComponent
+    UserInfoWindowComponent,
+    AddZoneModalComponent
   ],
     imports: [
         BrowserModule,
@@ -54,6 +59,9 @@ import { UserInfoWindowComponent } from './user-info-window/user-info-window.com
         MatCheckboxModule,
         MatInputModule,
         AppRoutingModule,
+        MatFormFieldModule,
+        MatOptionModule,
+        MatSelectModule,
         FormsModule,
     ],
   providers: [],
