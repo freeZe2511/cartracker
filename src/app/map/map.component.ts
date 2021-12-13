@@ -75,9 +75,10 @@ export class MapComponent implements OnInit {
 
     try {
       this.newZone = await modalReference.result;
-      this.newZone!.radius *= 1000;
+      this.newZone!.radius *= 1000.0;
       Math.round(this.newZone!.radius);
       this._map.createZone(this.newZone!);
+      this._map.getZones();
     } catch (error) {
       console.log(error);
     }
@@ -87,7 +88,7 @@ export class MapComponent implements OnInit {
     this.map.controls[google.maps.ControlPosition.TOP_RIGHT].clear();
     this.map.controls[google.maps.ControlPosition.TOP_RIGHT].push(this.createAddZoneDeactivateButton());
     this.map.googleMap?.addListener("click", (e: any) => {
-      this.newZone = new ZoneClass("", [new PosClass(e.latLng.lat, e.latLng.lng)], 0);
+      this.newZone = new ZoneClass("", [new PosClass(e.latLng.lat(), e.latLng.lng())], 0);
       this.openAddZoneModal().then(r => {
         this.addZoneDeactivate();
       });
@@ -104,8 +105,7 @@ export class MapComponent implements OnInit {
     if (this._map.zoneToDrawOnMap) {
       if (this._map.zoneToDrawOnMap.radius != 0) {
         this._map.drawnZone = this.drawCircle(this._map.zoneToDrawOnMap);
-      }
-      else {
+      } else {
         this._map.drawnZone = this.drawPolygon(this._map.zoneToDrawOnMap);
       }
       this._map.zoneToDrawOnMap = undefined;
@@ -149,7 +149,7 @@ export class MapComponent implements OnInit {
   }
 
   private updateMapEverySecond() {
-    this.timeInterval = interval(250).pipe(
+    this.timeInterval = interval(1000).pipe(
       switchMap(() => this._map.getUserPositions()),
     ).subscribe({
       next: (res: any) => {
