@@ -10,7 +10,7 @@ class ZoneController {
 
     String id = Uuid().v4();
     String name = body["name"];
-    double radius = body["radius"];
+    int radius = body["radius"];
     List<dynamic> pos = body["pos"];
 
     List pos2 = []; // TODO List<Pos>
@@ -40,7 +40,7 @@ class ZoneController {
     var body = jsonDecode(await request.readAsString());
 
     String name = body["name"];
-    double radius = body["radius"];
+    int radius = body["radius"];
     List<dynamic> pos = body["pos"];
 
     List pos2 = []; // TODO List<Pos>

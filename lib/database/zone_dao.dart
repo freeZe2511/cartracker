@@ -20,7 +20,7 @@ class ZoneDao {
         .toList();
   }
 
-  static Future<void> update(String id, String newName, double newRadius, List newPos) async {
+  static Future<void> update(String id, String newName, int newRadius, List newPos) async {
     var modifier = ModifierBuilder();
     modifier.set("name", newName);
     modifier.set("radius", newRadius);
@@ -41,7 +41,7 @@ class ZoneDao {
 class Zone {
   final String id;
   final String name;
-  final double radius;
+  final int radius;
   final List pos;  //TODO
 
   const Zone({required this.id, required this.name, required this.radius, required this.pos});
