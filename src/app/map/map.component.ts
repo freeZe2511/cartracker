@@ -112,14 +112,7 @@ export class MapComponent implements OnInit {
     }
   }
 
-  private drawZones() {
-    for (let z of this._map.zones) {
-      if (z.radius != 0) this.drawCircle(z);
-      if (z.radius == 0) this.drawPolygon(z);
-    }
-  }
-
-  private drawCircle(z: any): google.maps.Circle {
+  private drawCircle(zone: any): google.maps.Circle {
     return new google.maps.Circle({
       strokeColor: "#FF0000",
       strokeOpacity: 0.8,
@@ -127,14 +120,14 @@ export class MapComponent implements OnInit {
       fillColor: "rgba(255,138,138)",
       fillOpacity: 0.2,
       map: this.map.googleMap,
-      center: new google.maps.LatLng(z.pos[0].lat, z.pos[0].lng),
-      radius: z.radius
+      center: new google.maps.LatLng(zone.pos[0].lat, zone.pos[0].lng),
+      radius: zone.radius
     });
   }
 
-  private drawPolygon(z: any): google.maps.Polygon {
+  private drawPolygon(zone: any): google.maps.Polygon {
     let polygonCoords = [];
-    for (const pos of z.pos) {
+    for (const pos of zone.pos) {
       polygonCoords.push(pos)
     }
     return new google.maps.Polygon({
