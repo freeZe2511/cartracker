@@ -68,6 +68,7 @@ class UserDao {
     var modifier = ModifierBuilder();
     modifier.set("username", newUsername);
     modifier.set("password", newPassword);
+    modifier.set("password", newZone);
     print(modifier);
     await Database.db
         .collection(_collection)
@@ -87,9 +88,9 @@ class User {
   final String password;
   final String token;
   final String status;
-  final String zonename;
+  final String zoneid;
 
-  const User({required this.id, required this.username, required this.password, required this.token, required this.status, required this.zonenmae});
+  const User({required this.id, required this.username, required this.password, required this.token, required this.status, required this.zoneid});
 
   User.fromJson(Map<String, dynamic> json)
       : id = json['id'],
@@ -97,7 +98,7 @@ class User {
         password = json['password'],
         token = json['token'],
         status = json['status'],
-        zonename = json['zonename'];
+        zoneid = json['zoneid'];
 
   Map<String, dynamic> toJson() => {
         'id': id,
@@ -105,6 +106,6 @@ class User {
         'password': password,
         'token': token,
         'status': status,
-        'zonename': zonename;
+        'zoneid': zoneid
       };
 }

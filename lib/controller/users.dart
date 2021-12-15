@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:cartracker_backend/database/admin_data_dao.dart';
 import 'package:cartracker_backend/database/coordinate_dao.dart';
 import 'package:cartracker_backend/database/user_dao.dart';
+import 'package:cartracker_backend/database/zone_dao.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 import 'package:shelf/shelf.dart';
 
@@ -11,13 +12,16 @@ class UserController {
     var body = jsonDecode(await request.readAsString());
     String username = body["username"];
     String password = body["password"];
+    String zoneid = await ZoneDao.findOne(body["zoneid"]);  //TODO check if zone in db else undefined?
+
     String userID = Uuid().v4();
     await UserDao.create(User(
         id: userID,
         username: username,
         password: password,
         token: Uuid().v4(),
-        status: "inactive"));
+        status: "inactive",
+        zoneid: zoneid));
     return Response(201, body: jsonEncode(userID));
   }
 
@@ -32,7 +36,8 @@ class UserController {
     var body = jsonDecode(await request.readAsString());
     String username = body["username"];
     String password = body["password"];
-    await UserDao.update(id, username, password); // User
+    String zoneid = body["zoneid"]; //TODO check again if zone
+    await UserDao.update(id, username, password, zoneid); // User
     return Response(200);
   }
 
