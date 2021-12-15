@@ -22,7 +22,7 @@ export class UserListComponent implements OnInit {
 
   timeInterval!: Subscription;
 
-  constructor(private _user: UserService, private modalService: NgbModal, private mapService: MapService,
+  constructor(private _user: UserService, private modalService: NgbModal, public mapService: MapService,
               public router: Router) {
   }
 
@@ -42,6 +42,7 @@ export class UserListComponent implements OnInit {
       next: (res: any) => {
         this.dataSource.data = res;
         this._user.users = res;
+        // console.log(this.mapService.zones)
       },
       error: (e: any) => console.error(e),
       complete: () => console.info('complete')
@@ -98,12 +99,8 @@ export class UserListComponent implements OnInit {
   displayedColumns: string[] = ['id', 'username', 'password', 'zone', 'status', 'created', 'actions'];
   dataSource = new MatTableDataSource(this._user.users);
 
-  // https://www.freakyjolly.com/angular-material-table-operations-using-dialog/
-  // createUser()
-  // addUser(u: User){
-  //   this.dataSource.data.push(u);
-  //   this.dataSource._updateChangeSubscription();
-  // }
-
+  public findZoneName(user_zoneid: string) { // TODO racing condition???
+    return this.mapService.zones.find(z => z.id === user_zoneid)?.name;
+  }
 
 }

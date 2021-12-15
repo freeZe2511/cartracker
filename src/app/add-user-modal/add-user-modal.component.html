@@ -19,7 +19,7 @@
     </div>
     <select class="custom-select" id="inputGroupSelect01" [(ngModel)]="user.zone">
       <option selected>None</option>
-      <option *ngFor="let zone of _map.zones | slice:1">{{zone.name}}</option>
+      <option *ngFor="let zone of _map.zones | slice:1" [value]="zone.id">{{zone.name}}</option>
     </select>
   </div>
 </div>
