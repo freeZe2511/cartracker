@@ -48,7 +48,9 @@ export class UserService {
   public createUser(user: User) {
     this.httpService.post("http://localhost:9090/api/v1/user", {
       username: user.username,
-      password: user.password
+      password: user.password,
+      //TODO: Comment out if supported by backend
+      //zone: user.zone
     }).subscribe({
       next: (res: any) => {
         console.log(res);
