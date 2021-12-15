@@ -100,6 +100,7 @@ export class UserListComponent implements OnInit {
   dataSource = new MatTableDataSource(this._user.users);
 
   public findZoneName(user_zoneid: string) { // TODO racing condition???
+    // console.log(this.mapService.zones)
     return this.mapService.zones.find(z => z.id === user_zoneid)?.name;
   }
 
