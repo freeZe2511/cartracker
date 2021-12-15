@@ -17,6 +17,23 @@
     <label for="passwordInput">Password</label>
     <input type="password" class="form-control" id="passwordInput" [(ngModel)]="user.password">
   </div>
+  <div class="input-group mb-3">
+    <div class="input-group-prepend">
+      <label class="input-group-text" for="inputGroupSelect01">Zone</label>
+    </div>
+    <select class="custom-select" id="inputGroupSelect01" [(ngModel)]="user.zone">
+      <ng-container *ngIf="prevUserZone; else userZoneUndefined">
+        <option selected>{{prevUserZone}}</option>
+        <ng-container *ngFor="let zone of _map.zones | slice:1">
+          <option *ngIf="prevUserZone != zone.name">{{zone.name}}</option>
+        </ng-container>
+      </ng-container>
+      <ng-template #userZoneUndefined>
+        <option selected>None</option>
+        <option *ngFor="let zone of _map.zones | slice:1">{{zone.name}}</option>
+      </ng-template>
+    </select>
+  </div>
 </div>
 <div class="modal-footer">
   <button type="button" class="btn btn-outline-dark"

@@ -69,7 +69,7 @@ export class MapService {
         this.zones.unshift(this.allZone);
       },
       error: (e: any) => console.error(e),
-      complete: () => console.info('complete')
+      complete: () => console.info('complete loading zones')
     });
   }
 

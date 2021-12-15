@@ -79,6 +79,7 @@ export class MapComponent implements OnInit {
       Math.round(this.newZone!.radius);
       this._map.createZone(this.newZone!);
       this._map.getZones();
+      console.log(this._map.zones)
     } catch (error) {
       console.log(error);
     }
