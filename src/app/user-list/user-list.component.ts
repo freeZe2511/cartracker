@@ -22,7 +22,7 @@ export class UserListComponent implements OnInit {
 
   timeInterval!: Subscription;
 
-  constructor(private _user: UserService, private modalService: NgbModal, public mapService: MapService,
+  constructor(private _user: UserService, private modalService: NgbModal, private mapService: MapService,
               public router: Router) {
   }
 
