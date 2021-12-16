@@ -7,6 +7,7 @@ import {SidebarService} from "../services/sidebar.service";
 import {PosClass, ZoneClass, Zone} from "../models/zone";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {AddZoneModalComponent} from "../add-zone-modal/add-zone-modal.component";
+import * as turf from '@turf/turf';
 
 @Component({
   selector: 'app-map',
@@ -108,6 +109,17 @@ export class MapComponent implements OnInit {
         this.map.panTo(new google.maps.LatLng(this._map.zoneToDrawOnMap.pos[0].lat, this._map.zoneToDrawOnMap.pos[0].lng));
         this._map.drawnZone = this.drawCircle(this._map.zoneToDrawOnMap);
       } else {
+        let outer: turf.helpers.Position[] = [];
+        this._map.zoneToDrawOnMap.pos.forEach(e => {
+          let inner = [];
+          inner.push(e.lat);
+          inner.push(e.lng);
+          outer.push(inner);
+        })
+        outer.push(outer[0]);
+        let polygon = turf.polygon([outer]);
+        let centroid = turf.centerOfMass(polygon);
+        this.map.panTo(new google.maps.LatLng(centroid.geometry.coordinates[0], centroid.geometry.coordinates[1]));
         this._map.drawnZone = this.drawPolygon(this._map.zoneToDrawOnMap);
       }
       this._map.zoneToDrawOnMap = undefined;
