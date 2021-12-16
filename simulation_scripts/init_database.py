@@ -31,7 +31,7 @@ print("Initiating Zones...")
 
 res = requests.post(zoneURL, json = {
     'name': "Gießen",
-    'radius': 10000,
+    'radius': 20000,
     'pos': [
         {
           'lat': 50.58727,
