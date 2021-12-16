@@ -10,7 +10,8 @@ export interface Position {
   _id: string,
   id: string, //userid
   lat: number,
-  lng: number;
+  lng: number,
+  inZone: boolean;
 }
 
 export class UserWithoutPosition implements User{
@@ -32,11 +33,13 @@ export class PositionClass implements Position{
   public id: string;
   public lat: number;
   public lng: number;
+  public inZone: boolean;
 
-  constructor(_id: string, id: string, lat: number, lng: number) {
+  constructor(_id: string, id: string, lat: number, lng: number, inZone: boolean) {
     this._id = _id;
     this.id = id;
     this.lat = lat;
     this.lng = lng;
+    this.inZone = inZone;
   }
 }

@@ -206,6 +206,9 @@ export class MapComponent implements OnInit {
     if (user.latestPositions != undefined && user.latestPositions[0] != undefined) {
       let oldMarker: google.maps.Marker | undefined;
       let newPos = {lat: user.latestPositions[0].lat, lng: user.latestPositions[0].lng};
+
+      // console.log(user.latestPositions[0].inZone)
+
       oldMarker = this._map.markers.get(user.id);
       let newMarker: google.maps.Marker = new google.maps.Marker({
         position: newPos,
@@ -216,6 +219,7 @@ export class MapComponent implements OnInit {
         }
         //icon: "../../assets/markers/marker_red_dot.png"
       });
+      newMarker.setIcon(user.latestPositions[0].inZone ? "../../assets/markers/marker_red_dot.png" : "../../assets/markers/marker_red.png");
       this._map.markers.set(user.id, newMarker);
       if (oldMarker) oldMarker.setMap(null);
       newMarker.setMap(this.map.googleMap!);
@@ -228,6 +232,7 @@ export class MapComponent implements OnInit {
     if (user.latestPositions != undefined && user.latestPositions[0] != undefined) {
       let newPos = {lat: user.latestPositions[0].lat, lng: user.latestPositions[0].lng};
       this._map.markers.get(user.id)!.setPosition(newPos);
+      this._map.markers.get(user.id)!.setIcon(user.latestPositions[0].inZone ? "../../assets/markers/marker_red_dot.png" : "../../assets/markers/marker_red.png");
     }
   }
 
