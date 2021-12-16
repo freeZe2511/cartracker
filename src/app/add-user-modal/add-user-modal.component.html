@@ -13,6 +13,14 @@
     <label for="passwordInput">Password</label>
     <input type="password" class="form-control" id="passwordInput" [(ngModel)]="user.password">
   </div>
+  <div class="input-group mb-3">
+    <div class="input-group-prepend">
+      <label class="input-group-text" for="inputGroupSelect01">Zone</label>
+    </div>
+    <select class="custom-select" id="inputGroupSelect01" [(ngModel)]="user.zoneid">
+      <option *ngFor="let zone of _map.zones | slice:1" [value]="zone.id">{{zone.name}}</option>
+    </select>
+  </div>
 </div>
 <div class="modal-footer">
   <button type="button" class="btn btn-outline-dark"

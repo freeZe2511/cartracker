@@ -2,7 +2,7 @@ export interface User {
   id: string,
   password?: string,
   username: string,
-  zone?: string,
+  zoneid?: string,
   latestPositions?: Position[];
 }
 
@@ -17,11 +17,13 @@ export class UserWithoutPosition implements User{
   public id: string;
   public username: string;
   public password?: string;
+  zoneid?: string;
 
-  constructor(id: string, username: string, password?: string) {
+  constructor(id: string, username: string, password?: string, zone?: string) {
     this.id = id;
     this.username = username;
     this.password = password;
+    this.zoneid = zone;
   }
 }
 

@@ -79,6 +79,7 @@ export class MapComponent implements OnInit {
       Math.round(this.newZone!.radius);
       this._map.createZone(this.newZone!);
       this._map.getZones();
+      console.log(this._map.zones)
     } catch (error) {
       console.log(error);
     }
@@ -89,7 +90,7 @@ export class MapComponent implements OnInit {
     this.map.controls[google.maps.ControlPosition.TOP_RIGHT].push(this.createAddZoneDeactivateButton());
     this.map.googleMap?.addListener("click", (e: any) => {
       this.newZone = new ZoneClass("", [new PosClass(e.latLng.lat(), e.latLng.lng())], 0);
-      this.openAddZoneModal().then(r => {
+      this.openAddZoneModal().then(() => {
         this.addZoneDeactivate();
       });
     });
@@ -256,7 +257,7 @@ export class MapComponent implements OnInit {
     }
   }
 
-  private htmlToElement(html: string): HTMLElement {
+  private static htmlToElement(html: string): HTMLElement {
     let template = document.createElement('template');
     html = html.trim(); // Never return a text node of whitespace as the result
     template.innerHTML = html;
@@ -267,7 +268,7 @@ export class MapComponent implements OnInit {
     let addZoneActivateButtonHTML: string = `
         <a id=\"addZoneActivate\" class=\"btn btn-light action-button mr-4\"
         role=\"button\">Activate Zone Add Mode</a>`;
-    let addZoneActivateButton = this.htmlToElement(addZoneActivateButtonHTML);
+    let addZoneActivateButton = MapComponent.htmlToElement(addZoneActivateButtonHTML);
     addZoneActivateButton.addEventListener("click", () => this.addZoneActivate());
     return addZoneActivateButton;
   }
@@ -276,7 +277,7 @@ export class MapComponent implements OnInit {
     let addZoneDeactivateButtonHTML: string = `
         <a id=\"addZoneDeactivate\" class=\"btn btn-light action-button mr-4\"
         role=\"button\">Deactivate Zone Add Mode</a>`;
-    let addZoneDeactivateButton = this.htmlToElement(addZoneDeactivateButtonHTML);
+    let addZoneDeactivateButton = MapComponent.htmlToElement(addZoneDeactivateButtonHTML);
     addZoneDeactivateButton.addEventListener("click", () => this.addZoneDeactivate());
     return addZoneDeactivateButton;
   }
@@ -285,7 +286,7 @@ export class MapComponent implements OnInit {
     let toggleSidebarButtonHTML: string = `
         <a id=\"toggleSidebar\" class=\"btn btn-light action-button mr-4\"
         role=\"button\">Toggle Sidebar</a>`;
-    let toggleSidebarButton = this.htmlToElement(toggleSidebarButtonHTML);
+    let toggleSidebarButton = MapComponent.htmlToElement(toggleSidebarButtonHTML);
     toggleSidebarButton.addEventListener("click", () => this._sidebar.toggleSidebar());
     return toggleSidebarButton;
   }

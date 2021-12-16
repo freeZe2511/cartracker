@@ -15,11 +15,11 @@ userURL = baseURL + "/user"
 posURL = baseURL + "/pos"
 
 usersString = r"""[
-    {"userid": "noID", "username": "TEST_MARKER", "password": "testmarker", "lat": 50.7, "lng": 8.3},
-    {"userid": "noID", "username": "TEST_ROUTE", "password": "testroute", "lat": 50.45, "lng": 8.4},
-    {"userid": "noID", "username": "USER_1", "password": "user1", "lat": 50.2, "lng": 8.4},
-    {"userid": "noID", "username": "USER_2", "password": "user2", "lat": 50.6, "lng": 8.7},
-    {"userid": "noID", "username": "USER_3", "password": "user3", "lat": 50.25, "lng": 8.25}
+    {"userid": "noID", "username": "TEST_MARKER", "password": "testmarker", "lat": 50.7, "lng": 8.3, "zoneid": "1"},
+    {"userid": "noID", "username": "TEST_ROUTE", "password": "testroute", "lat": 50.45, "lng": 8.4, "zoneid": "1"},
+    {"userid": "noID", "username": "USER_1", "password": "user1", "lat": 50.2, "lng": 8.4, "zoneid": "1"},
+    {"userid": "noID", "username": "USER_2", "password": "user2", "lat": 50.6, "lng": 8.7, "zoneid": "1"},
+    {"userid": "noID", "username": "USER_3", "password": "user3", "lat": 50.25, "lng": 8.25, "zoneid": "1"}
 ]
 """
 
@@ -30,6 +30,7 @@ for user in createUser:
     user.pop('userid', None)
     user.pop('lat', None)
     user.pop('lng', None)
+    user.pop('zoneid', None)
 
 try:
     ids_file = open("dataFiles/ids.txt", "w+")
