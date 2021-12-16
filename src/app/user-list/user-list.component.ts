@@ -102,8 +102,12 @@ export class UserListComponent implements OnInit {
   dataSource = new MatTableDataSource(this._user.users);
 
   public findZoneName(user_zoneid: string) {
-    // console.log(this.mapService.zones)
     return this.mapService.zones.find(z => z.id === user_zoneid)?.name;
+  }
+
+  public convertTime(id: any){
+    let timeStamp = parseInt(id.substr(0,8), 16)*1000
+    return new Date(timeStamp)  // TODO refactor into nice format
   }
 
 }

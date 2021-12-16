@@ -3,9 +3,6 @@
     <mat-form-field id="displayZoneDropdown" appearance="outline">
       <mat-label>Displayed Zone</mat-label>
       <mat-select [(value)]="selectedZone" (selectionChange)="setSelectedZone()">
-        <mat-option [value]="undefined">
-          <span>None</span>
-        </mat-option>
         <mat-option *ngFor="let zone of _map.zones | slice:1" [value]="zone">
           <span>{{zone.name}}</span>
         </mat-option>
