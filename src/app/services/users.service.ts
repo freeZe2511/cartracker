@@ -59,7 +59,8 @@ export class UserService {
   public updateUser(user: User) {
     this.httpService.put("http://localhost:9090/api/v1/user/" + user.id, {
       username: user.username,
-      password: user.password // TODO zone
+      password: user.password, // TODO zone
+      zoneid: user.zoneid
     }).subscribe({
       next: (res: any) => {
         console.log(res);
