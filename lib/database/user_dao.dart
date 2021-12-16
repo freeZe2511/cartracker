@@ -19,6 +19,12 @@ class UserDao {
     return User.fromJson(u!); //null?
   }
 
+  static Future<User> readOneByID(String userid) async {
+    var u =
+    await Database.db.collection(_collection).findOne(where.eq('id', userid));
+    return User.fromJson(u!); //null?
+  }
+
   static Future<List<User>> readMany(List<String> usernames) async {
     return Database.db
         .collection(_collection)
