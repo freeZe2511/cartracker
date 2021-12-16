@@ -36,6 +36,21 @@ class ZoneDao {
         .collection(_collection)
         .remove(where.eq('id', id));
   }
+
+  static Future<String> findOne(String id) async {
+    try {
+      var z = await Database.db
+          .collection(_collection)
+          .findOne(where.eq('id', id));
+      if (z != null) {
+        return Zone.fromJson(z).id;
+      }
+      return "1";
+    } catch (e) {
+      print(e);
+      return "2";
+    }
+  }
 }
 
 class Zone {

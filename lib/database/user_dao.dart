@@ -63,11 +63,12 @@ class UserDao {
   }
 
   static Future<void> update(
-      String id, String newUsername, String newPassword) async {
+      String id, String newUsername, String newPassword, String newZone) async {
     // return user?
     var modifier = ModifierBuilder();
     modifier.set("username", newUsername);
     modifier.set("password", newPassword);
+    modifier.set("password", newZone);
     print(modifier);
     await Database.db
         .collection(_collection)
@@ -87,21 +88,24 @@ class User {
   final String password;
   final String token;
   final String status;
+  final String zoneid;
 
-  const User({required this.id, required this.username, required this.password, required this.token, required this.status});
+  const User({required this.id, required this.username, required this.password, required this.token, required this.status, required this.zoneid});
 
   User.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         username = json['username'],
         password = json['password'],
         token = json['token'],
-        status = json['status'];
+        status = json['status'],
+        zoneid = json['zoneid'];
 
   Map<String, dynamic> toJson() => {
         'id': id,
         'username': username,
         'password': password,
         'token': token,
-        'status': status
+        'status': status,
+        'zoneid': zoneid
       };
 }
