@@ -74,7 +74,7 @@ class UserDao {
     var modifier = ModifierBuilder();
     modifier.set("username", newUsername);
     modifier.set("password", newPassword);
-    modifier.set("password", newZone);
+    modifier.set("zoneid", newZone);
     print(modifier);
     await Database.db
         .collection(_collection)
