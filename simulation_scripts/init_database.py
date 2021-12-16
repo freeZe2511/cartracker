@@ -3,6 +3,7 @@ import json
 import urllib3
 import os
 from imports import console
+from imports import zonesJSONData
 
 (consoleWidth, consoleHeight) = console.getTerminalSize()
 
@@ -29,23 +30,24 @@ createUser = json.loads(usersString)
 
 print("Initiating Zones...")
 
-res = requests.post(zoneURL, json = {
-    'name': "Gießen",
-    'radius': 10000,
-    'pos': [
-        {
-          'lat': 50.58727,
-          'lng': 8.67554
-        }
-      ]
-    })
+isInitiated = True;
+res = requests.post(zoneURL, json = zonesJSONData.zones[0])
 if res.status_code == 201:
     zoneid = res.text.replace("\"", "")
     users[0]['zoneid'] = zoneid
     createUser[0]['zoneid'] = zoneid
-    print(console.colors.GREEN, "Successfully Initiated Zone\n", console.colors.ENDC)
 else:
-    print(console.colors.RED, "Successfully Initiated Zone\n", console.colors.ENDC)
+    isInitiated = False
+
+for i in range(1,4):
+    res = requests.post(zoneURL, json = zonesJSONData.zones[i])
+    if res.status_code != 201:
+        isInitiated = False
+
+if isInitiated == True:
+    print(console.colors.GREEN, "Successfully Initiated Users\n", console.colors.ENDC)
+else:
+    print(console.colors.RED, "Failed Initiating Users\n", console.colors.ENDC)
 
 for user in createUser:
     user.pop('userid', None)
