@@ -29,6 +29,8 @@ export class UserListComponent implements OnInit {
   ngOnInit(): void {
     this.initUsers();
 
+    this.mapService.getZones();
+
     this.updateUsersEverySecond();
   }
 
@@ -99,7 +101,7 @@ export class UserListComponent implements OnInit {
   displayedColumns: string[] = ['id', 'username', 'password', 'zone', 'status', 'created', 'actions'];
   dataSource = new MatTableDataSource(this._user.users);
 
-  public findZoneName(user_zoneid: string) { // TODO racing condition???
+  public findZoneName(user_zoneid: string) {
     // console.log(this.mapService.zones)
     return this.mapService.zones.find(z => z.id === user_zoneid)?.name;
   }

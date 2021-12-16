@@ -21,11 +21,11 @@
     <div class="input-group-prepend">
       <label class="input-group-text" for="inputGroupSelect01">Zone</label>
     </div>
-    <select class="custom-select" id="inputGroupSelect01" [(ngModel)]="user.zone">  <!--TODO [value]="zone.id"-->
+    <select class="custom-select" id="inputGroupSelect01" [(ngModel)]="user.zoneid">  <!--TODO [value]="zone.id"-->
       <ng-container *ngIf="prevUserZone; else userZoneUndefined">
         <option selected>{{prevUserZone}}</option>
         <ng-container *ngFor="let zone of _map.zones | slice:1">
-          <option *ngIf="prevUserZone != zone.name">{{zone.name}}</option>
+          <option *ngIf="prevUserZone != zone.id">{{zone.name}}</option>
         </ng-container>
       </ng-container>
       <ng-template #userZoneUndefined>

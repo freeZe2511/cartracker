@@ -49,7 +49,7 @@ export class UserService {
     this.httpService.post("http://localhost:9090/api/v1/user", {
       username: user.username,
       password: user.password,
-      zoneid: user.zone
+      zoneid: user.zoneid
     }).subscribe({
       next: (res: any) => {
         console.log(res);

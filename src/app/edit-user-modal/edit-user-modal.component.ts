@@ -17,13 +17,13 @@ export class EditUserModalComponent implements OnInit{
   }
 
   ngOnInit() {
-    this.prevUserZone = this.user!.zone;
+    this.prevUserZone = this.user!.zoneid;
   }
 
   save(): void {
     if(this.isNotEmpty(this.user.id) && this.isNotEmpty(this.user.username) && this.isNotEmpty(this.user.password)) {
-      if (this.user.zone == "None") {
-        this.user.zone = undefined;
+      if (this.user.zoneid == "None") {
+        this.user.zoneid = undefined;
       }
       this.activeModal.close(this.user);
     }

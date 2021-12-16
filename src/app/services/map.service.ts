@@ -16,12 +16,14 @@ export class MapService {
   public centeredMarkerUserid: string | undefined;
   public keepCentered: boolean = false; //TODO: set if marker should be followed
   public allZone: Zone;
+  public noneZone: Zone;
   public zones: Zone[];
   public zoneToDrawOnMap: Zone | undefined;
   public drawnZone: google.maps.Circle | google.maps.Polygon | undefined;
 
   constructor(private _http: HttpService, private _user: UserService, private _sidebar: SidebarService) {
     this.allZone = new ZoneClass("All", [], 0, "", "1");
+    this.noneZone = new ZoneClass("All", [], 0, "", "1");
     this.zones = [];
   }
 
