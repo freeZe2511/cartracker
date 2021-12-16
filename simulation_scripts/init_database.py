@@ -13,6 +13,7 @@ print(console.colors.PINK, seperator, headerSeperatorHalf, " SCRIPT STARTED ", h
 baseURL = "http://localhost:9090/api/v1"
 userURL = baseURL + "/user"
 posURL = baseURL + "/pos"
+zoneURL = baseURL + "/zone"
 
 usersString = r"""[
     {"userid": "noID", "username": "TEST_MARKER", "password": "testmarker", "lat": 50.7, "lng": 8.3, "zoneid": "1"},
@@ -26,11 +27,28 @@ usersString = r"""[
 users = json.loads(usersString)
 createUser = json.loads(usersString)
 
+res = requests.post(zoneURL, json = {
+    'name': "Gießen",
+    'radius': 10000,
+    'pos': [
+        {
+          'lat': 50.58727,
+          'lng': 8.67554
+        }
+      ]
+    })
+if res.status_code == 201:
+    zoneid = res.text.replace("\"", "")
+    users[0]['zoneid'] = zoneid
+    createUser[0]['zoneid'] = zoneid
+    print(console.colors.GREEN, "Successfully Initiated Zone\n", console.colors.ENDC)
+else:
+    print(console.colors.RED, "Successfully Initiated Zone\n", console.colors.ENDC)
+
 for user in createUser:
     user.pop('userid', None)
     user.pop('lat', None)
     user.pop('lng', None)
-    user.pop('zoneid', None)
 
 try:
     ids_file = open("dataFiles/ids.txt", "w+")
