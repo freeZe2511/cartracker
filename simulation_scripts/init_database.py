@@ -27,6 +27,8 @@ usersString = r"""[
 users = json.loads(usersString)
 createUser = json.loads(usersString)
 
+print("Initiating Zones...")
+
 res = requests.post(zoneURL, json = {
     'name': "Gießen",
     'radius': 10000,
