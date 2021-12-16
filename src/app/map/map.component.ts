@@ -105,6 +105,7 @@ export class MapComponent implements OnInit {
   private drawSelectedZone() {
     if (this._map.zoneToDrawOnMap) {
       if (this._map.zoneToDrawOnMap.radius != 0) {
+        this.map.panTo(new google.maps.LatLng(this._map.zoneToDrawOnMap.pos[0].lat, this._map.zoneToDrawOnMap.pos[0].lng));
         this._map.drawnZone = this.drawCircle(this._map.zoneToDrawOnMap);
       } else {
         this._map.drawnZone = this.drawPolygon(this._map.zoneToDrawOnMap);
