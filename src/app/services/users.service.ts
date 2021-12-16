@@ -15,12 +15,9 @@ export class UserService {
     this.users = [];
   }
 
-  public initZoneArray(){
-    // TODO
-  }
-
   public getUsersList(): any {
-    return this.httpService.getUserList();
+    // return this.httpService.getUserList();
+    return this.httpService.get("http://localhost:9090/api/v1/users");
   }
 
   public initUserArray() {
