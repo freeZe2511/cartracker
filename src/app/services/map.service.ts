@@ -22,8 +22,8 @@ export class MapService {
   public drawnZone: google.maps.Circle | google.maps.Polygon | undefined;
 
   constructor(private _http: HttpService, private _user: UserService, private _sidebar: SidebarService) {
-    this.allZone = new ZoneClass("All", [], 0, "", "1");
-    this.noneZone = new ZoneClass("All", [], 0, "", "1");
+    this.allZone = new ZoneClass("All", [], 0);
+    this.noneZone = new ZoneClass("None", [], 0, "", "1");
     this.zones = [];
   }
 
@@ -68,6 +68,7 @@ export class MapService {
     this._http.get("http://localhost:9090/api/v1/zones").subscribe({
       next: (res: any) => {
         this.zones = res;
+        this.zones.unshift(this.noneZone);
         this.zones.unshift(this.allZone);
       },
       error: (e: any) => console.error(e),

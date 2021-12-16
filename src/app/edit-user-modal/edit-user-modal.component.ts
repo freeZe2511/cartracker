@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
 import {User} from "../models/user";
 import {MapService} from "../services/map.service";
+import {Zone, ZoneClass} from "../models/zone"
 
 @Component({
   selector: 'app-edit-user-modal',
@@ -10,14 +11,14 @@ import {MapService} from "../services/map.service";
 })
 export class EditUserModalComponent implements OnInit{
   public user!: User;
-  public prevUserZone: string | undefined;
+  public prevUserZone!: Zone;
 
   constructor(public activeModal: NgbActiveModal, public _map: MapService) {
     _map.getZones();
   }
 
   ngOnInit() {
-    this.prevUserZone = this.user!.zoneid;
+    this.prevUserZone = this.findZoneByID(this.user!.zoneid!)!; //TODO refactor?
   }
 
   save(): void {
@@ -35,6 +36,10 @@ export class EditUserModalComponent implements OnInit{
     } else {
       return false;
     }
+  }
+
+  private findZoneByID(zoneid: string){
+    return this._map.zones.find(z => z.id === zoneid);
   }
 
 }
