@@ -16,10 +16,10 @@ posURL = baseURL + "/pos"
 zoneURL = baseURL + "/zone"
 
 usersString = r"""[
-    {"userid": "noID", "username": "TEST_MARKER", "password": "testmarker", "lat": 50.7, "lng": 8.3, "zoneid": "1"},
+    {"userid": "noID", "username": "TEST_MARKER", "password": "testmarker", "lat": 50.6, "lng": 8.7, "zoneid": "1"},
     {"userid": "noID", "username": "TEST_ROUTE", "password": "testroute", "lat": 50.45, "lng": 8.4, "zoneid": "1"},
     {"userid": "noID", "username": "USER_1", "password": "user1", "lat": 50.2, "lng": 8.4, "zoneid": "1"},
-    {"userid": "noID", "username": "USER_2", "password": "user2", "lat": 50.6, "lng": 8.7, "zoneid": "1"},
+    {"userid": "noID", "username": "USER_2", "password": "user2", "lat": 50.7, "lng": 8.3, "zoneid": "1"},
     {"userid": "noID", "username": "USER_3", "password": "user3", "lat": 50.25, "lng": 8.25, "zoneid": "1"}
 ]
 """
@@ -31,7 +31,7 @@ print("Initiating Zones...")
 
 res = requests.post(zoneURL, json = {
     'name': "Gießen",
-    'radius': 20000,
+    'radius': 10000,
     'pos': [
         {
           'lat': 50.58727,
