@@ -62,7 +62,7 @@ export class MapComponent implements OnInit {
           this.addNewMarker(user);
         }
 
-        this.centerOnMarker();
+        this.panToMarker();
 
         this.map.controls[google.maps.ControlPosition.TOP_RIGHT].push(this.createAddZoneActivateButton());
       },
@@ -184,7 +184,7 @@ export class MapComponent implements OnInit {
             this.addNewMarker(user);
           }
         }
-        this.centerOnMarker();
+        this.panToMarker();
 
         // this.map.controls[google.maps.ControlPosition.TOP_RIGHT].push(document.getElementById("toggleSidebar"));
       },
@@ -193,14 +193,24 @@ export class MapComponent implements OnInit {
     });
   }
 
-  private centerOnMarker() {
+  private panToMarker() {
     let userid: string | undefined = this._map.centeredMarkerUserid;
     if (userid) {
       this.map.panTo(this._map.markers.get(userid)!.getPosition()!)
-      if (!this._map.keepCentered) {
+      if (!this._map.keepMarkerCentered) {
         this._map.centeredMarkerUserid = undefined;
       }
     }
+  }
+
+  public setCenteredMarker(event: {userid: string}) {
+    this._map.setUserClicked(event.userid);
+    this.panToMarker();
+  }
+
+  public removeCenteredMarker(event: {userid: string}) {
+    this._map.unsetUserClicked(event.userid);
+    this._map.keepMarkerCentered = false;
   }
 
   private drawRoute() {

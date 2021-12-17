@@ -14,7 +14,7 @@ export class MapService {
   public markers: Map<string, google.maps.Marker> = new Map();
   public route?: Route;
   public centeredMarkerUserid: string | undefined;
-  public keepCentered: boolean = false;
+  public keepMarkerCentered: boolean = false;
   public allZone: Zone;
   public noneZone: Zone;
   public zones: Zone[];
@@ -88,7 +88,7 @@ export class MapService {
     this.markers.get(userid)!.addListener('click', () => this.unsetUserClicked(userid));
     this.centeredMarkerUserid = userid;
     this._sidebar.updateUserInfoWindowSettings(userid, this.route);
-    this.keepCentered = true;
+    this.keepMarkerCentered = true;
     this._sidebar.openSidebar();
     this._sidebar.highlightUser(userid);
   }
@@ -96,7 +96,7 @@ export class MapService {
   public unsetUserClicked(userid: string) {
     this.markers.get(userid)!.addListener('click', () => this.setUserClicked(userid));
     this.centeredMarkerUserid = undefined;
-    this.keepCentered = false;
+    this.keepMarkerCentered = false;
     this._sidebar.closeSidebar();
     this._sidebar.unhighlightUser(userid);
   }

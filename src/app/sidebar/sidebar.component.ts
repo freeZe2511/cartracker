@@ -11,6 +11,9 @@ import {Zone} from "../models/zone";
 })
 export class SidebarComponent implements OnInit {
   @Output("drawZone") drawZone: EventEmitter<any> = new EventEmitter();
+  @Output("setCenteredMarker") setCenteredMarker: EventEmitter<any> = new EventEmitter();
+  @Output("removeCenteredMarker") removeCenteredMarker: EventEmitter<any> = new EventEmitter();
+
 
   public selectedZone: Zone | undefined;
 

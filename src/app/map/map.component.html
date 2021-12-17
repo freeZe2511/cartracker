@@ -1,7 +1,8 @@
 <app-header></app-header>
 <mat-sidenav-container [hasBackdrop]="false">
   <mat-sidenav id="sidebar" [opened]="_sidebar.sidebarIsOpened">
-    <app-sidebar (drawZone)="drawZone($event)"></app-sidebar>
+    <app-sidebar (drawZone)="drawZone($event)" (setCenteredMarker)="setCenteredMarker($event)"
+        (removeCenteredMarker)="removeCenteredMarker($event)"></app-sidebar>
   </mat-sidenav>
 
   <mat-sidenav-content id="sidebar-content">

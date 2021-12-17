@@ -15,7 +15,9 @@
     <ng-container *ngFor="let zone of _map.zones">
       <app-sidebar-zone-collapsed *ngIf="!_sidebar.openedZones.includes(zone.name)" [zone]="zone">
       </app-sidebar-zone-collapsed>
-      <app-sidebar-zone *ngIf="_sidebar.openedZones.includes(zone.name)" [zone]="zone">
+      <app-sidebar-zone *ngIf="_sidebar.openedZones.includes(zone.name)" [zone]="zone"
+                        (setCenteredMarker)="setCenteredMarker.emit($event)"
+                        (removeCenteredMarker)="removeCenteredMarker.emit($event)">
       </app-sidebar-zone>
     </ng-container>
   </div>
