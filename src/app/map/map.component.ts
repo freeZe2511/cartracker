@@ -25,6 +25,7 @@ export class MapComponent implements OnInit {
   public users: User[] = [];
   public timeInterval!: Subscription;
   public newZone: Zone | undefined;
+  public drawnZone: google.maps.Circle | google.maps.Polygon | undefined;
 
   constructor(public _map: MapService, public _sidebar: SidebarService, private _modal: NgbModal) {
     this.mapOptions = {
@@ -103,26 +104,18 @@ export class MapComponent implements OnInit {
     google.maps.event.clearListeners(this.map.googleMap!, "click");
   }
 
-  private drawSelectedZone() {
-    if (this._map.zoneToDrawOnMap) {
-      if (this._map.zoneToDrawOnMap.radius != 0) {
-        this.map.panTo(new google.maps.LatLng(this._map.zoneToDrawOnMap.pos[0].lat, this._map.zoneToDrawOnMap.pos[0].lng));
-        this._map.drawnZone = this.drawCircle(this._map.zoneToDrawOnMap);
+  public drawZone(event: {zone: Zone}) {
+    if (this.drawnZone) {
+      this.drawnZone.setMap(null);
+    }
+    if (event.zone) {
+      if (event.zone.radius != 0) {
+        this.panToCircleZone(event.zone);
+        this.drawnZone = this.drawCircle(event.zone);
       } else {
-        let outer: turf.helpers.Position[] = [];
-        this._map.zoneToDrawOnMap.pos.forEach(e => {
-          let inner = [];
-          inner.push(e.lat);
-          inner.push(e.lng);
-          outer.push(inner);
-        })
-        outer.push(outer[0]);
-        let polygon = turf.polygon([outer]);
-        let centroid = turf.centerOfMass(polygon);
-        this.map.panTo(new google.maps.LatLng(centroid.geometry.coordinates[0], centroid.geometry.coordinates[1]));
-        this._map.drawnZone = this.drawPolygon(this._map.zoneToDrawOnMap);
+        this.panToPolygonZone(event.zone)
+        this.drawnZone = this.drawPolygon(event.zone);
       }
-      this._map.zoneToDrawOnMap = undefined;
     }
   }
 
@@ -155,13 +148,31 @@ export class MapComponent implements OnInit {
     });
   }
 
+  private panToCircleZone(zone: Zone) {
+    this.map.panTo(new google.maps.LatLng(zone.pos[0].lat, zone.pos[0].lng));
+  }
+
+  private panToPolygonZone(zone: Zone) {
+    let outer: turf.helpers.Position[] = [];
+    zone.pos.forEach((e: { lat: any; lng: any; }) => {
+      let inner = [];
+      inner.push(e.lat);
+      inner.push(e.lng);
+      outer.push(inner);
+    })
+    outer.push(outer[0]);
+    let polygon = turf.polygon([outer]);
+    let centroid = turf.centerOfMass(polygon);
+    this.map.panTo(new google.maps.LatLng(centroid.geometry.coordinates[0], centroid.geometry.coordinates[1]));
+  }
+
   private updateMapEverySecond() {
     this.timeInterval = interval(1000).pipe(
       switchMap(() => this._map.getUserPositions()),
     ).subscribe({
       next: (res: any) => {
-        this.drawSelectedZone();
         this._map.getRoutePositions();
+        this.drawRoute();
 
         this.users = res;
         for (let user of res) {
@@ -174,8 +185,6 @@ export class MapComponent implements OnInit {
           }
         }
         this.centerOnMarker();
-
-        this.setRoute();
 
         // this.map.controls[google.maps.ControlPosition.TOP_RIGHT].push(document.getElementById("toggleSidebar"));
       },
@@ -194,7 +203,7 @@ export class MapComponent implements OnInit {
     }
   }
 
-  private setRoute() {
+  private drawRoute() {
     if (this._map.route) {
       if (this._map.route.positions) {
         let pathArray: google.maps.LatLng[] = [];

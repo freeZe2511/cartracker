@@ -2,7 +2,7 @@
   <div class="container-fluid d-flex justify-content-center mt-2">
     <mat-form-field id="displayZoneDropdown" appearance="outline">
       <mat-label>Displayed Zone</mat-label>
-      <mat-select [(value)]="selectedZone" (selectionChange)="setSelectedZone()">
+      <mat-select [(value)]="selectedZone" (selectionChange)="drawZone.emit({zone: selectedZone})">
         <mat-option *ngFor="let zone of _map.zones | slice:1" [value]="zone">
           <span>{{zone.name}}</span>
         </mat-option>
