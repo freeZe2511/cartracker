@@ -1,5 +1,5 @@
-<div class="container-fluid border-white justify-content-center mb-2">
-  <div class="row p-1" (click)="_sidebar.closeZone(zone.name)">
+<div class="container-fluid border-white rounded-border justify-content-center mb-2">
+  <div class="row p-1 hover-dark" (click)="_sidebar.closeZone(zone.name)">
     <div class="col-10">
       <b>{{zone.name}}</b>
     </div>
@@ -7,18 +7,23 @@
       <b>Λ</b>
     </div>
   </div>
+  <div class="row d-flex justify-content-center">
+    <div class="col-11 separator-white">
+
+    </div>
+  </div>
   <div class="row p-1">
     <ng-container *ngIf="zone.name == 'All'">
       <div class="col-12" *ngFor="let user of _user.users">
-        <div class="row pl-3 pb-1" [class.highlighted-green]="_sidebar.highlightedUser == user.id" (click)="userClicked(user.id)">
-          {{user.username}}
+        <div class="row pl-3 pb-1" (click)="userClicked(user.id)">
+          <span class="hover-text" [class.highlighted-green]="_sidebar.highlightedUser == user.id">{{user.username}}</span>
         </div>
       </div>
     </ng-container>
     <ng-container *ngIf="zone.name != 'All'">
       <div class="col-12" *ngFor="let user of _user.users">
-        <div class="row pl-3 pb-1" *ngIf="zone.id == user.zoneid" [class.highlighted-green]="_sidebar.highlightedUser == user.id" (click)="userClicked(user.id)">
-          {{user.username}}
+        <div class="row pl-3 pb-1" *ngIf="zone.id == user.zoneid" (click)="userClicked(user.id)">
+          <span class="hover-text" [class.highlighted-green]="_sidebar.highlightedUser == user.id">{{user.username}}</span>
         </div>
       </div>
     </ng-container>

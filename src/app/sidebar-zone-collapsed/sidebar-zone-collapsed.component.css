@@ -1,3 +1,5 @@
-.sidebar-zone-collapsed{
-  border: 2px solid white;
+.hover-dark:hover {
+  background-color: #2a3347;
+  border: 2px #dedede solid;
+  cursor: pointer;
 }
