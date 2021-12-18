@@ -32,9 +32,9 @@ class ZoneController {
     return Response(200, body: jsonEncode(res));
   }
 
-  Future<Response> getZoneByID(Request request, String id) async {
-    return Response(200, body: jsonEncode(null));
-  }
+  // Future<Response> getZoneByID(Request request, String id) async {
+  //   return Response(200, body: jsonEncode(null));
+  // }
 
   Future<Response> updateZone(Request request, String id) async {
     var body = jsonDecode(await request.readAsString());
