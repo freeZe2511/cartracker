@@ -40,7 +40,7 @@ export class MapService {
   }
 
   public getUserPositions(): any {
-    return this._http.get("http://localhost:9090/api/v1/map/1");
+    return this._http.get("http://localhost:9090/api/v1/pos");
   }
 
   public createZone(zone: ZoneClass) {
