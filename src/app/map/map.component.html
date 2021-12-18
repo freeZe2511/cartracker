@@ -1,0 +1,18 @@
+<app-header></app-header>
+<mat-sidenav-container [hasBackdrop]="false">
+  <mat-sidenav id="sidebar" [opened]="_sidebar.sidebarIsOpened">
+    <app-sidebar (drawZone)="drawZone($event)" (setCenteredMarker)="setCenteredMarker($event)"
+        (removeCenteredMarker)="removeCenteredMarker($event)"></app-sidebar>
+  </mat-sidenav>
+
+  <mat-sidenav-content id="sidebar-content">
+<!--    <div class="m-0 p-0 container-fluid">-->
+      <google-map class="m-0 p-0" id="map" width="100%" height="100%" [options]="mapOptions">
+        <ng-container *ngFor="let user of this.users; let i = index;">
+          <map-polyline [options]="polylineOptions"></map-polyline>
+        </ng-container>
+      </google-map>
+    <!--    </div>-->
+  </mat-sidenav-content>
+</mat-sidenav-container>
+

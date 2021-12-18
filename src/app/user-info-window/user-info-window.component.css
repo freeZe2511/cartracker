@@ -1,0 +1,28 @@
+#user_info_window {
+  width: 21em;
+  height: 180px;
+  margin: 20px 10px 20px 10px;
+  border: 2px solid white;
+  border-radius: 20px;
+}
+
+.user_status {
+  width: 6em;
+  height: 34px;
+  background: #12B400;
+  border-radius: 20px;
+}
+
+#user_info_window_settings {
+  font-size: 12px;
+}
+
+#inputRouteTimeInHours {
+  width: 2em;
+  margin-top: -0.3em;
+}
+
+#inputRouteTimeInMinutes {
+  width: 2em;
+  margin-top: -0.3em;
+}
