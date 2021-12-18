@@ -12,7 +12,7 @@ class UserController {
     var body = jsonDecode(await request.readAsString());
     String username = body["username"];
     String password = body["password"];
-    String zoneid = await ZoneDao.findOne(body["zoneid"]);  //TODO check if zone in db else undefined?
+    String zoneid = await ZoneDao.findOne(body["zoneid"]);
 
     String userID = Uuid().v4();
     await UserDao.create(User(

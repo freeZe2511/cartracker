@@ -19,6 +19,12 @@ class UserDao {
     return User.fromJson(u!); //null?
   }
 
+  static Future<User> readOneByID(String userid) async {
+    var u =
+    await Database.db.collection(_collection).findOne(where.eq('id', userid));
+    return User.fromJson(u!); //null?
+  }
+
   static Future<List<User>> readMany(List<String> usernames) async {
     return Database.db
         .collection(_collection)
@@ -68,7 +74,7 @@ class UserDao {
     var modifier = ModifierBuilder();
     modifier.set("username", newUsername);
     modifier.set("password", newPassword);
-    modifier.set("password", newZone);
+    modifier.set("zoneid", newZone);
     print(modifier);
     await Database.db
         .collection(_collection)

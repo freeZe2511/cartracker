@@ -54,17 +54,20 @@ class Coordinate {
   final String id;
   final double lat;
   final double lng;
+  final bool inZone;
 
-  const Coordinate({required this.id, required this.lat, required this.lng});
+  const Coordinate(
+      {required this.id,
+      required this.lat,
+      required this.lng,
+      required this.inZone});
 
   Coordinate.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         lat = json['lat'],
-        lng = json['lng'];
+        lng = json['lng'],
+        inZone = json['inZone'];
 
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'lat': lat,
-        'lng': lng,
-      };
+  Map<String, dynamic> toJson() =>
+      {'id': id, 'lat': lat, 'lng': lng, 'inZone': inZone};
 }

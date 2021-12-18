@@ -12,6 +12,13 @@ class ZoneDao {
         .insert(z.toJson());
   }
 
+  static Future<Zone?> readOneByID(String zoneid) async {
+    var z =
+    await Database.db.collection(_collection).findOne(where.eq('id', zoneid));
+    if(z != null) return Zone.fromJson(z); //null?
+    return null;
+  }
+
   static Future<List<Zone>> readAll() async {
     return Database.db
         .collection(_collection)
