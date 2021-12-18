@@ -2,7 +2,7 @@
   <div class="container-fluid d-flex justify-content-center mt-2">
     <mat-form-field id="displayZoneDropdown" appearance="outline">
       <mat-label>Displayed Zone</mat-label>
-      <mat-select [(value)]="selectedZone" (selectionChange)="setSelectedZone()">
+      <mat-select [(value)]="selectedZone" (selectionChange)="drawZone.emit({zone: selectedZone})">
         <mat-option *ngFor="let zone of _map.zones | slice:1" [value]="zone">
           <span>{{zone.name}}</span>
         </mat-option>
@@ -15,7 +15,9 @@
     <ng-container *ngFor="let zone of _map.zones">
       <app-sidebar-zone-collapsed *ngIf="!_sidebar.openedZones.includes(zone.name)" [zone]="zone">
       </app-sidebar-zone-collapsed>
-      <app-sidebar-zone *ngIf="_sidebar.openedZones.includes(zone.name)" [zone]="zone">
+      <app-sidebar-zone *ngIf="_sidebar.openedZones.includes(zone.name)" [zone]="zone"
+                        (setCenteredMarker)="setCenteredMarker.emit($event)"
+                        (removeCenteredMarker)="removeCenteredMarker.emit($event)">
       </app-sidebar-zone>
     </ng-container>
   </div>

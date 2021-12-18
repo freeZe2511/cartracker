@@ -12,14 +12,14 @@ export class HttpService {
   constructor(private http: HttpClient) {
   }
 
-  // generalisieren
-  public getCurrentUserPos(): Observable<User[]> {
-    return this.http.get<User[]>("http://localhost:9090/api/v1/map/1");
-  }
-
-  public getUserList(): Observable<User[]> {
-    return this.http.get<User[]>("http://localhost:9090/api/v1/users");
-  }
+  // // generalisieren
+  // public getCurrentUserPos(): Observable<User[]> {
+  //   return this.http.get<User[]>("http://localhost:9090/api/v1/map/1");
+  // }
+  //
+  // public getUserList(): Observable<User[]> {
+  //   return this.http.get<User[]>("http://localhost:9090/api/v1/users");
+  // }
 
   // <T> ?
   public get(url: string, options?: any): Observable<any> {

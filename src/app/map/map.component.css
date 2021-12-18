@@ -30,6 +30,10 @@ mat-sidenav::after {
   border-radius: 0 50% 50% 0;
 }
 
+mat-sidenav::after:hover {
+  cursor: pointer;
+}
+
 mat-sidenav-content {
   height: 100%;
 }
@@ -45,6 +49,10 @@ mat-sidenav-content {
   top: calc(50% - 15px - 0.5em);
   border-radius: 0 50% 50% 0;
   z-index: 1;
+}
+
+#map::before:hover {
+  cursor: pointer;
 }
 
 

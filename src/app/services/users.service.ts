@@ -15,12 +15,9 @@ export class UserService {
     this.users = [];
   }
 
-  public initZoneArray(){
-    // TODO
-  }
-
   public getUsersList(): any {
-    return this.httpService.getUserList();
+    // return this.httpService.getUserList();
+    return this.httpService.get("http://localhost:9090/api/v1/users");
   }
 
   public initUserArray() {
@@ -62,7 +59,8 @@ export class UserService {
   public updateUser(user: User) {
     this.httpService.put("http://localhost:9090/api/v1/user/" + user.id, {
       username: user.username,
-      password: user.password // TODO zone
+      password: user.password, // TODO zone
+      zoneid: user.zoneid
     }).subscribe({
       next: (res: any) => {
         console.log(res);

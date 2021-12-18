@@ -9,3 +9,11 @@ body {
   border: 2px solid white;
 }
 
+.rounded-border {
+  border-radius: 4px;
+}
+
+.hover-mouse-hand {
+  cursor: pointer;
+}
+

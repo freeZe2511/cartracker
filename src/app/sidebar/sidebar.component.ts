@@ -1,5 +1,4 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
-import {MatSidenav} from "@angular/material/sidenav";
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {SidebarService} from "../services/sidebar.service";
 import {UserService} from "../services/users.service";
 import {MapService} from "../services/map.service";
@@ -11,6 +10,10 @@ import {Zone} from "../models/zone";
   styleUrls: ['./sidebar.component.css']
 })
 export class SidebarComponent implements OnInit {
+  @Output("drawZone") drawZone: EventEmitter<any> = new EventEmitter();
+  @Output("setCenteredMarker") setCenteredMarker: EventEmitter<any> = new EventEmitter();
+  @Output("removeCenteredMarker") removeCenteredMarker: EventEmitter<any> = new EventEmitter();
+
 
   public selectedZone: Zone | undefined;
 
@@ -18,13 +21,6 @@ export class SidebarComponent implements OnInit {
   }
 
   ngOnInit(): void {
-  }
-
-  public setSelectedZone() {
-    this._map.zoneToDrawOnMap = this.selectedZone;
-    if (this._map.drawnZone) {
-      this._map.drawnZone.setMap(null);
-    }
   }
 
 }

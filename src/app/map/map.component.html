@@ -1,7 +1,8 @@
 <app-header></app-header>
 <mat-sidenav-container [hasBackdrop]="false">
   <mat-sidenav id="sidebar" [opened]="_sidebar.sidebarIsOpened">
-    <app-sidebar></app-sidebar>
+    <app-sidebar (drawZone)="drawZone($event)" (setCenteredMarker)="setCenteredMarker($event)"
+        (removeCenteredMarker)="removeCenteredMarker($event)"></app-sidebar>
   </mat-sidenav>
 
   <mat-sidenav-content id="sidebar-content">
@@ -15,4 +16,3 @@
   </mat-sidenav-content>
 </mat-sidenav-container>
 
-<!-- TODO button integrate in google maps with controls (in .ts)-->

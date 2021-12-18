@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import {UserService} from "./users.service";
 import {Route} from "../models/route";
-import { Zone } from "../models/zone"
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +9,6 @@ export class SidebarService {
   public sidebarIsOpened: boolean;
   public highlightedUser?: string;
   public openedZones: Array<string> = new Array<string>();
-  public selectedZone: string | undefined;
   public userSettings = {
     route: false,
   }

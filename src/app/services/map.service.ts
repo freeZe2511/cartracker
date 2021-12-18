@@ -14,12 +14,10 @@ export class MapService {
   public markers: Map<string, google.maps.Marker> = new Map();
   public route?: Route;
   public centeredMarkerUserid: string | undefined;
-  public keepCentered: boolean = false; //TODO: set if marker should be followed
+  public keepMarkerCentered: boolean = false;
   public allZone: Zone;
   public noneZone: Zone;
   public zones: Zone[];
-  public zoneToDrawOnMap: Zone | undefined;
-  public drawnZone: google.maps.Circle | google.maps.Polygon | undefined;
 
   constructor(private _http: HttpService, private _user: UserService, private _sidebar: SidebarService) {
     this.allZone = new ZoneClass("All", [], 0);
@@ -42,7 +40,7 @@ export class MapService {
   }
 
   public getUserPositions(): any {
-    return this._http.get("http://localhost:9090/api/v1/map/1");
+    return this._http.get("http://localhost:9090/api/v1/pos");
   }
 
   public createZone(zone: ZoneClass) {
@@ -90,7 +88,7 @@ export class MapService {
     this.markers.get(userid)!.addListener('click', () => this.unsetUserClicked(userid));
     this.centeredMarkerUserid = userid;
     this._sidebar.updateUserInfoWindowSettings(userid, this.route);
-    this.keepCentered = true;
+    this.keepMarkerCentered = true;
     this._sidebar.openSidebar();
     this._sidebar.highlightUser(userid);
   }
@@ -98,7 +96,7 @@ export class MapService {
   public unsetUserClicked(userid: string) {
     this.markers.get(userid)!.addListener('click', () => this.setUserClicked(userid));
     this.centeredMarkerUserid = undefined;
-    this.keepCentered = false;
+    this.keepMarkerCentered = false;
     this._sidebar.closeSidebar();
     this._sidebar.unhighlightUser(userid);
   }
