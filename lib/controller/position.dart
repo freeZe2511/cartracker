@@ -10,23 +10,28 @@ import 'package:vector_math/vector_math.dart';
 
 class PositionController {
   Future<Response> createPos(Request request) async {
+    if (request.isEmpty) return Response(400);
     var body = jsonDecode(await request.readAsString());
-    String userid = body["userid"];
-    if (await UserDao.checkID(userid) == null) {
-      return Response(401, body: jsonEncode(body));
+    if (body != null) {
+      String userid = body["userid"];
+      if (await UserDao.checkID(userid) == null) {
+        return Response(401, body: jsonEncode(body));
+      }
+      double lat = body["lat"];
+      double lng = body["lng"];
+
+      // bool inZone = body["inZone"]; //TODO when calc in app
+      bool inZone = await isInZone(userid, lat, lng);
+
+      await CoordinateDao.create(
+          Coordinate(id: userid, lat: lat, lng: lng, inZone: inZone));
+      return Response(201, body: jsonEncode(body));
     }
-    double lat = body["lat"];
-    double lng = body["lng"];
-
-    // bool inZone = body["inZone"]; //TODO when calc in app
-    bool inZone = await isInZone(userid, lat, lng);
-
-    await CoordinateDao.create(
-        Coordinate(id: userid, lat: lat, lng: lng, inZone: inZone));
-    return Response(201, body: jsonEncode(body));
+    return Response(400);
   }
 
-  Future<Response> getLatestUserPos(Request request, String limit) async {
+  Future<Response> getLatestUserPos(Request request) async {
+    String limit = "1"; // TODO
     var res =
         await AdminDataDao.readBasicUsersWithLatestPositions(int.parse(limit));
     return Response(200, body: jsonEncode(res));
