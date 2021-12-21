@@ -1,0 +1,58 @@
+#map {
+  display: block;
+  padding: 5% 1% 1% 1%;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+mat-sidenav-container {
+  height: calc(100vh - 4em);
+}
+
+mat-sidenav {
+  background: #1e2833;
+  border-top: 2px solid white;
+  padding: 1em;
+  width: 25em;
+  color: white;
+  overflow: visible !important;
+  height: 100%;
+}
+
+mat-sidenav::after {
+  display: block;
+  position: absolute;
+  content: "⯇";
+  background: #1e2833;
+  padding: 15px;
+  right: -30px;
+  top: calc(50% - 15px - 0.5em);
+  border-radius: 0 50% 50% 0;
+}
+
+mat-sidenav::after:hover {
+  cursor: pointer;
+}
+
+mat-sidenav-content {
+  height: 100%;
+}
+
+#map::before {
+  display: block;
+  position: absolute;
+  color: white;
+  content: "⯈";
+  background: #1e2833;
+  padding: 15px;
+  left: -1ch;
+  top: calc(50% - 15px - 0.5em);
+  border-radius: 0 50% 50% 0;
+  z-index: 1;
+}
+
+#map::before:hover {
+  cursor: pointer;
+}
+
+

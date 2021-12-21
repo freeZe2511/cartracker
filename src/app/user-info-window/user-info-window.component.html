@@ -1,0 +1,18 @@
+<div id="user_info_window">
+  <div class="d-flex justify-content-between">
+    <div class="m-2 p-2"><h4>{{_map.markers.get(_map.centeredMarkerUserid!)!.getTitle()}}</h4></div>
+    <div class="m-2 p-2 user_status d-flex justify-content-center align-content-center"><div>Active</div></div>
+  </div>
+  <div class="container-fluid m-0 p-0" id="user_info_window_settings">
+    <div class="row">
+      <div class="col p-0 m-0 d-flex">
+        <mat-checkbox [(ngModel)]="_sidebar.userSettings.route" isChecked class="p-0 m-0 pl-5" (change)="setRouteSettings()"></mat-checkbox>
+        <span class="px-1">Route der letzten</span>
+        <input id="inputRouteTimeInHours" matInput="number" value="1" (input)="setRouteSettings()">
+        <span class="px-1">hours</span>
+        <input id="inputRouteTimeInMinutes" matInput="number" value="0" (input)="setRouteSettings()">
+        <span class="px-1">min</span>
+      </div>
+    </div>
+  </div>
+</div>

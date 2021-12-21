@@ -1,0 +1,27 @@
+.sidebar_active_users_col {
+  height: calc(100vh - 4em - 250px);
+}
+
+:host /deep/ .mat-select-value-text {
+  color: white !important;
+}
+
+mat-label {
+  color: white !important;
+}
+
+/deep/ .mat-select-panel {
+  background-color: #1e2833;
+}
+
+span{
+  color: white !important;
+}
+
+#sidenav_toggle_button {
+  height: 2.6rem;
+  width: 2.6rem;
+  border-radius: 0 70% 70% 0;
+  text-align: center;
+  align-items: center;
+}
