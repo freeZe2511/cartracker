@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:cartracker_backend/database/user_dao.dart';
 import 'package:shelf/shelf.dart';
 
 class AuthenticationController {
@@ -11,13 +14,13 @@ class AuthenticationController {
     return Response(200);
   }
 
-// Future<Response> _login(Request request) async {
-//   var body = jsonDecode(await request.readAsString());
-//   String username = body["username"];
-//   String password = body["password"];
-//   var token = await UserDao.findOne(username, password);
-//   if (token != null) return Response(200, body: jsonEncode(token));
-//   return Response(404);
-// }
+Future<Response> _login(Request request) async {
+  var body = jsonDecode(await request.readAsString());
+  String username = body["username"];
+  String password = body["password"];
+  var token = await UserDao.findOne(username, password);
+  if (token != null) return Response(200, body: jsonEncode(token));
+  return Response(404);
+}
 
 }
