@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  cartracker-backend:
+    restart: always
+    build: .
+    image: cartracker-backend
+    depends_on:
+      - mongodb
+    ports:
+      - "9090:9090"
+
+  mongodb:
+    image: mongo
+    restart: always
+    ports:
+      - "27017:27017"
+
