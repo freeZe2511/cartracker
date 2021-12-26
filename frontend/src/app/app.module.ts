@@ -29,6 +29,7 @@ import { SidebarZoneCollapsedComponent } from './sidebar-zone-collapsed/sidebar-
 import { UserInfoWindowComponent } from './user-info-window/user-info-window.component';
 import { AddZoneModalComponent } from './add-zone-modal/add-zone-modal.component';
 import {MatSelectModule} from "@angular/material/select";
+import { ZoneListComponent } from './zone-list/zone-list.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import {MatSelectModule} from "@angular/material/select";
     SidebarZoneComponent,
     SidebarZoneCollapsedComponent,
     UserInfoWindowComponent,
-    AddZoneModalComponent
+    AddZoneModalComponent,
+    ZoneListComponent
   ],
     imports: [
         BrowserModule,
