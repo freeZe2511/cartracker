@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {SidebarService} from "../services/sidebar.service";
-import {Zone} from "../models/zone";
+import {SidebarService} from "../../shared/services/sidebar.service";
+import {Zone} from "../../shared/models/zone";
 
 @Component({
   selector: 'app-sidebar-zone-collapsed',

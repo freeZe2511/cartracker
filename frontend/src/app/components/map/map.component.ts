@@ -1,10 +1,10 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {MapService} from "../services/map.service";
-import {User} from "../models/user";
+import {MapService} from "../../shared/services/map.service";
+import {User} from "../../shared/models/user";
 import {interval, Subscription, switchMap} from "rxjs";
 import {GoogleMap, MapInfoWindow} from "@angular/google-maps";
-import {SidebarService} from "../services/sidebar.service";
-import {PosClass, ZoneClass, Zone} from "../models/zone";
+import {SidebarService} from "../../shared/services/sidebar.service";
+import {PosClass, ZoneClass, Zone} from "../../shared/models/zone";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {AddZoneModalComponent} from "../add-zone-modal/add-zone-modal.component";
 import * as turf from '@turf/turf';

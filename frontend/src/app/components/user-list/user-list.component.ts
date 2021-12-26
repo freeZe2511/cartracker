@@ -1,14 +1,14 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {Position, User} from "../models/user";
+import {Position, User} from "../../shared/models/user";
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
 import {interval, Subscription, switchMap} from "rxjs";
-import {UserService} from "../services/users.service";
+import {UserService} from "../../shared/services/users.service";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {EditUserModalComponent} from "../edit-user-modal/edit-user-modal.component";
 import {AddUserModalComponent} from "../add-user-modal/add-user-modal.component";
-import {MapService} from "../services/map.service";
+import {MapService} from "../../shared/services/map.service";
 import {Router} from "@angular/router";
 
 @Component({

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {UserWithoutPosition} from "../models/user";
+import {UserWithoutPosition} from "../../shared/models/user";
 import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
-import {ZoneClass} from "../models/zone";
+import {ZoneClass} from "../../shared/models/zone";
 
 @Component({
   selector: 'app-add-zone-modal',

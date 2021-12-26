@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
-import {User} from "../models/user";
-import {MapService} from "../services/map.service";
-import {Zone, ZoneClass} from "../models/zone"
+import {User} from "../../shared/models/user";
+import {MapService} from "../../shared/services/map.service";
+import {Zone, ZoneClass} from "../../shared/models/zone"
 
 @Component({
   selector: 'app-edit-user-modal',

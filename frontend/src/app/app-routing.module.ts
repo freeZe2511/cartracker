@@ -1,8 +1,8 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {MapComponent} from "./map/map.component";
-import {UserListComponent} from "./user-list/user-list.component";
-import {ZoneListComponent} from "./zone-list/zone-list.component";
+import {MapComponent} from "./components/map/map.component";
+import {UserListComponent} from "./components/user-list/user-list.component";
+import {ZoneListComponent} from "./components/zone-list/zone-list.component";
 
 const routes: Routes = [
   // { path: '', redirectTo: '/sign-in', pathMatch: 'full'},

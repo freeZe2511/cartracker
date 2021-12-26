@@ -1,8 +1,8 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {SidebarService} from "../services/sidebar.service";
-import {UserService} from "../services/users.service";
-import {MapService} from "../services/map.service";
-import {Zone} from "../models/zone";
+import {SidebarService} from "../../shared/services/sidebar.service";
+import {UserService} from "../../shared/services/users.service";
+import {MapService} from "../../shared/services/map.service";
+import {Zone} from "../../shared/models/zone";
 
 @Component({
   selector: 'app-sidebar',

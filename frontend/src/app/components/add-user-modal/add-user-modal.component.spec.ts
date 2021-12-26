@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AddUserModalComponent } from './add-user-modal.component';
-import {HttpService} from "../services/http.service";
+import {HttpService} from "../../shared/services/http.service";
 import {NgbActiveModal, NgbModal} from "@ng-bootstrap/ng-bootstrap";
 
 describe('AddUserModalComponent', () => {

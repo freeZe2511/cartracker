@@ -3,11 +3,11 @@ import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
 import {interval, Subscription, switchMap} from "rxjs";
-import {UserService} from "../services/users.service";
+import {UserService} from "../../shared/services/users.service";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {MapService} from "../services/map.service";
+import {MapService} from "../../shared/services/map.service";
 import {Router} from "@angular/router";
-import {Zone} from "../models/zone";
+import {Zone} from "../../shared/models/zone";
 
 @Component({
   selector: 'app-zone-list',

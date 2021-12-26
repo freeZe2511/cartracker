@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {SidebarService} from "../services/sidebar.service";
-import {MapService} from "../services/map.service";
-import {Route} from "../models/route";
+import {SidebarService} from "../../shared/services/sidebar.service";
+import {MapService} from "../../shared/services/map.service";
+import {Route} from "../../shared/models/route";
 
 @Component({
   selector: 'app-user-info-window',

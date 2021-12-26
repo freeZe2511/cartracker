@@ -1,9 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {User, Position} from "../models/user";
 
-import {Observable, throwError} from 'rxjs';
-import {catchError, retry} from 'rxjs/operators';
+import {Observable} from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -11,15 +9,6 @@ import {catchError, retry} from 'rxjs/operators';
 export class HttpService {
   constructor(private http: HttpClient) {
   }
-
-  // // generalisieren
-  // public getCurrentUserPos(): Observable<User[]> {
-  //   return this.http.get<User[]>("http://localhost:9090/api/v1/map/1");
-  // }
-  //
-  // public getUserList(): Observable<User[]> {
-  //   return this.http.get<User[]>("http://localhost:9090/api/v1/users");
-  // }
 
   // <T> ?
   public get(url: string, options?: any): Observable<any> {
