@@ -1,15 +1,13 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {Position, User} from "../models/user";
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
 import {interval, Subscription, switchMap} from "rxjs";
 import {UserService} from "../services/users.service";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {EditUserModalComponent} from "../edit-user-modal/edit-user-modal.component";
-import {AddUserModalComponent} from "../add-user-modal/add-user-modal.component";
 import {MapService} from "../services/map.service";
 import {Router} from "@angular/router";
+import {Zone} from "../models/zone";
 
 @Component({
   selector: 'app-zone-list',
@@ -27,11 +25,9 @@ export class ZoneListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.initUsers();
-
     this.mapService.getZones();
+    this.initZones();
 
-    this.updateUsersEverySecond();
   }
 
   ngAfterViewInit() {
@@ -39,74 +35,45 @@ export class ZoneListComponent implements OnInit {
     this.dataSource.sort = this.sort;
   }
 
-  private initUsers() {
-    this._user.getUsersList().subscribe({
-      next: (res: any) => {
-        this.dataSource.data = res;
-        this._user.users = res;
-        // console.log(this.mapService.zones)
-      },
-      error: (e: any) => console.error(e),
-      complete: () => console.info('complete')
-    });
+  private initZones() {
+    this.dataSource.data = this.mapService.zones; // TODO all / none zone
   }
 
-  private updateUsersEverySecond() {
-    this.timeInterval = interval(1000).pipe(
-      switchMap(() => this._user.getUsersList()),
-    ).subscribe({
-      next: (res: any) => {
-        this.dataSource.data = res;
-        this._user.users = res;
-      },
-      error: (e) => console.error(e),
-      complete: () => console.info('complete')
-    });
-  }
-
-  public centerOnUser(userid: string, pos: Position) {
-    this.mapService.centerOnMarker(userid, pos);
+  public centerOnZone(zone: Zone) {
+    if (zone.radius == 0) {
+      // panToPolygonZone() TODO in mapService
+    } else {
+      // panToCircleZone()
+    }
     this.router.navigate(['map']);
-
-    // this.router.navigate(['map']).then(() => this.mapService.centerOnMarker(userid, pos));
   }
 
   public async add() {
-    const modalReference = this.modalService.open(AddUserModalComponent);
-
-    try {
-      const resultUser: User = await modalReference.result;
-      this._user.createUser(resultUser);
-    } catch (error) {
-      console.log(error);
-    }
+    this.router.navigate(['map']);
   }
 
-  public async edit(user: User) {
-    const modalReference = this.modalService.open(EditUserModalComponent);
-    modalReference.componentInstance.user = user;
-
-    try {
-      const resultUser: User = await modalReference.result;
-      this._user.updateUser(resultUser);
-    } catch (error) {
-      console.log(error);
-    }
+  public async edit(zone: Zone) {
+    // TODO in map?
+    // const modalReference = this.modalService.open(EditUserModalComponent);
+    // modalReference.componentInstance.zone = zone;
+    //
+    // try {
+    //   const resultZone: Zone = await modalReference.result;
+    //   this.mapService.updateZone(resultZone); // TODO zone service?
+    // } catch (error) {
+    //   console.log(error);
+    // }
   }
 
-  public async delete(userid: string) {
-    this._user.deleteUser(userid);
+  public async delete(zoneid: string) {
+    // this.mapService.deleteZone(zoneid); // TODO
   }
 
-  displayedColumns: string[] = ['id', 'username', 'password', 'zone', 'status', 'created', 'actions'];
-  dataSource = new MatTableDataSource(this._user.users);
+  displayedColumns: string[] = ['id', 'name', 'type', 'complexity', 'radius', 'actions']; // TODO created
+  dataSource = new MatTableDataSource(this.mapService.zones);
 
-  public findZoneName(user_zoneid: string) {
-    return this.mapService.zones.find(z => z.id === user_zoneid)?.name;
-  }
-
-  public convertTime(id: any){
-    let timeStamp = parseInt(id.substr(0,8), 16)*1000
+  public convertTime(id: any) {
+    let timeStamp = parseInt(id.substr(0, 8), 16) * 1000
     return new Date(timeStamp)  // TODO refactor into nice format
   }
 
