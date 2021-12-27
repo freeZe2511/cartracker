@@ -14,7 +14,7 @@ class AuthenticationController {
     var a = await AdminDao.findOne1(uniqueX); //TODO just unique name?
     if (a == null) return Response(401);
     if (password == a.password) {
-      var jwt = JWT({"uniqueX": uniqueX});
+      var jwt = JWT({"uniqueX": uniqueX}); //TODO expire and reauth?
       var token = jwt.sign(SecretKey("super secret key"));
       return Response(200, body: jsonEncode(token));
     }
