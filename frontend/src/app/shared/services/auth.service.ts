@@ -19,14 +19,15 @@ export class AuthService {
         localStorage.setItem("idToken", JSON.stringify(res));
         this.router.navigate(["home"]);
       },
-      error: (e) => console.error(e),
+      error: (e) => window.alert("login fail"),
       complete: () => console.info('complete')
     });
 
   }
 
   logOut() {
-
+    localStorage.removeItem("idToken");
+    this.router.navigate(["sign-in"]);
   }
 
   get isLoggedIn(): boolean {
