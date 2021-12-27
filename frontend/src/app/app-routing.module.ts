@@ -3,14 +3,16 @@ import {RouterModule, Routes} from '@angular/router';
 import {MapComponent} from "./components/map/map.component";
 import {UserListComponent} from "./components/user-list/user-list.component";
 import {ZoneListComponent} from "./components/zone-list/zone-list.component";
+import {AuthGuard} from "./shared/guards/auth.guard";
+import {LoginComponent} from "./components/login/login.component";
 
 const routes: Routes = [
-  // { path: '', redirectTo: '/sign-in', pathMatch: 'full'},
-  // { path: 'sign-in', component: LoginComponent},
+  {path: '', redirectTo: '/sign-in', pathMatch: 'full'},
+  {path: 'sign-in', component: LoginComponent},
   {path: 'home', redirectTo: '/map'},
-  {path: 'map', component: MapComponent},
-  {path: 'users', component: UserListComponent},
-  {path: 'zones', component: ZoneListComponent},
+  {path: 'map', component: MapComponent, canActivate: [AuthGuard]},
+  {path: 'users', component: UserListComponent, canActivate: [AuthGuard]},
+  {path: 'zones', component: ZoneListComponent, canActivate: [AuthGuard]},
 ];
 
 

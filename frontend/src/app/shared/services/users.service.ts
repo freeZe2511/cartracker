@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpService} from "./http.service";
 import {User} from "../models/user";
 import {interval, Subscription, switchMap} from "rxjs";
+import {AuthService} from "./auth.service";
 
 
 @Injectable({
@@ -11,13 +12,12 @@ export class UserService {
   public users: User[];
   private timeInterval!: Subscription;
 
-  constructor(private httpService: HttpService) {
+  constructor(private httpService: HttpService, private authService: AuthService) {
     this.users = [];
   }
 
   public getUsersList(): any {
-    // return this.httpService.getUserList();
-    return this.httpService.get("http://localhost:9090/api/v1/users");
+    return this.httpService.get("http://localhost:9090/api/v1/users", {headers: "Authorization: Bearer " + this.authService.token});
   }
 
   public initUserArray() {
