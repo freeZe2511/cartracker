@@ -17,11 +17,11 @@ export class UserService {
   }
 
   public getUsersList(): any {
-    return this.httpService.get("http://localhost:9090/api/v1/users", {headers: "Authorization: Bearer " + this.authService.token});
+    return this.httpService.get("http://localhost:9090/api/v1/users", {headers: this.authService.authHeader});
   }
 
   public initUserArray() {
-   this.getUsersList().subscribe({
+    this.getUsersList().subscribe({
       next: (res: any) => {
         this.users = res;
       },
