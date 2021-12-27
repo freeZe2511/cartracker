@@ -26,31 +26,44 @@ class AuthenticationController {
     return Response(200);
   }
 
-  Middleware checkAuth({
-    FutureOr<Response?> Function(Request)? requestHandler,
-    FutureOr<Response> Function(Response)? responseHandler,
-    FutureOr<Response> Function(Object error, StackTrace)? errorHandler,
-  }) {
-    requestHandler ??= (request) => null;
-    responseHandler ??= (response) => response;
-
-    FutureOr<Response> Function(Object, StackTrace)? onError;
-    if (errorHandler != null) {
-      onError = (error, stackTrace) {
-        if (error is HijackException) throw error;
-        return errorHandler(error, stackTrace);
-      };
-    }
-
-    return (Handler innerHandler) {
-      return (request) {
-        return Future.sync(() => requestHandler!(request)).then((response) {
-          if (response != null) return response;
-
-          return Future.sync(() => innerHandler(request))
-              .then((response) => responseHandler!(response), onError: onError);
-        });
-      };
-    };
-  }
+  // static FutureOr<Response?> handle(Request request) async {
+  //   print(request.url.toString());
+  //   (request.url.toString() == "api/v1/login")
+  //       ? AuthenticationController.auth(request)
+  //       : AuthenticationController.verify(request);
+  // }
+  //
+  // static FutureOr<Response> auth(Request request) async {
+  //   print("auth " + request.toString());
+  //   try {
+  //     var body = jsonDecode(await request.readAsString());
+  //
+  //     String uniqueX = body["uniqueX"];
+  //     String password = body["password"];
+  //
+  //     var a = await AdminDao.findOne2(uniqueX, password);
+  //     if (a == null) throw Exception();
+  //
+  //     var jwt = JWT({"uniqueX": uniqueX});
+  //     var token = jwt.sign(SecretKey("super secret key"));
+  //     return Response(200, body: jsonEncode(token));
+  //
+  //   } catch (e) {
+  //     print("auth " + e.toString());
+  //     return Response(401);
+  //   }
+  // }
+  //
+  // static FutureOr<Response?> verify(Request request) async {
+  //   print("verify " + request.toString());
+  //   try {
+  //     String token = request.headers["Authorization"]!.replaceAll("Bearer ", "");
+  //     var jwt = JWT.verify(token, SecretKey("super secret key"));
+  //     return null;
+  //   } catch (e) {
+  //     print("verify " + e.toString());
+  //     return Response.forbidden("nonono");
+  //   }
+  //
+  // }
 }

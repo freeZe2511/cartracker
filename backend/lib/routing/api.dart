@@ -2,12 +2,11 @@ import 'package:cartracker_backend/controller/auth.dart';
 import 'package:cartracker_backend/controller/position.dart';
 import 'package:cartracker_backend/controller/users.dart';
 import 'package:cartracker_backend/controller/zone.dart';
+import 'package:shelf_plus/shelf_plus.dart';
 import 'package:shelf_router/shelf_router.dart';
-import 'package:shelf_plus/shelf_plus.dart';
-import 'package:shelf_plus/shelf_plus.dart';
 
 class Api {
-  RouterPlus get router {
+  Router get router {
     // Controller to handle routes
     final authController = AuthenticationController();
     final posController = PositionController();
@@ -15,7 +14,7 @@ class Api {
     final zoneController = ZoneController();
 
     // Router
-    final router = Router().plus;
+    final router = Router();
 
     // Routes for Authentication
     router.post("/login", authController.login);
@@ -34,7 +33,7 @@ class Api {
 
     // Routes for Users
     router.post("/user", userController.createUser);
-    router.get("/users", userController.getUsers, use: authController.checkAuth());
+    router.get("/users", userController.getUsers);
     router.put("/user/<id>", userController.updateUser);
     router.delete("/user/<id>", userController.deleteUser);
 
