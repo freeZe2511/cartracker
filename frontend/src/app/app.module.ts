@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
-import {HttpClientModule, HttpClient} from '@angular/common/http';
+import {HttpClientModule} from '@angular/common/http';
 import {FormsModule} from "@angular/forms";
 import {RouterModule} from '@angular/router';
 
@@ -31,8 +31,6 @@ import {UserInfoWindowComponent} from './components/user-info-window/user-info-w
 import {AddZoneModalComponent} from './components/add-zone-modal/add-zone-modal.component';
 import {MatSelectModule} from "@angular/material/select";
 import {ZoneListComponent} from './components/zone-list/zone-list.component';
-import {RouterTestingModule} from "@angular/router/testing";
-import {HttpClientTestingModule} from "@angular/common/http/testing";
 import {CommonModule} from "@angular/common";
 
 @NgModule({
@@ -70,11 +68,9 @@ import {CommonModule} from "@angular/common";
     MatSelectModule,
     FormsModule,
     CommonModule,
-    RouterModule,
-    RouterTestingModule,
-    HttpClientTestingModule
+    RouterModule
   ],
-  providers: [HttpClient],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule {

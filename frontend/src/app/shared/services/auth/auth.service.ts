@@ -22,7 +22,6 @@ export class AuthService {
       error: () => window.alert("login fail"),
       complete: () => console.info('complete')
     });
-
   }
 
   logOut() {
