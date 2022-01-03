@@ -13,7 +13,7 @@ export class AuthService {
   logIn(username: string, userPassword: string) {
     this.httpService.post("http://localhost:9090/api/v1/login", {
       uniqueX: username,
-      password: userPassword, //TODO hash + salt?
+      password: userPassword
     }).subscribe({
       next: (res: any) => {
         localStorage.setItem("idToken", JSON.stringify(res));
