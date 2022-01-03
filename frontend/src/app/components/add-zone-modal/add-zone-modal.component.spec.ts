@@ -10,7 +10,7 @@ describe('AddZoneModalComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ AddZoneModalComponent ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

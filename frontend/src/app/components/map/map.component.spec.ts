@@ -12,7 +12,7 @@ describe('MapComponent', () => {
       declarations: [ MapComponent ],
       providers: [HttpService]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

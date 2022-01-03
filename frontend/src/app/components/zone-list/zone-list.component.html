@@ -16,7 +16,7 @@
 
     <ng-container matColumnDef="type">
       <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by type"> Type </th>
-      <td mat-cell *matCellDef="let zone"> {{zone.radius == 0 ? "Polygon" : "Circle"}} </td>
+      <td mat-cell *matCellDef="let zone"> {{zone.radius === 0 ? "Polygon" : "Circle"}} </td>
     </ng-container>
 
     <ng-container matColumnDef="complexity">

@@ -13,8 +13,8 @@ import {Zone} from "../../shared/models/zone";
 export class SidebarZoneComponent implements OnInit {
   @Input() users!: User[];
   @Input() zone!: Zone;
-  @Output("setCenteredMarker") setCenteredMarker: EventEmitter<any> = new EventEmitter();
-  @Output("removeCenteredMarker") removeCenteredMarker: EventEmitter<any> = new EventEmitter();
+  @Output() setCenteredMarker: EventEmitter<any> = new EventEmitter();
+  @Output() removeCenteredMarker: EventEmitter<any> = new EventEmitter();
 
   private clickedUserId: string | undefined;
 

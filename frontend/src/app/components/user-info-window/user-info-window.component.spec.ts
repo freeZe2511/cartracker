@@ -10,7 +10,7 @@ describe('UserInfoWindowComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ UserInfoWindowComponent ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
