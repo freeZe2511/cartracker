@@ -18,7 +18,7 @@ class Api {
 
     // Routes for Authentication
     router.post("/login", authController.login);
-    router.post("/logout", authController.logout);
+    // router.post("/logout", authController.logout);
 
     // Routes for GPS-related Data
     router.post(("/pos"), posController.createPos);
