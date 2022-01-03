@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {SidebarService} from "../../shared/services/sidebar.service";
+import {SidebarService} from "../../shared/services/sidebar/sidebar.service";
 import {Zone} from "../../shared/models/zone";
 
 @Component({

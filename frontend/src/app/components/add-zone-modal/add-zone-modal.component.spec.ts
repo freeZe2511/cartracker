@@ -1,6 +1,9 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { AddZoneModalComponent } from './add-zone-modal.component';
+import {AddZoneModalComponent} from './add-zone-modal.component';
+import {HttpClientTestingModule} from "@angular/common/http/testing";
+import {RouterTestingModule} from "@angular/router/testing";
+import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
 
 describe('AddZoneModalComponent', () => {
   let component: AddZoneModalComponent;
@@ -8,7 +11,9 @@ describe('AddZoneModalComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AddZoneModalComponent ]
+      declarations: [AddZoneModalComponent],
+      imports: [HttpClientTestingModule, RouterTestingModule],
+      providers: [NgbActiveModal]
     })
       .compileComponents();
   });

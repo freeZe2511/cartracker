@@ -1,16 +1,18 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { MapComponent } from './map.component';
-import {HttpService} from "../../shared/services/http.service";
+import {MapComponent} from './map.component';
+import {HttpClientTestingModule} from "@angular/common/http/testing";
+import {RouterTestingModule} from "@angular/router/testing";
 
 describe('MapComponent', () => {
   let component: MapComponent;
   let fixture: ComponentFixture<MapComponent>;
 
   beforeEach(async () => {
+
     await TestBed.configureTestingModule({
-      declarations: [ MapComponent ],
-      providers: [HttpService]
+      declarations: [MapComponent],
+      imports: [HttpClientTestingModule, RouterTestingModule]
     })
       .compileComponents();
   });

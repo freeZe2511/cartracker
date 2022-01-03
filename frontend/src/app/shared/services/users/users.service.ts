@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
-import {HttpService} from "./http.service";
-import {User} from "../models/user";
+import {HttpService} from "../http/http.service";
+import {User} from "../../models/user";
 import {interval, Subscription, switchMap} from "rxjs";
-import {AuthService} from "./auth.service";
+import {AuthService} from "../auth/auth.service";
 
 
 @Injectable({

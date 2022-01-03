@@ -1,9 +1,9 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {MapService} from "../../shared/services/map.service";
+import {MapService} from "../../shared/services/map/map.service";
 import {User} from "../../shared/models/user";
 import {interval, Subscription, switchMap} from "rxjs";
 import {GoogleMap, MapInfoWindow} from "@angular/google-maps";
-import {SidebarService} from "../../shared/services/sidebar.service";
+import {SidebarService} from "../../shared/services/sidebar/sidebar.service";
 import {PosClass, ZoneClass, Zone} from "../../shared/models/zone";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {AddZoneModalComponent} from "../add-zone-modal/add-zone-modal.component";

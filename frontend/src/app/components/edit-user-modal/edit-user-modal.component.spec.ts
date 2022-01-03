@@ -1,6 +1,9 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { EditUserModalComponent } from './edit-user-modal.component';
+import {EditUserModalComponent} from './edit-user-modal.component';
+import {HttpClientTestingModule} from "@angular/common/http/testing";
+import {RouterTestingModule} from "@angular/router/testing";
+import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
 
 describe('EditUserModalComponent', () => {
   let component: EditUserModalComponent;
@@ -8,7 +11,9 @@ describe('EditUserModalComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ EditUserModalComponent ]
+      declarations: [EditUserModalComponent],
+      imports: [HttpClientTestingModule, RouterTestingModule],
+      providers: [NgbActiveModal]
     })
       .compileComponents();
   });

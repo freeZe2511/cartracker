@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
 import {User} from "../../shared/models/user";
-import {MapService} from "../../shared/services/map.service";
+import {MapService} from "../../shared/services/map/map.service";
 import {Zone, ZoneClass} from "../../shared/models/zone"
 
 @Component({

@@ -1,8 +1,10 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { AddUserModalComponent } from './add-user-modal.component';
-import {HttpService} from "../../shared/services/http.service";
+import {AddUserModalComponent} from './add-user-modal.component';
+import {HttpService} from "../../shared/services/http/http.service";
 import {NgbActiveModal, NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {HttpClientTestingModule} from "@angular/common/http/testing";
+import {RouterTestingModule} from "@angular/router/testing";
 
 describe('AddUserModalComponent', () => {
   let component: AddUserModalComponent;
@@ -10,8 +12,9 @@ describe('AddUserModalComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AddUserModalComponent ],
-      providers: [HttpService, NgbActiveModal]
+      declarations: [AddUserModalComponent],
+      imports: [HttpClientTestingModule, RouterTestingModule],
+      providers: [NgbActiveModal]
     })
       .compileComponents();
   });

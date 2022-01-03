@@ -3,9 +3,9 @@ import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
 import {interval, Subscription, switchMap} from "rxjs";
-import {UserService} from "../../shared/services/users.service";
+import {UserService} from "../../shared/services/users/users.service";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {MapService} from "../../shared/services/map.service";
+import {MapService} from "../../shared/services/map/map.service";
 import {Router} from "@angular/router";
 import {Zone} from "../../shared/models/zone";
 

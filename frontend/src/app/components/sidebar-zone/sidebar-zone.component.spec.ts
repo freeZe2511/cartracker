@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SidebarZoneComponent } from './sidebar-zone.component';
+import {HttpClientTestingModule} from "@angular/common/http/testing";
+import {RouterTestingModule} from "@angular/router/testing";
 
 describe('SidebarZoneComponent', () => {
   let component: SidebarZoneComponent;
@@ -8,7 +10,8 @@ describe('SidebarZoneComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SidebarZoneComponent ]
+      declarations: [ SidebarZoneComponent ],
+      imports: [HttpClientTestingModule, RouterTestingModule]
     })
       .compileComponents();
   });

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { UserWithoutPosition } from "../../shared/models/user";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
-import {MapService} from "../../shared/services/map.service";
+import {MapService} from "../../shared/services/map/map.service";
 
 @Component({
   selector: 'app-add-user-modal',

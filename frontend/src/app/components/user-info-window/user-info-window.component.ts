@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {SidebarService} from "../../shared/services/sidebar.service";
-import {MapService} from "../../shared/services/map.service";
+import {SidebarService} from "../../shared/services/sidebar/sidebar.service";
+import {MapService} from "../../shared/services/map/map.service";
 import {Route} from "../../shared/models/route";
 
 @Component({
