@@ -57,7 +57,7 @@ class ZoneController {
   }
 
   Future<Response> deleteZone(Request request, String id) async {
-    await ZoneDao.delete(id);
+    await ZoneDao.delete(id); //TODO was wenn user dieser zone zugeordnet ist?
     return Response(200, body: jsonEncode(id));
   }
 }

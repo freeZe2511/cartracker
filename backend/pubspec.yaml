@@ -21,3 +21,6 @@ dependencies:
   objectid: ^2.0.0
 
   vector_math: any
+  dbcrypt: ^2.0.0
+  dart_jsonwebtoken: ^2.4.0
+  shelf_plus: ^1.0.0
