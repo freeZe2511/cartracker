@@ -36,12 +36,36 @@ class AdminDao {
   //       .toList();
   // }
 
-  static Future<String?> findOne(String username, String password) async {
+  static Future<Admin?> findOne(String username, String password) async {
     try {
       var u = await Database.db
           .collection(_collection)
           .findOne(where.eq('username', username).eq('password', password));
-      if (u != null) return Admin.fromJson(u).id;
+      if (u != null) return Admin.fromJson(u);
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+  static Future<Admin?> findOne1(String uniqueID) async {
+    try {
+      var u = await Database.db
+          .collection(_collection)
+          .findOne(where.eq('id', uniqueID));
+      if (u != null) return Admin.fromJson(u);
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+  static Future<Admin?> findOne2(String id, String password) async {
+    try {
+      var u = await Database.db
+          .collection(_collection)
+          .findOne(where.eq('id', id).eq('password', password));
+      if (u != null) return Admin.fromJson(u);
     } catch (e) {
       print(e);
       return null;

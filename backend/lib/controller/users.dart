@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cartracker_backend/controller/auth.dart';
 import 'package:cartracker_backend/database/admin_data_dao.dart';
 import 'package:cartracker_backend/database/coordinate_dao.dart';
 import 'package:cartracker_backend/database/user_dao.dart';
@@ -12,7 +13,8 @@ class UserController {
     var body = jsonDecode(await request.readAsString());
     String username = body["username"];
     String password = body["password"];
-    String zoneid = await ZoneDao.findOne(body["zoneid"]);
+    String zone = body["zoneid"];
+    String zoneid = await ZoneDao.findOne(zone);
 
     String userID = Uuid().v4();
     await UserDao.create(User(
@@ -26,9 +28,13 @@ class UserController {
   }
 
   Future<Response> getUsers(Request request) async {
-    var res = await AdminDataDao.readFullUsersWithLatestPos();
-    // var res = await UserDao.readAll();
-    return Response(200, body: jsonEncode(res));
+    if(await AuthenticationController.verify(request)){
+      var res = await AdminDataDao.readFullUsersWithLatestPos();
+      // var res = await UserDao.readAll();
+      return Response(200, body: jsonEncode(res));
+    }
+    return Response(401);
+
   }
 
   Future<Response> updateUser(Request request, String id) async {
