@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {MapService} from "../../shared/services/map.service";
 import {User} from "../../shared/models/user";
 import {interval, Subscription, switchMap} from "rxjs";
@@ -14,7 +14,7 @@ import * as turf from '@turf/turf';
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.css']
 })
-export class MapComponent implements OnInit {
+export class MapComponent implements OnInit, OnDestroy {
 
   @ViewChild(GoogleMap, {static: true}) map!: GoogleMap
   @ViewChild(MapInfoWindow, {static: false}) info!: MapInfoWindow
@@ -43,6 +43,10 @@ export class MapComponent implements OnInit {
       strokeWeight: 4
     }
   }
+
+  ngOnDestroy(): void {
+    // this._map.getUserPositions().unsubscribe(); //TODO ??
+    }
 
   ngOnInit(): void {
     this.setSidenavTogglerButton();
