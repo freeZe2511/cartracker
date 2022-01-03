@@ -34,7 +34,7 @@ export class UserListComponent implements OnInit {
     this.updateUsersEverySecond();
   }
 
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }

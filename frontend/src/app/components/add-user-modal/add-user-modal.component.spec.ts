@@ -13,7 +13,7 @@ describe('AddUserModalComponent', () => {
       declarations: [ AddUserModalComponent ],
       providers: [HttpService, NgbActiveModal]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

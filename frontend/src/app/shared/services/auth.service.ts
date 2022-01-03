@@ -19,7 +19,7 @@ export class AuthService {
         localStorage.setItem("idToken", JSON.stringify(res));
         this.router.navigate(["home"]);
       },
-      error: (e) => window.alert("login fail"),
+      error: () => window.alert("login fail"),
       complete: () => console.info('complete')
     });
 

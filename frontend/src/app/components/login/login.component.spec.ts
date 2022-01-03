@@ -10,7 +10,7 @@ describe('LoginComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ LoginComponent ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

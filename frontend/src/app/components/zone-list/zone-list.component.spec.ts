@@ -10,7 +10,7 @@ describe('ZoneListComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ ZoneListComponent ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

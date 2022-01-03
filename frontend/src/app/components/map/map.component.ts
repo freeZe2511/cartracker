@@ -46,7 +46,7 @@ export class MapComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     // this._map.getUserPositions().unsubscribe(); //TODO ??
-    }
+  }
 
   ngOnInit(): void {
     this.setSidenavTogglerButton();

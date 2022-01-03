@@ -30,7 +30,7 @@ export class ZoneListComponent implements OnInit {
 
   }
 
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }

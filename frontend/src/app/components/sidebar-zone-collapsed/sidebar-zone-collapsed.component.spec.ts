@@ -10,7 +10,7 @@ describe('SidebarZoneCollapsedComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ SidebarZoneCollapsedComponent ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

@@ -24,7 +24,7 @@
     <select class="custom-select" id="inputGroupSelect01" [(ngModel)]="user.zoneid">  <!--TODO [value]="zone.id"-->
       <option [value]="prevUserZone.id" selected>{{prevUserZone.name}}</option>
       <ng-container *ngFor="let zone of _map.zones | slice:1">
-        <option [value]="zone.id" *ngIf="prevUserZone.id != zone.id">{{zone.name}}</option>
+        <option [value]="zone.id" *ngIf="prevUserZone.id !== zone.id">{{zone.name}}</option>
       </ng-container>
     </select>
   </div>

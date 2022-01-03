@@ -21,10 +21,10 @@ class AuthenticationController {
     return Response(500);
   }
 
-  Future<Response> logout(Request request) async {
-    // erst user dann admin tabelle checken? oder admin token schicken?
-    return Response(200);
-  }
+  // Future<Response> logout(Request request) async {
+  //   // erst user dann admin tabelle checken? oder admin token schicken?
+  //   return Response(200);
+  // }
 
   static Future<bool> verify(Request request) async {
     try {
@@ -38,6 +38,7 @@ class AuthenticationController {
     }
   }
 
+  // TODO?
 // static FutureOr<Response?> handle(Request request) async {
 //   print(request.url.toString());
 //   (request.url.toString() == "api/v1/login")

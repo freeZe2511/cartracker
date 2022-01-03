@@ -15,9 +15,10 @@ include: package:lints/recommended.yaml
 
 # Uncomment the following section to specify additional rules.
 
-# linter:
-#   rules:
-#     - camel_case_types
+# TODO https://dart-lang.github.io/linter/lints/
+linter:
+  rules:
+   - camel_case_types
 
 # analyzer:
 #   exclude:

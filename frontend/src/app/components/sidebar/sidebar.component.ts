@@ -10,9 +10,9 @@ import {Zone} from "../../shared/models/zone";
   styleUrls: ['./sidebar.component.css']
 })
 export class SidebarComponent implements OnInit {
-  @Output("drawZone") drawZone: EventEmitter<any> = new EventEmitter();
-  @Output("setCenteredMarker") setCenteredMarker: EventEmitter<any> = new EventEmitter();
-  @Output("removeCenteredMarker") removeCenteredMarker: EventEmitter<any> = new EventEmitter();
+  @Output() drawZone: EventEmitter<any> = new EventEmitter();
+  @Output() setCenteredMarker: EventEmitter<any> = new EventEmitter();
+  @Output() removeCenteredMarker: EventEmitter<any> = new EventEmitter();
 
 
   public selectedZone: Zone | undefined;
