@@ -55,6 +55,18 @@ class UserDao {
     }
   }
 
+  static Future<User?> findOne1(String uniqueID) async {
+    try {
+      var u = await Database.db
+          .collection(_collection)
+          .findOne(where.eq('id', uniqueID));
+      if (u != null) return User.fromJson(u);
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
   static Future<String?> checkID(String userid) async {
     // todo other find method?
     try {
