@@ -1,0 +1,27 @@
+<div class="modal-header">
+  <h4 class="modal-title">Edit User</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="form-group">
+    <label for="userIdInput">Zone ID</label>
+    <input type="text" class="form-control" id="userIdInput" [(ngModel)]="zone.id" readonly>
+  </div>
+  <div class="form-group">
+    <label for="usernameInput">Name</label>
+    <input type="text" class="form-control" id="usernameInput" [(ngModel)]="zone.name">
+  </div>
+  <div class="form-group">
+    <label for="passwordInput">Radius</label>
+    <input type="number" class="form-control" id="passwordInput" min="0.001" [(ngModel)]="zone.radius">
+  </div>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-dark"
+          (click)="activeModal.dismiss()">Close
+  </button>
+  <button type="button" class="btn btn-success" (click)="save()">Save</button>
+</div>
+

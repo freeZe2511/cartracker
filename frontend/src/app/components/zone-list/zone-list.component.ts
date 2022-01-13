@@ -8,6 +8,8 @@ import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {MapService} from "../../shared/services/map.service";
 import {Router} from "@angular/router";
 import {Zone} from "../../shared/models/zone";
+import {ZoneService} from "../../shared/services/zone.service";
+import {EditZoneModalComponent} from "../edit-zone-modal/edit-zone-modal.component";
 
 @Component({
   selector: 'app-zone-list',
@@ -21,13 +23,11 @@ export class ZoneListComponent implements OnInit {
   timeInterval!: Subscription;
 
   constructor(private _user: UserService, private modalService: NgbModal, private mapService: MapService,
-              public router: Router) {
+              public router: Router, private _zone: ZoneService) {
   }
 
   ngOnInit(): void {
-    this.mapService.getZones();
-    this.initZones();
-
+    this.reloadZones();
   }
 
   ngAfterViewInit(): void {
@@ -35,8 +35,13 @@ export class ZoneListComponent implements OnInit {
     this.dataSource.sort = this.sort;
   }
 
+  private reloadZones() {
+    this.mapService.getZones();
+    this.initZones();
+  }
+
   private initZones() {
-    this.dataSource.data = this.mapService.zones; // TODO all / none zone
+    this.dataSource.data = this.mapService.zones.slice(2);
   }
 
   public centerOnZone(zone: Zone) {
@@ -54,19 +59,21 @@ export class ZoneListComponent implements OnInit {
 
   public async edit(zone: Zone) {
     // TODO in map?
-    // const modalReference = this.modalService.open(EditUserModalComponent);
-    // modalReference.componentInstance.zone = zone;
-    //
-    // try {
-    //   const resultZone: Zone = await modalReference.result;
-    //   this.mapService.updateZone(resultZone); // TODO zone service?
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    const modalReference = this.modalService.open(EditZoneModalComponent);
+    modalReference.componentInstance.zone = zone;
+
+    try {
+      const resultZone: Zone = await modalReference.result;
+      this._zone.updateZone(resultZone); // TODO zone service?
+      this.reloadZones();
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   public async delete(zoneid: string) {
-    // this.mapService.deleteZone(zoneid); // TODO
+    this._zone.deleteZone(zoneid);
+    this.reloadZones();
   }
 
   displayedColumns: string[] = ['id', 'name', 'type', 'complexity', 'radius', 'actions']; // TODO created
