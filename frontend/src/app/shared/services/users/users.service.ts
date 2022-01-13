@@ -12,9 +12,11 @@ import {AlertsService} from "../alerts/alerts.service";
 export class UserService {
   public users: User[];
   private timeInterval!: Subscription;
+  public zoneUserMap: Map<string, boolean>;
 
   constructor(private httpService: HttpService, private authService: AuthService, public _alert: AlertsService) {
     this.users = [];
+    this.zoneUserMap = new Map<string,boolean>()
   }
 
   public getUsersList(): any {
@@ -37,10 +39,17 @@ export class UserService {
     ).subscribe({
       next: (res: any) => {
         this.users = res;
+        this.userZoneUpdate();
       },
       error: (e) => console.error(e),
       complete: () => console.info('complete')
     });
+  }
+
+  public userZoneUpdate() {
+    for (let user of this.users) {
+      this.zoneUserMap.set(user.id, false);
+    }
   }
 
   public createUser(user: User) {
