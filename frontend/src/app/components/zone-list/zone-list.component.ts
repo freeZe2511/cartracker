@@ -8,6 +8,7 @@ import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {MapService} from "../../shared/services/map/map.service";
 import {Router} from "@angular/router";
 import {Zone} from "../../shared/models/zone";
+import {AlertsService} from "../../shared/services/alerts/alerts.service";
 
 @Component({
   selector: 'app-zone-list',
@@ -21,7 +22,8 @@ export class ZoneListComponent implements OnInit {
   timeInterval!: Subscription;
 
   constructor(private _user: UserService, private modalService: NgbModal, private mapService: MapService,
-              public router: Router) {
+              public router: Router,
+              public _alert: AlertsService) {
   }
 
   ngOnInit(): void {

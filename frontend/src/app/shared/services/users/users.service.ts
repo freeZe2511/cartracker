@@ -3,6 +3,7 @@ import {HttpService} from "../http/http.service";
 import {User} from "../../models/user";
 import {interval, Subscription, switchMap} from "rxjs";
 import {AuthService} from "../auth/auth.service";
+import {AlertsService} from "../alerts/alerts.service";
 
 
 @Injectable({
@@ -11,9 +12,11 @@ import {AuthService} from "../auth/auth.service";
 export class UserService {
   public users: User[];
   private timeInterval!: Subscription;
+  public zoneUserMap: Map<string, boolean>;
 
-  constructor(private httpService: HttpService, private authService: AuthService) {
+  constructor(private httpService: HttpService, private authService: AuthService, public _alert: AlertsService) {
     this.users = [];
+    this.zoneUserMap = new Map<string,boolean>()
   }
 
   public getUsersList(): any {
@@ -36,10 +39,17 @@ export class UserService {
     ).subscribe({
       next: (res: any) => {
         this.users = res;
+        this.userZoneUpdate();
       },
       error: (e) => console.error(e),
       complete: () => console.info('complete')
     });
+  }
+
+  public userZoneUpdate() {
+    for (let user of this.users) {
+      this.zoneUserMap.set(user.id, false);
+    }
   }
 
   public createUser(user: User) {
@@ -64,8 +74,12 @@ export class UserService {
     }).subscribe({
       next: (res: any) => {
         console.log(res);
+        this._alert.onSuccess('User changed');
       },
-      error: (e) => console.error(e),
+      error: (e) => {
+        console.error(e);
+        this._alert.onError('Failed editing User');
+      },
       complete: () => console.info('complete')
     });
   }
@@ -74,8 +88,12 @@ export class UserService {
     this.httpService.delete("http://localhost:9090/api/v1/user/" + userid).subscribe({
       next: (res: any) => {
         console.log(res);
+        this._alert.onSuccess('User was deleted');
       },
-      error: (e) => console.error(e),
+      error: (e) => {
+        console.error(e);
+        this._alert.onError('Failed to delete User')
+      },
       complete: () => console.info('complete')
     });
   }
