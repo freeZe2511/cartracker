@@ -32,6 +32,7 @@ import {AddZoneModalComponent} from './components/add-zone-modal/add-zone-modal.
 import {MatSelectModule} from "@angular/material/select";
 import {ZoneListComponent} from './components/zone-list/zone-list.component';
 import {CommonModule} from "@angular/common";
+import {SimpleNotificationsModule} from "angular2-notifications";
 
 @NgModule({
   declarations: [
@@ -68,7 +69,8 @@ import {CommonModule} from "@angular/common";
     MatSelectModule,
     FormsModule,
     CommonModule,
-    RouterModule
+    RouterModule,
+    SimpleNotificationsModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

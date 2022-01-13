@@ -3,6 +3,7 @@ import {HttpService} from "../http/http.service";
 import {User} from "../../models/user";
 import {interval, Subscription, switchMap} from "rxjs";
 import {AuthService} from "../auth/auth.service";
+import {AlertsService} from "../alerts/alerts.service";
 
 
 @Injectable({
@@ -12,7 +13,7 @@ export class UserService {
   public users: User[];
   private timeInterval!: Subscription;
 
-  constructor(private httpService: HttpService, private authService: AuthService) {
+  constructor(private httpService: HttpService, private authService: AuthService, public _alert: AlertsService) {
     this.users = [];
   }
 
@@ -64,8 +65,12 @@ export class UserService {
     }).subscribe({
       next: (res: any) => {
         console.log(res);
+        this._alert.onSuccess('User changed');
       },
-      error: (e) => console.error(e),
+      error: (e) => {
+        console.error(e);
+        this._alert.onError('Failed editing User');
+      },
       complete: () => console.info('complete')
     });
   }
@@ -74,8 +79,12 @@ export class UserService {
     this.httpService.delete("http://localhost:9090/api/v1/user/" + userid).subscribe({
       next: (res: any) => {
         console.log(res);
+        this._alert.onSuccess('User was deleted');
       },
-      error: (e) => console.error(e),
+      error: (e) => {
+        console.error(e);
+        this._alert.onError('Failed to delete User')
+      },
       complete: () => console.info('complete')
     });
   }
