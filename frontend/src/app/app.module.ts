@@ -33,6 +33,7 @@ import {MatSelectModule} from "@angular/material/select";
 import {ZoneListComponent} from './components/zone-list/zone-list.component';
 import {CommonModule} from "@angular/common";
 import {SimpleNotificationsModule} from "angular2-notifications";
+import { EditZoneModalComponent } from './components/edit-zone-modal/edit-zone-modal.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import {SimpleNotificationsModule} from "angular2-notifications";
     SidebarZoneCollapsedComponent,
     UserInfoWindowComponent,
     AddZoneModalComponent,
-    ZoneListComponent
+    ZoneListComponent,
+    EditZoneModalComponent
   ],
   imports: [
     BrowserModule,
