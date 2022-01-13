@@ -150,3 +150,11 @@
   background-color: #666
 }
 
+#imprintBtn {
+  background-color: gray;
+}
+
+#imprintBtn:hover {
+  background-color: darkgrey;
+}
+
