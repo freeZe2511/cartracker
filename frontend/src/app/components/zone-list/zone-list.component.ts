@@ -11,6 +11,7 @@ import {Zone} from "../../shared/models/zone";
 import {AlertsService} from "../../shared/services/alerts/alerts.service";
 import {EditZoneModalComponent} from "../edit-zone-modal/edit-zone-modal.component";
 import {ZoneService} from "../../shared/services/zone/zone.service";
+import {ConfirmService} from "../../shared/services/confirm/confirm.service";
 
 @Component({
   selector: 'app-zone-list',
@@ -25,7 +26,8 @@ export class ZoneListComponent implements OnInit {
 
   constructor(private _user: UserService, private modalService: NgbModal, private _map: MapService,
               public router: Router,
-              public _alert: AlertsService, private _zone: ZoneService) {
+              public _alert: AlertsService, private _zone: ZoneService,
+              public _confirm: ConfirmService) {
   }
 
   ngOnInit(): void {
@@ -74,8 +76,14 @@ export class ZoneListComponent implements OnInit {
   }
 
   public async delete(zoneid: string) {
-    this._zone.deleteZone(zoneid);
-    this.reloadZones();
+    this._confirm.confirmDialog().then((res) => {
+      if(res){
+        this._zone.deleteZone(zoneid);
+        this.reloadZones();
+      } else {
+        this._alert.onCancel("Deleting Zone cancelled");
+      }
+    });
   }
 
   displayedColumns: string[] = ['id', 'name', 'type', 'complexity', 'radius', 'actions']; // TODO created

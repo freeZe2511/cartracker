@@ -10,6 +10,8 @@ import {EditUserModalComponent} from "../edit-user-modal/edit-user-modal.compone
 import {AddUserModalComponent} from "../add-user-modal/add-user-modal.component";
 import {MapService} from "../../shared/services/map/map.service";
 import {Router} from "@angular/router";
+import {ConfirmService} from "../../shared/services/confirm/confirm.service";
+import {AlertsService} from "../../shared/services/alerts/alerts.service";
 
 @Component({
   selector: 'app-user-list',
@@ -23,7 +25,9 @@ export class UserListComponent implements OnInit {
   timeInterval!: Subscription;
 
   constructor(private _user: UserService, private modalService: NgbModal, private mapService: MapService,
-              public router: Router) {
+              public router: Router,
+              public _confirm: ConfirmService,
+              public _alert: AlertsService) {
   }
 
   ngOnInit(): void {
@@ -95,7 +99,13 @@ export class UserListComponent implements OnInit {
   }
 
   public async delete(userid: string) {
-    this._user.deleteUser(userid);
+    this._confirm.confirmDialog().then((res) => {
+      if(res){
+        this._user.deleteUser(userid);
+      } else {
+        this._alert.onCancel("Deleting User cancelled");
+      }
+    });
   }
 
   displayedColumns: string[] = ['id', 'username', 'password', 'zone', 'status', 'created', 'actions'];
@@ -105,8 +115,8 @@ export class UserListComponent implements OnInit {
     return this.mapService.zones.find(z => z.id === user_zoneid)?.name;
   }
 
-  public convertTime(id: any){
-    let timeStamp = parseInt(id.substr(0,8), 16)*1000
+  public convertTime(id: any) {
+    let timeStamp = parseInt(id.substr(0, 8), 16) * 1000
     return new Date(timeStamp)  // TODO refactor into nice format
   }
 

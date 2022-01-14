@@ -43,4 +43,13 @@ export class AlertsService {
       showProgressBar: true
     });
   }
+
+  onCancel(message: string) {
+    this.service.info('Cancelled', message, {
+      position: ['top', 'center'],
+      timeOut: 3000,
+      animate: 'fade',
+      showProgressBar: true
+    });
+  }
 }
