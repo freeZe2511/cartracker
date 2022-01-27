@@ -12,9 +12,10 @@ import {AlertsService} from "../../shared/services/alerts/alerts.service";
 })
 export class AddZoneModalComponent {
 
-  public zone!: ZoneClass;
+  public zone: ZoneClass;
 
   constructor(public activeModal: NgbActiveModal, public _confirm: ConfirmService, public _alert: AlertsService) {
+    this.zone = new ZoneClass("", [], 0, "", "");
   }
 
   save(): void {

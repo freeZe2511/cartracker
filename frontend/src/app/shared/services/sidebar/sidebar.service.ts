@@ -29,8 +29,8 @@ export class SidebarService {
     this.sidebarIsOpened = false;
   }
 
-  public openZone(zone: string) {
-    this.openedZones.push(zone);
+  public openZone(zone?: string) {
+    this.openedZones.push(zone!);
   }
 
   public closeZone(zone: string) {

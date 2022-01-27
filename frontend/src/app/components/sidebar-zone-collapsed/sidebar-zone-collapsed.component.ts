@@ -8,7 +8,7 @@ import {Zone} from "../../shared/models/zone";
   styleUrls: ['./sidebar-zone-collapsed.component.css']
 })
 export class SidebarZoneCollapsedComponent implements OnInit {
-  @Input() zone!: Zone;
+  @Input() zone?: Zone;
 
   constructor(public _sidebar: SidebarService) { }
 
