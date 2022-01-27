@@ -7,7 +7,7 @@ import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 import 'package:shelf/shelf.dart';
 
 class AuthenticationController {
-  // refactor, very ugly
+  // TODO refactor, very ugly, roles??
   Future<Response> login(Request request) async {
     //TODO erst user dann admin tabelle checken? oder zsm tabelle mit role (auch für authorization dann)?
     var body = jsonDecode(await request.readAsString());

@@ -68,3 +68,23 @@
 .login-dark form .btn-primary:active {
   transform: translateY(1px)
 }
+
+
+#imprintBtn {
+  margin: 20px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  opacity: 0.2;
+  border-radius: 100%;
+}
+
+#imprintBtn:hover {
+  margin: 20px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  opacity: 0.5;
+  border-radius: 100%;
+  background-color: lightgrey;
+}

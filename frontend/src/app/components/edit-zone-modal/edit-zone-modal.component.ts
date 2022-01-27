@@ -1,26 +1,29 @@
-import {Component, OnInit} from '@angular/core';
-import {UserWithoutPosition} from "../../shared/models/user";
-import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
+import { Component, OnInit } from '@angular/core';
 import {ZoneClass} from "../../shared/models/zone";
+import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
 import {ConfirmService} from "../../shared/services/confirm/confirm.service";
 import {AlertsService} from "../../shared/services/alerts/alerts.service";
 
 @Component({
-  selector: 'app-add-zone-modal',
-  templateUrl: './add-zone-modal.component.html',
-  styleUrls: ['./add-zone-modal.component.css']
+  selector: 'app-edit-zone-modal',
+  templateUrl: './edit-zone-modal.component.html',
+  styleUrls: ['./edit-zone-modal.component.css']
 })
-export class AddZoneModalComponent {
+export class EditZoneModalComponent implements OnInit {
 
   public zone!: ZoneClass;
 
-  constructor(public activeModal: NgbActiveModal, public _confirm: ConfirmService, public _alert: AlertsService) {
+  constructor(public activeModal: NgbActiveModal, public _confirm: ConfirmService, public _alert: AlertsService) { }
+
+  ngOnInit() {
+    this.zone.radius /= 1000;
   }
 
   save(): void {
     if (this.isNotEmpty(this.zone.name)) {
       this._confirm.confirmDialog().then((res) => {
         if (res) {
+          this.zone.radius *= 1000;
           this.activeModal.close(this.zone);
         } else {
           this._alert.onCancel("Adding Zone cancelled");
@@ -30,7 +33,7 @@ export class AddZoneModalComponent {
   }
 
   private isNotEmpty(str?: string) {
-    if (str != undefined) {
+    if(str != undefined) {
       return str.trim().length > 0;
     } else {
       return false;

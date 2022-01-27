@@ -9,6 +9,9 @@ import {MapService} from "../../shared/services/map/map.service";
 import {Router} from "@angular/router";
 import {Zone} from "../../shared/models/zone";
 import {AlertsService} from "../../shared/services/alerts/alerts.service";
+import {EditZoneModalComponent} from "../edit-zone-modal/edit-zone-modal.component";
+import {ZoneService} from "../../shared/services/zone/zone.service";
+import {ConfirmService} from "../../shared/services/confirm/confirm.service";
 
 @Component({
   selector: 'app-zone-list',
@@ -21,15 +24,14 @@ export class ZoneListComponent implements OnInit {
 
   timeInterval!: Subscription;
 
-  constructor(private _user: UserService, private modalService: NgbModal, private mapService: MapService,
+  constructor(private _user: UserService, private modalService: NgbModal, private _map: MapService,
               public router: Router,
-              public _alert: AlertsService) {
+              public _alert: AlertsService, private _zone: ZoneService,
+              public _confirm: ConfirmService) {
   }
 
   ngOnInit(): void {
-    this.mapService.getZones();
-    this.initZones();
-
+    this.reloadZones();
   }
 
   ngAfterViewInit(): void {
@@ -37,8 +39,13 @@ export class ZoneListComponent implements OnInit {
     this.dataSource.sort = this.sort;
   }
 
+  private reloadZones() {
+    this._map.getZones();
+    this.initZones();
+  }
+
   private initZones() {
-    this.dataSource.data = this.mapService.zones; // TODO all / none zone
+    this.dataSource.data = this._map.zones.slice(2);
   }
 
   public centerOnZone(zone: Zone) {
@@ -56,23 +63,31 @@ export class ZoneListComponent implements OnInit {
 
   public async edit(zone: Zone) {
     // TODO in map?
-    // const modalReference = this.modalService.open(EditUserModalComponent);
-    // modalReference.componentInstance.zone = zone;
-    //
-    // try {
-    //   const resultZone: Zone = await modalReference.result;
-    //   this.mapService.updateZone(resultZone); // TODO zone service?
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    const modalReference = this.modalService.open(EditZoneModalComponent);
+    modalReference.componentInstance.zone = zone;
+
+    try {
+      const resultZone: Zone = await modalReference.result;
+      this._zone.updateZone(resultZone);
+      this.reloadZones();
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   public async delete(zoneid: string) {
-    // this.mapService.deleteZone(zoneid); // TODO
+    this._confirm.confirmDialog().then((res) => {
+      if(res){
+        this._zone.deleteZone(zoneid);
+        this.reloadZones();
+      } else {
+        this._alert.onCancel("Deleting Zone cancelled");
+      }
+    });
   }
 
   displayedColumns: string[] = ['id', 'name', 'type', 'complexity', 'radius', 'actions']; // TODO created
-  dataSource = new MatTableDataSource(this.mapService.zones);
+  dataSource = new MatTableDataSource(this._map.zones);
 
   public convertTime(id: any) {
     let timeStamp = parseInt(id.substr(0, 8), 16) * 1000

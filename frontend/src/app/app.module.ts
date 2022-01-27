@@ -34,6 +34,9 @@ import {ZoneListComponent} from './components/zone-list/zone-list.component';
 import { EditZoneModalComponent } from './components/edit-zone-modal/edit-zone-modal.component';
 import {CommonModule} from "@angular/common";
 import {SimpleNotificationsModule} from "angular2-notifications";
+import { EditZoneModalComponent } from './components/edit-zone-modal/edit-zone-modal.component';
+import { ImprintComponent } from './components/imprint/imprint.component';
+import { ConfirmModalComponent } from './components/confirm-modal/confirm-modal.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +53,9 @@ import {SimpleNotificationsModule} from "angular2-notifications";
     UserInfoWindowComponent,
     AddZoneModalComponent,
     ZoneListComponent,
-    EditZoneModalComponent
+    EditZoneModalComponent,
+    ImprintComponent,
+    ConfirmModalComponent
   ],
   imports: [
     BrowserModule,
