@@ -5,6 +5,7 @@ import {HttpService} from "../../shared/services/http/http.service";
 import {NgbActiveModal, NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {HttpClientTestingModule} from "@angular/common/http/testing";
 import {RouterTestingModule} from "@angular/router/testing";
+import {SimpleNotificationsModule} from "angular2-notifications";
 
 describe('AddUserModalComponent', () => {
   let component: AddUserModalComponent;
@@ -13,7 +14,7 @@ describe('AddUserModalComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [AddUserModalComponent],
-      imports: [HttpClientTestingModule, RouterTestingModule],
+      imports: [HttpClientTestingModule, RouterTestingModule, SimpleNotificationsModule.forRoot()],
       providers: [NgbActiveModal]
     })
       .compileComponents();

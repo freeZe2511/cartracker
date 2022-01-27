@@ -5,6 +5,7 @@ import {HttpClientTestingModule} from "@angular/common/http/testing";
 import {RouterTestingModule} from "@angular/router/testing";
 import {MatSelectModule} from "@angular/material/select";
 import {MatInputModule} from "@angular/material/input";
+import {SimpleNotificationsModule} from "angular2-notifications";
 
 describe('SidebarZoneCollapsedComponent', () => {
   let component: SidebarZoneCollapsedComponent;
@@ -13,7 +14,7 @@ describe('SidebarZoneCollapsedComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ SidebarZoneCollapsedComponent ],
-      imports: [HttpClientTestingModule, RouterTestingModule, MatSelectModule, MatInputModule]
+      imports: [HttpClientTestingModule, RouterTestingModule, MatSelectModule, MatInputModule, SimpleNotificationsModule.forRoot()]
     })
       .compileComponents();
   });

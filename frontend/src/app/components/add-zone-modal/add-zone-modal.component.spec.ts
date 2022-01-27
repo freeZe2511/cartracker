@@ -4,6 +4,7 @@ import {AddZoneModalComponent} from './add-zone-modal.component';
 import {HttpClientTestingModule} from "@angular/common/http/testing";
 import {RouterTestingModule} from "@angular/router/testing";
 import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
+import {SimpleNotificationsModule} from "angular2-notifications";
 
 describe('AddZoneModalComponent', () => {
   let component: AddZoneModalComponent;
@@ -12,7 +13,7 @@ describe('AddZoneModalComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [AddZoneModalComponent],
-      imports: [HttpClientTestingModule, RouterTestingModule],
+      imports: [HttpClientTestingModule, RouterTestingModule, SimpleNotificationsModule.forRoot()],
       providers: [NgbActiveModal]
     })
       .compileComponents();
