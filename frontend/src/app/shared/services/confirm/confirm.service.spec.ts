@@ -13,4 +13,9 @@ describe('ConfirmService', () => {
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
+
+  it('should return result', () => {
+    let res = service.confirmDialog();
+    expect(res).toBeDefined();
+  });
 });
