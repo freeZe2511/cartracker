@@ -5,10 +5,10 @@ name: Frontend
 
 on:
   push:
-    branches: [ main ]
+    branches: [  ]
     # paths: "./frontend/**"
   pull_request:
-    branches: [ main ]
+    branches: [  ]
 
 jobs:
   build:
