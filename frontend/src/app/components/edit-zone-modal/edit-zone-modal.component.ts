@@ -13,7 +13,8 @@ export class EditZoneModalComponent implements OnInit {
 
   public zone!: ZoneClass;
 
-  constructor(public activeModal: NgbActiveModal, public _confirm: ConfirmService, public _alert: AlertsService) { }
+  constructor(public activeModal: NgbActiveModal, public _confirm: ConfirmService, public _alert: AlertsService) {
+  }
 
   ngOnInit() {
     this.zone.radius /= 1000;

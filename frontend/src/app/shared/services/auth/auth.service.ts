@@ -24,9 +24,9 @@ export class AuthService {
     });
   }
 
-  logOut() {
+  async logOut() {
     localStorage.removeItem("idToken");
-    this.router.navigate(["sign-in"]);
+    await this.router.navigate(["sign-in"]);
   }
 
   get isLoggedIn(): boolean {
