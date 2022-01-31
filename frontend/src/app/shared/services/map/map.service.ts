@@ -5,6 +5,7 @@ import {UserService} from "../users/users.service";
 import {Position} from "../../models/user";
 import {Zone, ZoneClass} from "../../models/zone"
 import {SidebarService} from "../sidebar/sidebar.service";
+import {environment} from "../../../../environments/environment";
 
 
 @Injectable({
@@ -28,7 +29,7 @@ export class MapService {
   public getRoutePositions(): any {
     if (this.route) {
       let data: string = this.route!.userid + "&&" + this.route!.timeInHours + "&&" + this.route!.timeInMinutes;
-      this._http.get("http://localhost:9090/api/v1/route/" + data).subscribe({
+      this._http.get(environment.backendURL + "api/v1/route/" + data).subscribe({
         next: (res: any) => {
           this.route!.positions = res;
           return res;
@@ -40,11 +41,11 @@ export class MapService {
   }
 
   public getUserPositions(): any {
-    return this._http.get("http://localhost:9090/api/v1/pos");
+    return this._http.get(environment.backendURL + "api/v1/pos");
   }
 
   public createZone(zone: ZoneClass) {
-    this._http.post("http://localhost:9090/api/v1/zone", {
+    this._http.post(environment.backendURL + "api/v1/zone", {
       name: zone.name,
       radius: zone.radius,
       pos: [
@@ -63,7 +64,7 @@ export class MapService {
   }
 
   public getZones() {
-    this._http.get("http://localhost:9090/api/v1/zones").subscribe({
+    this._http.get(environment.backendURL + "api/v1/zones").subscribe({
       next: (res: any) => {
         this.zones = res;
         this.zones.unshift(this.noneZone);
