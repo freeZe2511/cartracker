@@ -1,10 +1,10 @@
 import {Injectable} from '@angular/core';
-import {HttpService} from "./http.service";
-import {Route} from "../models/route";
-import {UserService} from "./users.service";
-import {Position} from "../models/user";
-import {Zone, ZoneClass} from "../models/zone"
-import {SidebarService} from "./sidebar.service";
+import {HttpService} from "../http/http.service";
+import {Route} from "../../models/route";
+import {UserService} from "../users/users.service";
+import {Position} from "../../models/user";
+import {Zone, ZoneClass} from "../../models/zone"
+import {SidebarService} from "../sidebar/sidebar.service";
 
 
 @Injectable({

@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpService} from "./http.service";
+import {HttpService} from "../http/http.service";
 import {Router} from "@angular/router";
 
 @Injectable({
@@ -22,12 +22,11 @@ export class AuthService {
       error: () => window.alert("login fail"),
       complete: () => console.info('complete')
     });
-
   }
 
-  logOut() {
+  async logOut() {
     localStorage.removeItem("idToken");
-    this.router.navigate(["sign-in"]);
+    await this.router.navigate(["sign-in"]);
   }
 
   get isLoggedIn(): boolean {

@@ -2,6 +2,7 @@ import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {HttpClientModule} from '@angular/common/http';
 import {FormsModule} from "@angular/forms";
+import {RouterModule} from '@angular/router';
 
 import {AppComponent} from './app.component';
 import {LoginComponent} from './components/login/login.component';
@@ -30,6 +31,11 @@ import {UserInfoWindowComponent} from './components/user-info-window/user-info-w
 import {AddZoneModalComponent} from './components/add-zone-modal/add-zone-modal.component';
 import {MatSelectModule} from "@angular/material/select";
 import {ZoneListComponent} from './components/zone-list/zone-list.component';
+import { EditZoneModalComponent } from './components/edit-zone-modal/edit-zone-modal.component';
+import {CommonModule} from "@angular/common";
+import {SimpleNotificationsModule} from "angular2-notifications";
+import { ImprintComponent } from './components/imprint/imprint.component';
+import { ConfirmModalComponent } from './components/confirm-modal/confirm-modal.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +51,10 @@ import {ZoneListComponent} from './components/zone-list/zone-list.component';
     SidebarZoneCollapsedComponent,
     UserInfoWindowComponent,
     AddZoneModalComponent,
-    ZoneListComponent
+    ZoneListComponent,
+    EditZoneModalComponent,
+    ImprintComponent,
+    ConfirmModalComponent
   ],
   imports: [
     BrowserModule,
@@ -65,6 +74,9 @@ import {ZoneListComponent} from './components/zone-list/zone-list.component';
     MatOptionModule,
     MatSelectModule,
     FormsModule,
+    CommonModule,
+    RouterModule,
+    SimpleNotificationsModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

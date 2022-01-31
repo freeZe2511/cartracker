@@ -1,7 +1,7 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {SidebarService} from "../../shared/services/sidebar.service";
-import {UserService} from "../../shared/services/users.service";
-import {MapService} from "../../shared/services/map.service";
+import {SidebarService} from "../../shared/services/sidebar/sidebar.service";
+import {UserService} from "../../shared/services/users/users.service";
+import {MapService} from "../../shared/services/map/map.service";
 import {Zone} from "../../shared/models/zone";
 
 @Component({

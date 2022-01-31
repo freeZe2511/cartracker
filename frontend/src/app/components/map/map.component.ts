@@ -1,13 +1,15 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {MapService} from "../../shared/services/map.service";
+import {MapService} from "../../shared/services/map/map.service";
 import {User} from "../../shared/models/user";
 import {interval, Subscription, switchMap} from "rxjs";
 import {GoogleMap, MapInfoWindow} from "@angular/google-maps";
-import {SidebarService} from "../../shared/services/sidebar.service";
+import {SidebarService} from "../../shared/services/sidebar/sidebar.service";
 import {PosClass, ZoneClass, Zone} from "../../shared/models/zone";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {AddZoneModalComponent} from "../add-zone-modal/add-zone-modal.component";
 import * as turf from '@turf/turf';
+import {UserService} from "../../shared/services/users/users.service";
+import {AlertsService} from "../../shared/services/alerts/alerts.service";
 
 @Component({
   selector: 'app-map',
@@ -27,7 +29,7 @@ export class MapComponent implements OnInit, OnDestroy {
   public newZone: Zone | undefined;
   public drawnZone: google.maps.Circle | google.maps.Polygon | undefined;
 
-  constructor(public _map: MapService, public _sidebar: SidebarService, private _modal: NgbModal) {
+  constructor(public _map: MapService, public _sidebar: SidebarService, private _modal: NgbModal, private _user: UserService, private _alert: AlertsService) {
     this.mapOptions = {
       center: new google.maps.LatLng(50.58727, 8.67554),
       zoom: 9,
@@ -268,7 +270,21 @@ export class MapComponent implements OnInit, OnDestroy {
     if (user.latestPositions != undefined && user.latestPositions[0] != undefined) {
       let newPos = {lat: user.latestPositions[0].lat, lng: user.latestPositions[0].lng};
       this._map.markers.get(user.id)!.setPosition(newPos);
-      this._map.markers.get(user.id)!.setIcon(user.latestPositions[0].inZone ? "../../assets/markers/marker_red_dot.png" : "../../assets/markers/marker_red.png");
+      let iconPath: string;
+      if(user.latestPositions[0].inZone) {
+        iconPath = "../../assets/markers/marker_red_dot.png";
+        if(this._user.zoneUserMap.get(user.id)) {
+          this._alert.onEnter('User ' + user.username + ' entered his zone');
+        }
+        this._user.zoneUserMap.set(user.id, false);
+      } else {
+        iconPath = "../../assets/markers/marker_red.png";
+        if(!this._user.zoneUserMap.get(user.id)) {
+          this._alert.onLeave('User ' + user.username + ' left his zone');
+        }
+        this._user.zoneUserMap.set(user.id, true);
+      }
+      this._map.markers.get(user.id)!.setIcon(iconPath);
     }
   }
 
