@@ -6,10 +6,10 @@ defaults:
 
 on:
   push:
-    branches: [ x ]
+    branches: [ main ]
     # paths: "./frontend/**"
   pull_request:
-    branches: [ x ]
+    branches: [ main ]
 
 jobs:
   build:
@@ -53,7 +53,7 @@ jobs:
       - name: Test
         run: npm run test
       - name: Deploy
-        #run: npm run deploy
+        run: npm run deploy
       
       
   
