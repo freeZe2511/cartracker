@@ -6,10 +6,10 @@ defaults:
 
 on:
   push:
-    branches: [ main ]
+    branches: [ x ]
     # paths: "./frontend/**"
   pull_request:
-    branches: [ main ]
+    branches: [ x ]
 
 jobs:
   build:
