@@ -15,23 +15,29 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
+  ci:
     
-    name: Build and Test
+    #name: Build and Test
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [12.x, 14.x, 16.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+    #strategy:
+    #  matrix:
+    #    node-version: [12.x, 14.x, 16.x]
+    #    # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
       - uses: actions/checkout@v2
 
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+      #- name: Use Node.js ${{ matrix.node-version }}
+      #  uses: actions/setup-node@v1
+      #  with:
+      #    node-version: ${{ matrix.node-version }}
+      
+      - name: Use Node.js 14   
+        uses: actions/setup-node@v2
         with:
-          node-version: ${{ matrix.node-version }}
+            node-version: "14"
+            cache: "npm"
 
       - name: Cache node modules
         id: cache-nodemodules
@@ -46,6 +52,7 @@ jobs:
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
             ${{ runner.os }}-
+            
       - name: Install Dependencies
         if: steps.cache-nodemodules.outputs.cache-hit != 'true'
         run: npm ci
@@ -57,7 +64,6 @@ jobs:
         run: npm run test
       - name: Deploy
         run: npm run deploy
-    
-  
+      
       
   
