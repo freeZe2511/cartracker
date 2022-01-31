@@ -4,6 +4,7 @@ import {User} from "../../models/user";
 import {interval, Subscription, switchMap} from "rxjs";
 import {AuthService} from "../auth/auth.service";
 import {AlertsService} from "../alerts/alerts.service";
+import {environment} from "../../../../environments/environment";
 
 
 @Injectable({
@@ -20,7 +21,7 @@ export class UserService {
   }
 
   public getUsersList(): any {
-    return this.httpService.get("http://localhost:9090/api/v1/users", {headers: this.authService.authHeader});
+    return this.httpService.get(environment.backendURL + "api/v1/users", {headers: this.authService.authHeader});
   }
 
   public initUserArray() {
@@ -53,7 +54,7 @@ export class UserService {
   }
 
   public createUser(user: User) {
-    this.httpService.post("http://localhost:9090/api/v1/user", {
+    this.httpService.post(environment.backendURL + "api/v1/user", {
       username: user.username,
       password: user.password,
       zoneid: user.zoneid
@@ -67,7 +68,7 @@ export class UserService {
   }
 
   public updateUser(user: User) {
-    this.httpService.put("http://localhost:9090/api/v1/user/" + user.id, {
+    this.httpService.put(environment.backendURL + "api/v1/user/" + user.id, {
       username: user.username,
       password: user.password, // TODO zone
       zoneid: user.zoneid
@@ -85,7 +86,7 @@ export class UserService {
   }
 
   public deleteUser(userid: string) {
-    this.httpService.delete("http://localhost:9090/api/v1/user/" + userid).subscribe({
+    this.httpService.delete(environment.backendURL + "api/v1/user/" + userid).subscribe({
       next: (res: any) => {
         console.log(res);
         this._alert.onSuccess('User was deleted');
