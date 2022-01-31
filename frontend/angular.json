@@ -21,6 +21,15 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "allowedCommonJsDependencies": [
+              "geojson-equality",
+              "density-clustering",
+              "skmeans",
+              "rbush",
+              "concaveman",
+              "deep-equal",
+              "geojson-rbush"
+            ],
             "outputPath": "dist/cartracker-frontend",
             "index": "src/index.html",
             "main": "src/main.ts",
