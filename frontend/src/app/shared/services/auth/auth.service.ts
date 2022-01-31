@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpService} from "../http/http.service";
 import {Router} from "@angular/router";
+import {environment} from "../../../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ export class AuthService {
   }
 
   logIn(username: string, userPassword: string) {
-    this.httpService.post("http://localhost:9090/api/v1/login", {
+    this.httpService.post(environment.backendURL + "api/v1/login", {
       uniqueX: username,
       password: userPassword
     }).subscribe({
@@ -40,5 +41,9 @@ export class AuthService {
 
   get authHeader(): string {
     return "Authorization: Bearer " + this.token;
+  }
+
+  print(test: string){
+    console.log(test)
   }
 }
