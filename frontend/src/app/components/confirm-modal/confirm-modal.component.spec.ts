@@ -27,4 +27,13 @@ describe('ConfirmModalComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should return true', () => {
+
+  });
+
+  it('should return false', () => {
+
+  });
+
 });
