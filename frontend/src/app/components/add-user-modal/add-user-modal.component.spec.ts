@@ -36,7 +36,7 @@ describe('AddUserModalComponent', () => {
     expect(title.innerText).toMatch("Add A New User");
   });
 
-  it('should click Save Button', () => {
+  it('should click Save button', () => {
     let mock = spyOn(component, "save");
     let submitButton: DebugElement = fixture.debugElement.query(By.css(".btn-success"));
     fixture.detectChanges();

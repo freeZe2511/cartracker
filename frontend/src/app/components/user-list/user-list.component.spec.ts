@@ -26,4 +26,9 @@ describe('UserListComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should display right column amount', () => {
+    expect(component.displayedColumns).toEqual(['id', 'username', 'password', 'zone', 'status', 'created', 'actions']);
+    expect(component.displayedColumns.length).toBe(7);
+  })
 });

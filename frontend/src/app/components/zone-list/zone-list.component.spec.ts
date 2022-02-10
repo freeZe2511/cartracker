@@ -27,4 +27,10 @@ describe('ZoneListComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should display right column amount', () => {
+    expect(component.displayedColumns).toEqual(['id', 'name', 'type', 'complexity', 'radius', 'actions']);
+    expect(component.displayedColumns.length).toBe(6); // 7 with created
+  })
+
 });

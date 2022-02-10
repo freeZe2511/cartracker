@@ -2,7 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
-import {interval, Subscription, switchMap} from "rxjs";
+import {Subscription} from "rxjs";
 import {UserService} from "../../shared/services/users/users.service";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {MapService} from "../../shared/services/map/map.service";
@@ -12,6 +12,7 @@ import {AlertsService} from "../../shared/services/alerts/alerts.service";
 import {EditZoneModalComponent} from "../edit-zone-modal/edit-zone-modal.component";
 import {ZoneService} from "../../shared/services/zone/zone.service";
 import {ConfirmService} from "../../shared/services/confirm/confirm.service";
+import {ConvertService} from "../../shared/services/convert/convert.service";
 
 @Component({
   selector: 'app-zone-list',
@@ -27,7 +28,8 @@ export class ZoneListComponent implements OnInit {
   constructor(private _user: UserService, private modalService: NgbModal, private _map: MapService,
               public router: Router,
               public _alert: AlertsService, private _zone: ZoneService,
-              public _confirm: ConfirmService) {
+              public _confirm: ConfirmService,
+              public _convert: ConvertService) {
   }
 
   ngOnInit(): void {
@@ -77,7 +79,7 @@ export class ZoneListComponent implements OnInit {
 
   public async delete(zoneid: string) {
     this._confirm.confirmDialog().then((res) => {
-      if(res){
+      if (res) {
         this._zone.deleteZone(zoneid);
         this.reloadZones();
       } else {
@@ -86,13 +88,8 @@ export class ZoneListComponent implements OnInit {
     });
   }
 
-  displayedColumns: string[] = ['id', 'name', 'type', 'complexity', 'radius', 'actions']; // TODO created
+  displayedColumns: string[] = ['id', 'name', 'type', 'complexity', 'radius','actions']; // TODO created
   dataSource = new MatTableDataSource(this._map.zones);
-
-  public convertTime(id: any) {
-    let timeStamp = parseInt(id.substr(0, 8), 16) * 1000
-    return new Date(timeStamp)  // TODO refactor into nice format
-  }
 
 }
 
