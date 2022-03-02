@@ -96,7 +96,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future<bool> authUser(String username, String password) async {
-    bool authorized = false;
+    bool authorized = true; // debug
 
     final uri =
         Uri.parse('http://h2876375.stratoserver.net:9090/api/v1/user/login');

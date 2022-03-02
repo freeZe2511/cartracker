@@ -82,7 +82,7 @@ class MapPageState extends State<MapScreen> {
   void createMarker(double lat, double lng) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final uri =
-        Uri.parse('http://h2876375.stratoserver.net:9090/api/v1/pos/create');
+        Uri.parse('http://h2876375.stratoserver.net:9090/api/v1/pos');
     final headers = {'Content-Type': 'application/json'};
     Map<String, dynamic> body = {'userid': prefs.get("userid"), 'lat': lat, 'lng': lng};
 

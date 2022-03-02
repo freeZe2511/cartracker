@@ -39,6 +39,7 @@ dependencies:
   uuid: 3.0.4
   http: ^0.13.3
   shared_preferences: ^2.0.8
+  flutter_background_geolocation: ^4.3.4
 
 
 dev_dependencies:
