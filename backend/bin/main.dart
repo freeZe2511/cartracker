@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:cartracker_backend/database/database.dart';
 import 'package:cartracker_backend/routing/service.dart';
+import 'package:cartracker_backend/routing/utils.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart';
 import 'package:shelf_cors_headers/shelf_cors_headers.dart';
@@ -29,12 +30,14 @@ void main() async {
 
   final _ip = '0.0.0.0';
   final _port = 9090;
+  final _secret = "super secret key";
 
   final _handler = Pipeline()
       .addMiddleware(corsHeaders(headers: overrideHeaders))
       .addMiddleware(logRequests())
   // .addMiddleware(
   //     createMiddleware(requestHandler: AuthenticationController.handle))
+      .addMiddleware(handleAuth(_secret))
       .addHandler(service.handler);
 
   final server = await serve(

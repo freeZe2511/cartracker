@@ -13,7 +13,7 @@ services:
   mongodb:
     image: mongo
     restart: always
-    command: [--auth]
+#    command: [--auth]
     ports:
       - "27017:27017"
 
