@@ -9,19 +9,10 @@ import 'package:shelf_cors_headers/shelf_cors_headers.dart';
 
 import 'package:shelf_letsencrypt/shelf_letsencrypt.dart';
 
-// Certificate (HTTPS) for educational purposes implemented like this
-SecurityContext getSecurityContext() { // Bind with a secure HTTPS connection
-  final chain = Platform.script.resolve('../certificates/server_chain.pem').toFilePath();
-  final key = Platform.script.resolve('../certificates/server_key.pem').toFilePath();
-
-  return SecurityContext()
-    ..useCertificateChain(chain)
-    ..usePrivateKey(key, password: 'dartdart');
-}
-
 void main() async {
   final overrideHeaders = {
     ACCESS_CONTROL_ALLOW_ORIGIN: '*',
+    // ACCESS_CONTROL_ALLOW_HEADERS: 'Origin, Content-Type',
     'Content-Type': 'application/json;charset=utf-8'
   };
 
@@ -35,13 +26,12 @@ void main() async {
   final _handler = Pipeline()
       .addMiddleware(corsHeaders(headers: overrideHeaders))
       .addMiddleware(logRequests())
-  // .addMiddleware(
-  //     createMiddleware(requestHandler: AuthenticationController.handle))
       .addMiddleware(handleAuth(_secret))
       .addHandler(service.handler);
 
   final server = await serve(
       _handler, _ip, _port, securityContext: getSecurityContext());
+
   print("Server running on locahost:${server.port}");
 
 }

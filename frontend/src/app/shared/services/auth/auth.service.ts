@@ -12,7 +12,7 @@ export class AuthService {
   }
 
   logIn(username: string, userPassword: string) {
-    this.httpService.post(environment.backendURL + "api/v1/login", {
+    this.httpService.post(environment.backendURL + "auth/login", {
       uniqueX: username,
       password: userPassword
     }).subscribe({

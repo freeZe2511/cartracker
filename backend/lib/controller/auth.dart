@@ -31,62 +31,8 @@ class AuthenticationController {
     return Response(500);
   }
 
-  // Future<Response> logout(Request request) async {
-  //   // erst user dann admin tabelle checken? oder admin token schicken?
-  //   return Response(200);
-  // }
-
-  static Future<bool> verify(Request request) async {
-    try {
-      String token =
-          request.headers["Authorization"]!.replaceAll("Bearer ", "");
-      var jwt = JWT.verify(token, SecretKey("super secret key"));
-      return true;
-    } catch (e) {
-      print("verify " + e.toString());
-      return false;
-    }
-  }
-
-// TODO?
-// static FutureOr<Response?> handle(Request request) async {
-//   print(request.url.toString());
-//   (request.url.toString() == "api/v1/login")
-//       ? AuthenticationController.auth(request)
-//       : AuthenticationController.verify(request);
-// }
-//
-// static FutureOr<Response> auth(Request request) async {
-//   print("auth " + request.toString());
-//   try {
-//     var body = jsonDecode(await request.readAsString());
-//
-//     String uniqueX = body["uniqueX"];
-//     String password = body["password"];
-//
-//     var a = await AdminDao.findOne2(uniqueX, password);
-//     if (a == null) throw Exception();
-//
-//     var jwt = JWT({"uniqueX": uniqueX});
-//     var token = jwt.sign(SecretKey("super secret key"));
-//     return Response(200, body: jsonEncode(token));
-//
-//   } catch (e) {
-//     print("auth " + e.toString());
-//     return Response(401);
-//   }
-// }
-//
-// static FutureOr<Response?> verify(Request request) async {
-//   print("verify " + request.toString());
-//   try {
-//     String token = request.headers["Authorization"]!.replaceAll("Bearer ", "");
-//     var jwt = JWT.verify(token, SecretKey("super secret key"));
-//     return null;
-//   } catch (e) {
-//     print("verify " + e.toString());
-//     return Response.forbidden("nonono");
-//   }
-//
+// Future<Response> logout(Request request) async {
+//   // erst user dann admin tabelle checken? oder admin token schicken?
+//   return Response(200);
 // }
 }

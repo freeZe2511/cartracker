@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 import 'package:shelf/shelf.dart';
 
@@ -31,4 +33,14 @@ Middleware checkAuth() {
       return null;
     },
   );
+}
+
+// Certificate (HTTPS) for educational purposes implemented like this
+SecurityContext getSecurityContext() { // Bind with a secure HTTPS connection
+  final chain = Platform.script.resolve('../certificates/server_chain.pem').toFilePath();
+  final key = Platform.script.resolve('../certificates/server_key.pem').toFilePath();
+
+  return SecurityContext()
+    ..useCertificateChain(chain)
+    ..usePrivateKey(key, password: 'dartdart');
 }

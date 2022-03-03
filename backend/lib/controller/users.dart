@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:cartracker_backend/controller/auth.dart';
 import 'package:cartracker_backend/database/admin_data_dao.dart';
 import 'package:cartracker_backend/database/coordinate_dao.dart';
 import 'package:cartracker_backend/database/user_dao.dart';
@@ -28,17 +27,12 @@ class UserController {
   }
 
   Future<Response> getUsers(Request request) async {
-    if(await AuthenticationController.verify(request)){
-      var res = await AdminDataDao.readFullUsersWithLatestPos();
-      // var res = await UserDao.readAll();
-      return Response(200, body: jsonEncode(res));
-    }
-    return Response(401);
-
+    var res = await AdminDataDao.readFullUsersWithLatestPos();
+    // var res = await UserDao.readAll();
+    return Response(200, body: jsonEncode(res));
   }
 
   Future<Response> updateUser(Request request, String id) async {
-    // auth?
     var body = jsonDecode(await request.readAsString());
     String username = body["username"];
     String password = body["password"];
@@ -48,7 +42,6 @@ class UserController {
   }
 
   Future<Response> deleteUser(Request request, String id) async {
-    // auth?
     await UserDao.delete(id);
     await CoordinateDao.delete(id); // delete all positions from user?
     return Response(200);

@@ -1,4 +1,3 @@
-import 'package:cartracker_backend/controller/auth.dart';
 import 'package:cartracker_backend/controller/position.dart';
 import 'package:cartracker_backend/controller/users.dart';
 import 'package:cartracker_backend/controller/zone.dart';
@@ -33,6 +32,7 @@ class Api {
     router.put("/user/<id>", userController.updateUser);
     router.delete("/user/<id>", userController.deleteUser);
 
+    // Check Authentication
     final handler = Pipeline().addMiddleware(checkAuth()).addHandler(router);
 
     return handler;
