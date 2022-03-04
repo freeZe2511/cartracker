@@ -5,8 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'home_screen.dart';
+
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
+
+  static const routeName = '/loginscreen';
 
   @override
   _LoginScreenState createState() => _LoginScreenState();
@@ -90,39 +94,39 @@ class _LoginScreenState extends State<LoginScreen> {
       form.save();
       authorized = await authUser(_username, _password);
       if (authorized) {
-        Navigator.pushNamed(context, MapScreen.routeName);
+        Navigator.pushNamed(context, HomeScreen.routeName);
       }
     }
   }
 
   Future<bool> authUser(String username, String password) async {
-    bool authorized = true; // debug
+    bool authorized = true; // for testing
 
-    final uri =
-        Uri.parse('http://h2876375.stratoserver.net:9090/api/v1/user/login');
-    final headers = {'Content-Type': 'application/json'};
-    Map<String, dynamic> body = {
-      'username': username,
-      'password': password
-    }; // id?
-
-    http.Response res = await http.post(
-      uri,
-      headers: headers,
-      body: json.encode(body),
-      encoding: Encoding.getByName('utf-8'),
-    );
-
-    switch (res.statusCode) {
-      case 200:
-        authorized = !authorized;
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-        prefs.setString("userid", jsonDecode(res.body));
-        break;
-      default:
-        _authFail();
-        break;
-    }
+    // final uri =
+    //     Uri.parse('https://h2876375.stratoserver.net:9090/auth/login');
+    // final headers = {'Content-Type': 'application/json'};
+    // Map<String, dynamic> body = {
+    //   'username': username,
+    //   'password': password
+    // }; // id?
+    //
+    // http.Response res = await http.post(
+    //   uri,
+    //   headers: headers,
+    //   body: json.encode(body),
+    //   encoding: Encoding.getByName('utf-8'),
+    // );
+    //
+    // switch (res.statusCode) {
+    //   case 200:
+    //     authorized = !authorized;
+    //     SharedPreferences prefs = await SharedPreferences.getInstance();
+    //     prefs.setString("userid", jsonDecode(res.body));
+    //     break;
+    //   default:
+    //     _authFail();
+    //     break;
+    // }
 
     return authorized;
   }
@@ -139,3 +143,5 @@ class User {
         '_userid': _userid,
       };
 }
+
+//TODO addGeoFence from response

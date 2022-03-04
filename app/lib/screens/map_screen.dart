@@ -62,7 +62,7 @@ class MapPageState extends State<MapScreen> {
     setState(() {
       markers[markerId] = marker;
       latlng.add(pos);
-      createMarker(position.latitude, position.longitude);
+      // createMarker(position.latitude, position.longitude);
     });
   }
 

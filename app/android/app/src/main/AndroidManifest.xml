@@ -9,7 +9,7 @@
         android:label="cartracker_app"
         android:icon="@mipmap/ic_launcher">
        <meta-data android:name="com.google.android.geo.API_KEY"
-           android:value="AIzaSyB0bVbrsn7U0oBpqfemqtqxtakiU3UnWKM"/>
+           android:value="AIzaSyAagFA7p0F97pG81H4cGoREi_d_GdUxSrM"/>
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
