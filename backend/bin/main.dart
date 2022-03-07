@@ -16,14 +16,6 @@ void main() async {
     'Content-Type': 'application/json;charset=utf-8'
   };
 
-  // var certificatesDirectory = '/etc/letsencrypt/live'; // Default directory.
-  //
-  // // The Certificate handler, storing at `certificatesDirectory`.
-  // final certificatesHandler = CertificatesHandlerIO(Directory(certificatesDirectory));
-  //
-  // // The Let's Encrypt integration tool in `staging` mode:
-  // final LetsEncrypt letsEncrypt = LetsEncrypt(certificatesHandler, production: false);
-
   await Database.init();
   final service = Service();
 
@@ -41,17 +33,6 @@ void main() async {
       _handler, _ip, _port, securityContext: getSecurityContext());
 
   print("Server running on locahost:${server.port}");
-
-  // var domain = "tim-eggers.de";
-  // var domainEmail = "csgotim@gmail.com";
-  //
-  // var servers = await letsEncrypt.startSecureServer(
-  //   _handler,
-  //   domain,
-  //   domainEmail,
-  //   port: 9089,
-  //   securePort: 9090,
-  // );
 
 }
 
