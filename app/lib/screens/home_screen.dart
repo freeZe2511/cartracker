@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_background_geolocation/flutter_background_geolocation.dart'
     as bg;
 
+import 'package:cartracker_app/services/http_service.dart' as http;
+
 JsonEncoder encoder = JsonEncoder.withIndent("     ");
 
 class HomeScreen extends StatefulWidget {
@@ -18,9 +20,9 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late double lat;
-  late double lng;
+
   late int counter;
+  http.HttpService httpService = http.HttpService();
 
   late bool _isMoving;
   late bool _enabled;
@@ -115,6 +117,9 @@ class _HomeScreenState extends State<HomeScreen> {
       _odometer = odometerKM;
       counter += 1;
     });
+
+    // httpService.postPosition(location);
+
   }
 
   void _onLocationError(bg.LocationError error) {

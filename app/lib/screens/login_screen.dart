@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:cartracker_app/screens/map_screen.dart';
+import 'package:cartracker_app/screens/map_screen2.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -145,3 +145,4 @@ class User {
 }
 
 //TODO addGeoFence from response
+// jwt token in prefs

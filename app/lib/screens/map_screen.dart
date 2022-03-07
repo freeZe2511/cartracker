@@ -1,14 +1,9 @@
-import 'dart:async';
-import 'dart:convert';
-
-import 'package:cartracker_app/services/geolocator_service.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:http/http.dart' as http;
-import 'package:uuid/uuid.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong2/latlong.dart';
+
+import 'package:flutter_background_geolocation/flutter_background_geolocation.dart'
+    as bg;
 
 class MapScreen extends StatefulWidget {
   const MapScreen({Key? key}) : super(key: key);
@@ -16,82 +11,55 @@ class MapScreen extends StatefulWidget {
   static const routeName = '/mapscreen';
 
   @override
-  State<MapScreen> createState() => MapPageState();
+  State<MapScreen> createState() => _MapScreenState();
 }
 
-class MapPageState extends State<MapScreen> {
-  final Completer<GoogleMapController> _controller = Completer();
-  final double zoom = 18.0;
+class _MapScreenState extends State<MapScreen> {
+  final LatLng _center = LatLng(50.5, 8.67);
+  late MapController _mapController;
+  late MapOptions _mapOptions;
 
-  Map<MarkerId, Marker> markers = {};
-  List<LatLng> latlng = [];
-  Set<Polyline> polylines = {};
+  final List<CircleMarker> _currentPosition = [];
+
+  late bg.Location _stationaryLocation;
 
   @override
   void initState() {
     super.initState();
-    GeolocationService.getPositionStream().listen(
-      (position) async {
-        var mapController = await _controller.future;
-        mapController.animateCamera(
-          CameraUpdate.newCameraPosition(
-            CameraPosition(
-              zoom: zoom,
-              target: LatLng(
-                position.latitude,
-                position.longitude,
-              ),
-            ),
-          ),
-        );
-        //getTest();
-        addMarker(position);  // sharedpreferences
-        addPolyline();
-      },
+
+    _mapOptions = MapOptions(
+      onPositionChanged: _onPositionChanged,
+      center: _center,
+      zoom: 16.0,
     );
+    _mapController = MapController();
+
+    // bg.BackgroundGeolocation.onLocation(_onLocation);
+    // bg.BackgroundGeolocation.onMotionChange(_onMotionChange);
+    // bg.BackgroundGeolocation.onGeofence(_onGeofence);
+    // bg.BackgroundGeolocation.onGeofencesChange(_onGeofencesChange);
+    // bg.BackgroundGeolocation.onEnabledChange(_onEnabledChange);
   }
 
-  void addMarker(Position position) {
-    LatLng pos = LatLng(position.latitude, position.longitude);
-    MarkerId markerId = MarkerId(Uuid().v4());
-    Marker marker = Marker(
-      markerId: markerId,
-      position: pos,
-    );
-
-    setState(() {
-      markers[markerId] = marker;
-      latlng.add(pos);
-      // createMarker(position.latitude, position.longitude);
-    });
+  void _onPositionChanged(MapPosition pos, bool hasGesture) {
+    _mapOptions.crs.scale(_mapController.zoom);
   }
 
-  void addPolyline() {
-    PolylineId polylineId = PolylineId(Uuid().v4());
-    Polyline polyline = Polyline(
-        polylineId: polylineId,
-        visible: true,
-        color: Colors.blue,
-        width: 5,
-        points: latlng);
-    setState(() {
-      polylines.add(polyline);
-    });
+  void _onLocation(bg.Location location) {
+    LatLng l1 = LatLng(location.coords.latitude, location.coords.longitude);
+    _mapController.move(l1, _mapController.zoom);
+    _updateCurrentPositionMarker(l1);
   }
 
-  void createMarker(double lat, double lng) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    final uri =
-        Uri.parse('http://h2876375.stratoserver.net:9090/api/v1/pos');
-    final headers = {'Content-Type': 'application/json'};
-    Map<String, dynamic> body = {'userid': prefs.get("userid"), 'lat': lat, 'lng': lng};
+  void _updateCurrentPositionMarker(LatLng ll) {
+    _currentPosition.clear();
 
-    http.Response res = await http.post(
-      uri,
-      headers: headers,
-      body: json.encode(body),
-      encoding: Encoding.getByName('utf-8'),
-    );
+    // White background
+    _currentPosition
+        .add(CircleMarker(point: ll, color: Colors.white, radius: 10));
+    // Blue foreground
+    _currentPosition
+        .add(CircleMarker(point: ll, color: Colors.blue, radius: 7));
   }
 
   @override
@@ -100,55 +68,54 @@ class MapPageState extends State<MapScreen> {
       appBar: AppBar(
         title: Text("Map"),
       ),
-      body: FutureBuilder(
-        future: GeolocationService.getInitialPosition(),
-        builder: (context, snapshot) {
-          if (snapshot.data == null) {
-            return Center(
-              child: LinearProgressIndicator(),
-            );
-          }
-          Position initialLocation = snapshot.data! as Position;
-          return GoogleMap(
-            mapType: MapType.normal,
-            myLocationEnabled: true,
-            initialCameraPosition: CameraPosition(
-              zoom: zoom,
-              target: LatLng(
-                initialLocation.latitude,
-                initialLocation.longitude,
+      body: FlutterMap(
+        mapController: _mapController,
+        options: _mapOptions,
+        layers: [
+          TileLayerOptions(
+            urlTemplate: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+            subdomains: ['a', 'b', 'c'],
+          ),
+          MarkerLayerOptions(
+            markers: [],
+          ),
+          CircleLayerOptions(circles: _currentPosition),
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _onClickGetCurrentPosition,
+        child: Icon(Icons.gps_fixed),
+        backgroundColor: Colors.redAccent,
+      ),
+      bottomNavigationBar: BottomAppBar(
+        color: Colors.blue,
+        child: IconTheme(
+          data: IconThemeData(color: Theme.of(context).colorScheme.onPrimary),
+          child: Row(
+            children: const [
+              Text(
+                "test",
+                style: TextStyle(color: Colors.white),
               ),
-            ),
-            onMapCreated: (GoogleMapController controller) {
-              _controller.complete(controller);
-            },
-            markers: Set.of(markers.values),
-            polylines: polylines,
-          );
-        },
+            ],
+          ),
+        ),
       ),
     );
   }
 
-  // SnapToRoad API Example TEST
-  void getTest() async {
-    var body = await rootBundle.loadString("assets/test");
-    var json = jsonDecode(body);
-
-    json["snappedPoints"].forEach((e) =>
-        addTestMarker(e["location"]["latitude"], e["location"]["longitude"]));
-  }
-
-  void addTestMarker(double lat, double lng) {
-    LatLng pos = LatLng(lat, lng);
-    MarkerId markerId = MarkerId(Uuid().v4());
-    Marker marker = Marker(
-      markerId: markerId,
-      position: pos,
-    );
-    setState(() {
-      markers[markerId] = marker;
-      latlng.add(pos);
+  // Manually fetch the current position.
+  void _onClickGetCurrentPosition() {
+    bg.BackgroundGeolocation.getCurrentPosition(
+            persist: true, // <-- do persist this location
+            desiredAccuracy: 0, // <-- desire best possible accuracy
+            timeout: 30, // <-- wait 30s before giving up.
+            samples: 3 // <-- sample 3 location before selecting best.
+            )
+        .then((bg.Location location) {
+      print('[getCurrentPosition] - $location');
+    }).catchError((error) {
+      print('[getCurrentPosition] ERROR: $error');
     });
   }
 }
