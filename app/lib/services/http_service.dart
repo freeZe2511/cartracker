@@ -8,11 +8,40 @@ as bg;
 
 class HttpService {
 
-  String url = 'https://h2876375.stratoserver.net:9090';
+  String url = 'https://tim-eggers.de:9090';
 
-  logIn(){
+  logIn(String username, String password) async {
 
     // send logIn data (username + pw)
+    print(username + password);
+
+    final uri = Uri.parse(url + '/auth/login');
+    final headers = {'Content-Type': 'application/json'};
+    Map<String, dynamic> body = {
+      'username': username,
+      'password': password
+    };
+
+    http.Response res = await http.post(
+      uri,
+      headers: headers,
+      body: json.encode(body),
+      encoding: Encoding.getByName('utf-8'),
+    );
+
+    print(res.body);
+
+    //
+    // switch (res.statusCode) {
+    //   case 200:
+    //     authorized = !authorized;
+    //     SharedPreferences prefs = await SharedPreferences.getInstance();
+    //     prefs.setString("userid", jsonDecode(res.body));
+    //     break;
+    //   default:
+    //     _authFail();
+    //     break;
+    // }
 
     // get jwt + zone -> save in prefs
 

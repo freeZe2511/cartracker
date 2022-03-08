@@ -1,9 +1,6 @@
-import 'dart:convert';
 
-import 'package:cartracker_app/screens/map_screen2.dart';
+import 'package:cartracker_app/services/http_service.dart' as http;
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'home_screen.dart';
 
@@ -17,6 +14,8 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  http.HttpService httpService = http.HttpService();
+
   bool _passwordObscure = true;
   final _formKey = GlobalKey<FormState>();
   var _username;
@@ -38,11 +37,16 @@ class _LoginScreenState extends State<LoginScreen> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
+                  Container(
+                      margin: EdgeInsets.all(25),
+                      child:
+                          Text("CarTracker", style: TextStyle(fontSize: 35))),
                   TextFormField(
                     key: Key("username"),
                     decoration: InputDecoration(
                       prefixIcon: Icon(Icons.account_box),
                       hintText: "Username",
+                      contentPadding: EdgeInsets.all(25),
                     ),
                     onSaved: (val) => _username = val,
                     validator: (value) {
@@ -56,6 +60,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     decoration: InputDecoration(
                       prefixIcon: Icon(Icons.lock),
                       hintText: "Password",
+                      contentPadding: EdgeInsets.all(25),
                       suffixIcon: IconButton(
                         onPressed: () => _toggle(),
                         icon: Icon(_passwordObscure
@@ -72,9 +77,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     },
                     obscureText: _passwordObscure,
                   ),
-                  ElevatedButton(
-                    child: Text("Submit"),
-                    onPressed: _handleSubmit,
+                  Container(
+                    margin: EdgeInsets.all(25),
+                    child: ElevatedButton(
+                      child: Text("Submit"),
+                      onPressed: _handleSubmit,
+                    ),
                   ),
                 ],
               ),
@@ -87,12 +95,11 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void _handleSubmit() async {
     final FormState form = _formKey.currentState!;
-    bool authorized = false;
 
     if (!form.validate()) {
     } else {
       form.save();
-      authorized = await authUser(_username, _password);
+      bool authorized = await authUser(_username, _password);
       if (authorized) {
         Navigator.pushNamed(context, HomeScreen.routeName);
       }
@@ -100,7 +107,9 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future<bool> authUser(String username, String password) async {
-    bool authorized = true; // for testing
+    bool authorized = false; // for testing
+
+    httpService.logIn(username, password);
 
     // final uri =
     //     Uri.parse('https://h2876375.stratoserver.net:9090/auth/login');

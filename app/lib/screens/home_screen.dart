@@ -98,7 +98,7 @@ class _HomeScreenState extends State<HomeScreen> {
             persist: true, // <-- do persist this location
             desiredAccuracy: 0, // <-- desire best possible accuracy
             timeout: 30, // <-- wait 30s before giving up.
-            samples: 3 // <-- sample 3 location before selecting best.
+            samples: 1 // <-- sample 3 location before selecting best.
             )
         .then((bg.Location location) {
       print('[getCurrentPosition] - $location');
@@ -118,7 +118,7 @@ class _HomeScreenState extends State<HomeScreen> {
       counter += 1;
     });
 
-    // httpService.postPosition(location);
+    httpService.postPosition(location);
 
   }
 

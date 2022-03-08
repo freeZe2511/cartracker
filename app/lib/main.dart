@@ -11,7 +11,7 @@ class CarTrackerApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'CarTracker',
-      home: HomeScreen(), // TODO
+      home: LoginScreen(), // TODO
       routes: {
         HomeScreen.routeName: (context) => HomeScreen(),
         LoginScreen.routeName: (context) => LoginScreen(),
