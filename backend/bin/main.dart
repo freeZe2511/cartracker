@@ -23,6 +23,9 @@ void main() async {
   final _port = 9090;
   final _secret = "super secret key";
 
+  // for localhost dev
+  bool prod = false;
+
   final _handler = Pipeline()
       .addMiddleware(corsHeaders(headers: overrideHeaders))
       .addMiddleware(logRequests())
@@ -30,7 +33,7 @@ void main() async {
       .addHandler(service.handler);
 
   final server = await serve(
-      _handler, _ip, _port, securityContext: getSecurityContext());
+      _handler, _ip, _port, securityContext: prod ? getSecurityContext() : null);
 
   print("Server running on locahost:${server.port}");
 

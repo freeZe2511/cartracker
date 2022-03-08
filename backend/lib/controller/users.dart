@@ -9,21 +9,26 @@ import 'package:shelf/shelf.dart';
 
 class UserController {
   Future<Response> createUser(Request request) async {
+    if (request.isEmpty) return Response(400);
     var body = jsonDecode(await request.readAsString());
     String username = body["username"];
     String password = body["password"];
     String zone = body["zoneid"];
     String zoneid = await ZoneDao.findOne(zone);
 
-    String userID = Uuid().v4();
-    await UserDao.create(User(
-        id: userID,
-        username: username,
-        password: password,
-        token: Uuid().v4(),
-        status: "inactive",
-        zoneid: zoneid));
-    return Response(201, body: jsonEncode(userID));
+    if (await UserDao.checkUsername(username) == null) {
+      String userID = Uuid().v4();
+      await UserDao.create(User(
+          id: userID,
+          username: username,
+          password: password,
+          token: Uuid().v4(),
+          status: "inactive",
+          zoneid: zoneid));
+      return Response(201, body: jsonEncode(userID));
+    } else {
+      return Response.forbidden('User already exists');
+    }
   }
 
   Future<Response> getUsers(Request request) async {
@@ -33,12 +38,18 @@ class UserController {
   }
 
   Future<Response> updateUser(Request request, String id) async {
+    if (request.isEmpty) return Response(400);
     var body = jsonDecode(await request.readAsString());
     String username = body["username"];
     String password = body["password"];
     String zoneid = body["zoneid"]; //TODO check again if zone
-    await UserDao.update(id, username, password, zoneid); // User
-    return Response(200);
+
+    if (await UserDao.checkUsername(username) == null) {
+      await UserDao.update(id, username, password, zoneid); // User
+      return Response(200);
+    } else {
+      return Response.forbidden('User already exists');
+    }
   }
 
   Future<Response> deleteUser(Request request, String id) async {

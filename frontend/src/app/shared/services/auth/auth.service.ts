@@ -13,12 +13,16 @@ export class AuthService {
 
   logIn(username: string, userPassword: string) {
     this.httpService.post(environment.backendURL + "auth/login", {
-      uniqueX: username,
+      username: username,
       password: userPassword
     }).subscribe({
       next: (res: any) => {
-        localStorage.setItem("idToken", JSON.stringify(res));
-        this.router.navigate(["home"]);
+        if(res["role"] == "admin"){
+          localStorage.setItem("idToken", JSON.stringify(res["jwt"]));
+          this.router.navigate(["home"]);
+        } else {
+          window.alert("Not an Admin");
+        }
       },
       error: () => window.alert("login fail"),
       complete: () => console.info('complete')

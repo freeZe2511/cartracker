@@ -6,6 +6,8 @@ import {Position} from "../../models/user";
 import {Zone, ZoneClass} from "../../models/zone"
 import {SidebarService} from "../sidebar/sidebar.service";
 import {environment} from "../../../../environments/environment";
+import {AuthService} from "../auth/auth.service";
+import {AlertsService} from "../alerts/alerts.service";
 
 
 @Injectable({
@@ -20,7 +22,7 @@ export class MapService {
   public noneZone: Zone;
   public zones: Zone[];
 
-  constructor(private _http: HttpService, private _user: UserService, private _sidebar: SidebarService) {
+  constructor(private _http: HttpService, private _user: UserService, private _sidebar: SidebarService, private authService: AuthService, private _alert: AlertsService) {
     this.allZone = new ZoneClass("All", [], 0);
     this.noneZone = new ZoneClass("None", [], 0, "", "1");
     this.zones = [];
@@ -29,7 +31,7 @@ export class MapService {
   public getRoutePositions(): any {
     if (this.route) {
       let data: string = this.route!.userid + "&&" + this.route!.timeInHours + "&&" + this.route!.timeInMinutes;
-      this._http.get(environment.backendURL + "api/v1/route/" + data).subscribe({
+      this._http.get(environment.backendURL + "api/v1/route/" + data, {headers: this.authService.authHeader}).subscribe({
         next: (res: any) => {
           this.route!.positions = res;
           return res;
@@ -41,7 +43,7 @@ export class MapService {
   }
 
   public getUserPositions(): any {
-    return this._http.get(environment.backendURL + "api/v1/pos");
+    return this._http.get(environment.backendURL + "api/v1/pos", {headers: this.authService.authHeader});
   }
 
   public createZone(zone: ZoneClass) {
@@ -54,9 +56,10 @@ export class MapService {
           lng: zone.pos[0].lng
         }
       ]
-    }).subscribe({
+    }, {headers: this.authService.authHeader}).subscribe({
       next: (res: any) => {
         console.log(res);
+        this._alert.onSuccess('Zone added');
       },
       error: (e) => console.error(e),
       complete: () => console.info('complete')
@@ -64,7 +67,7 @@ export class MapService {
   }
 
   public getZones() {
-    this._http.get(environment.backendURL + "api/v1/zones").subscribe({
+    this._http.get(environment.backendURL + "api/v1/zones", {headers: this.authService.authHeader}).subscribe({
       next: (res: any) => {
         this.zones = res;
         this.zones.unshift(this.noneZone);

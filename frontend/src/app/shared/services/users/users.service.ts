@@ -17,7 +17,7 @@ export class UserService {
 
   constructor(private httpService: HttpService, private authService: AuthService, public _alert: AlertsService) {
     this.users = [];
-    this.zoneUserMap = new Map<string,boolean>()
+    this.zoneUserMap = new Map<string, boolean>()
   }
 
   public getUsersList(): any {
@@ -58,11 +58,15 @@ export class UserService {
       username: user.username,
       password: user.password,
       zoneid: user.zoneid
-    }).subscribe({
+    }, {headers: this.authService.authHeader}).subscribe({
       next: (res: any) => {
-        console.log(res);
+        // console.log(res);
+        this._alert.onSuccess('User added');
       },
-      error: (e) => console.error(e),
+      error: (e) => {
+        // console.error(e);
+        this._alert.onError(e["error"]);
+      },
       complete: () => console.info('complete')
     });
   }
@@ -72,13 +76,13 @@ export class UserService {
       username: user.username,
       password: user.password, // TODO zone
       zoneid: user.zoneid
-    }).subscribe({
+    }, {headers: this.authService.authHeader}).subscribe({
       next: (res: any) => {
-        console.log(res);
+        // console.log(res);
         this._alert.onSuccess('User changed');
       },
       error: (e) => {
-        console.error(e);
+        // console.error(e);
         this._alert.onError('Failed editing User');
       },
       complete: () => console.info('complete')
@@ -86,9 +90,9 @@ export class UserService {
   }
 
   public deleteUser(userid: string) {
-    this.httpService.delete(environment.backendURL + "api/v1/user/" + userid).subscribe({
+    this.httpService.delete(environment.backendURL + "api/v1/user/" + userid, {headers: this.authService.authHeader}).subscribe({
       next: (res: any) => {
-        console.log(res);
+        // console.log(res);
         this._alert.onSuccess('User was deleted');
       },
       error: (e) => {
