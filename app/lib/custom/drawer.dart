@@ -2,6 +2,8 @@ import 'package:cartracker_app/screens/login_screen.dart';
 import 'package:cartracker_app/screens/map_screen.dart';
 import 'package:cartracker_app/screens/settings_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:cartracker_app/services/http_service.dart' as http;
 
 class CustomDrawer extends StatefulWidget {
   const CustomDrawer({Key? key}) : super(key: key);
@@ -11,6 +13,9 @@ class CustomDrawer extends StatefulWidget {
 }
 
 class _CustomDrawerState extends State<CustomDrawer> {
+
+  http.HttpService httpService = http.HttpService();
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -67,6 +72,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   onTap: () {
                     Navigator.pop(context);
                     Navigator.pushNamed(context, LoginScreen.routeName);
+                    httpService.logOut();
                   },
                 ),
               ],

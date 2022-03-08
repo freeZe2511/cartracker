@@ -1,6 +1,6 @@
-
 import 'package:cartracker_app/services/http_service.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'home_screen.dart';
 
@@ -18,15 +18,32 @@ class _LoginScreenState extends State<LoginScreen> {
 
   bool _passwordObscure = true;
   final _formKey = GlobalKey<FormState>();
-  var _username;
-  var _password;
+  late String _username;
+  late String _password;
 
-  void _toggle() {
-    setState(() => _passwordObscure = !_passwordObscure);
+  // bool loading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    init();
+  }
+
+  init() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    if (prefs.getString("jwt") != null) {
+      Navigator.pushNamed(context, HomeScreen.routeName);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    // if (loading) {
+    //   return Center(
+    //     child: CircularProgressIndicator(),
+    //   );
+    // } else {
     return Scaffold(
       body: Center(
         child: SizedBox(
@@ -48,7 +65,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       hintText: "Username",
                       contentPadding: EdgeInsets.all(25),
                     ),
-                    onSaved: (val) => _username = val,
+                    onSaved: (val) => _username = val!,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Please enter Username';
@@ -68,7 +85,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             : Icons.visibility),
                       ),
                     ),
-                    onSaved: (val) => _password = val,
+                    onSaved: (val) => _password = val!,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Please enter Password';
@@ -99,58 +116,16 @@ class _LoginScreenState extends State<LoginScreen> {
     if (!form.validate()) {
     } else {
       form.save();
-      bool authorized = await authUser(_username, _password);
+      bool authorized = await httpService.logIn(_username, _password);
       if (authorized) {
         Navigator.pushNamed(context, HomeScreen.routeName);
       }
     }
   }
 
-  Future<bool> authUser(String username, String password) async {
-    bool authorized = false; // for testing
-
-    httpService.logIn(username, password);
-
-    // final uri =
-    //     Uri.parse('https://h2876375.stratoserver.net:9090/auth/login');
-    // final headers = {'Content-Type': 'application/json'};
-    // Map<String, dynamic> body = {
-    //   'username': username,
-    //   'password': password
-    // }; // id?
-    //
-    // http.Response res = await http.post(
-    //   uri,
-    //   headers: headers,
-    //   body: json.encode(body),
-    //   encoding: Encoding.getByName('utf-8'),
-    // );
-    //
-    // switch (res.statusCode) {
-    //   case 200:
-    //     authorized = !authorized;
-    //     SharedPreferences prefs = await SharedPreferences.getInstance();
-    //     prefs.setString("userid", jsonDecode(res.body));
-    //     break;
-    //   default:
-    //     _authFail();
-    //     break;
-    // }
-
-    return authorized;
+  void _toggle() {
+    setState(() => _passwordObscure = !_passwordObscure);
   }
-
-  void _authFail() {}
-}
-
-class User {
-  final String _userid;
-
-  User.fromJson(Map<String, dynamic> json) : _userid = json['_userid'];
-
-  Map<String, dynamic> toJson() => {
-        '_userid': _userid,
-      };
 }
 
 //TODO addGeoFence from response

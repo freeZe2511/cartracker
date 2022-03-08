@@ -23,8 +23,8 @@ void main() async {
   final _port = 9090;
   final _secret = "super secret key";
 
-  // for localhost dev
-  bool prod = false;
+  // false for localhost dev
+  bool prod = true;
 
   final _handler = Pipeline()
       .addMiddleware(corsHeaders(headers: overrideHeaders))

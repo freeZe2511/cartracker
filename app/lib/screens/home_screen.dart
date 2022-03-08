@@ -110,11 +110,8 @@ class _HomeScreenState extends State<HomeScreen> {
   void _onLocation(bg.Location location) {
     print('[location] - $location');
 
-    String odometerKM = (location.odometer / 1000.0).toStringAsFixed(1);
-
     setState(() {
       _content = encoder.convert(location.toMap());
-      _odometer = odometerKM;
       counter += 1;
     });
 
