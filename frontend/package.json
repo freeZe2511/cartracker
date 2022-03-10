@@ -13,7 +13,7 @@
     "lint:fix": "ng lint --fix",
     "e2e": "ng e2e",
     "build:ci": "npm run clean && npm run test && npm run build:prod",
-    "deploy": "ng deploy --base-href=/cartracker/"
+    "deploy": "ng deploy --base-href /cartracker/"
   },
   "private": true,
   "dependencies": {

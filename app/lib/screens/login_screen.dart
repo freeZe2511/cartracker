@@ -33,7 +33,8 @@ class _LoginScreenState extends State<LoginScreen> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     if (prefs.getString("jwt") != null) {
-      Navigator.pushNamed(context, HomeScreen.routeName);
+      Navigator.of(context).popUntil((route) => route.isFirst); // TODO
+      Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
     }
   }
 
@@ -57,7 +58,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   Container(
                       margin: EdgeInsets.all(25),
                       child:
-                          Text("CarTracker", style: TextStyle(fontSize: 35))),
+                          Text("cartracker", style: TextStyle(fontSize: 35))),
                   TextFormField(
                     key: Key("username"),
                     decoration: InputDecoration(
@@ -113,20 +114,31 @@ class _LoginScreenState extends State<LoginScreen> {
   void _handleSubmit() async {
     final FormState form = _formKey.currentState!;
 
-    if (!form.validate()) {
-    } else {
+    if (form.validate()) {
       form.save();
       bool authorized = await httpService.logIn(_username, _password);
       if (authorized) {
-        Navigator.pushNamed(context, HomeScreen.routeName);
+        Navigator.of(context).popUntil((route) => route.isFirst);
+        Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
+      } else {
+        showSnackBar("Login failed", Colors.red);
       }
+    } else {
+      showSnackBar("Form incomplete", Colors.red);
     }
   }
 
   void _toggle() {
     setState(() => _passwordObscure = !_passwordObscure);
   }
-}
 
-//TODO addGeoFence from response
-// jwt token in prefs
+  void showSnackBar(String msg, MaterialColor color){
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(
+        msg,
+        textAlign: TextAlign.center,
+      ),
+      backgroundColor: color,
+    ));
+  }
+}

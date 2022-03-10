@@ -15,7 +15,7 @@ export class LoginComponent implements OnInit {
   }
 
   logIn(username: string, password: string): void {
-    if(username != "" || password != ""){
+    if(username != "" && password != ""){
       this.authService.logIn(username, password)
     }else {
       this._alert.onError("Please enter Username and/or Password"); // TODO not working???

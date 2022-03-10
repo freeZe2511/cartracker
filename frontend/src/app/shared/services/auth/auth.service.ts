@@ -2,13 +2,14 @@ import {Injectable} from '@angular/core';
 import {HttpService} from "../http/http.service";
 import {Router} from "@angular/router";
 import {environment} from "../../../../environments/environment";
+import {AlertsService} from "../alerts/alerts.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  constructor(public httpService: HttpService, public router: Router) {
+  constructor(public httpService: HttpService, public router: Router, public _alert: AlertsService) {
   }
 
   logIn(username: string, userPassword: string) {
@@ -21,6 +22,7 @@ export class AuthService {
           localStorage.setItem("idToken", JSON.stringify(res["jwt"]));
           this.router.navigate(["home"]);
         } else {
+          // TODO alert service not working in login page
           window.alert("Not an Admin");
         }
       },

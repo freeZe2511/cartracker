@@ -7,6 +7,7 @@ import 'package:flutter_background_geolocation/flutter_background_geolocation.da
     as bg;
 
 import 'package:cartracker_app/services/http_service.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 JsonEncoder encoder = JsonEncoder.withIndent("     ");
 
@@ -30,6 +31,9 @@ class _HomeScreenState extends State<HomeScreen> {
   late String _odometer;
   late String _content;
 
+  late String userid;
+  late List<String> zoneList;
+
   @override
   void initState() {
     super.initState();
@@ -41,7 +45,17 @@ class _HomeScreenState extends State<HomeScreen> {
     _odometer = '0';
 
     counter = 0;
+    userid = "";
+    zoneList = [];
+    _init();
     _initPlatformState();
+  }
+
+  _init() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    userid = prefs.getString("userid")!;
+    zoneList = prefs.getStringList("zone")!;
   }
 
   void _initPlatformState() {
@@ -142,7 +156,9 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: Column(
         children: [
-          Text("$counter"),
+          Text("User: " + userid),
+          Text("Zone: " + zoneList[1] + " " + zoneList[2] + " " + zoneList[3] + " " + zoneList[4]),
+          Text("GPS sent: $counter"),
           Text(_content),
         ],
       ),

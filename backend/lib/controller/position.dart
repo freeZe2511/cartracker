@@ -16,12 +16,12 @@ class PositionController {
       }
       double lat = body["lat"];
       double lng = body["lng"];
-      // double speed  = body["speed"];
+      double speed  = body["speed"];
       bool inZone = body["inZone"];
       // bool isMoving = body["isMoving"]; // TODO
 
       await CoordinateDao.create(
-          Coordinate(id: userid, lat: lat, lng: lng, inZone: inZone)); //TODO
+          Coordinate(id: userid, lat: lat, lng: lng, inZone: inZone, speed: speed)); //TODO
       return Response(201, body: jsonEncode(body));
     }
     return Response(400);

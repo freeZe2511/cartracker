@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 import 'dart:math';
 import 'package:vector_math/vector_math.dart';
 
@@ -26,22 +27,25 @@ class HttpService {
       encoding: Encoding.getByName('utf-8'),
     );
 
-    body = jsonDecode(res.body);
-    var zone = body["zone"];
-    List<String> zoneList = [
-      zone["id"],
-      zone["name"],
-      zone["radius"].toString(),
-      zone["pos"][0]["lat"].toString(),
-      zone["pos"][0]["lng"].toString()
-    ];
-
     switch (res.statusCode) {
       case 200:
-        authorized = true;
-        prefs.setString("jwt", body["jwt"]);
-        prefs.setString("userid", body["userid"]);
-        prefs.setStringList("zone", zoneList);
+        body = jsonDecode(res.body);
+
+        if(body["zone"] != null){
+          var zone = body["zone"];
+          List<String> zoneList = [
+            zone["id"],
+            zone["name"],
+            zone["radius"].toString(),
+            zone["pos"][0]["lat"].toString(),
+            zone["pos"][0]["lng"].toString()
+          ];
+
+          authorized = true;
+          prefs.setString("jwt", body["jwt"]);
+          prefs.setString("userid", body["userid"]);
+          prefs.setStringList("zone", zoneList);
+        }
         break;
       default:
         break;
@@ -91,12 +95,14 @@ class HttpService {
     );
   }
 
+  //TODO addGeoFence from response?
+
   bool isInZone(String userid, double lat, double lng, List<String> zoneList) {
     if (zoneList[0] == "1") return true;
     // circular fences/zones
     if (double.parse(zoneList[2]) > 0) {
-      return checkCircleZone(double.parse(zoneList[3]), double.parse(zoneList[4]), lat,
-          lng, num.parse(zoneList[2]));
+      return checkCircleZone(double.parse(zoneList[3]),
+          double.parse(zoneList[4]), lat, lng, num.parse(zoneList[2]));
     } else {
       // todo special fences
       return false;
