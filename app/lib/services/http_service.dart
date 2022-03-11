@@ -1,12 +1,11 @@
 import 'dart:convert';
-import 'dart:ffi';
 import 'dart:math';
-import 'package:vector_math/vector_math.dart';
 
 import 'package:flutter_background_geolocation/flutter_background_geolocation.dart'
     as bg;
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vector_math/vector_math.dart';
 
 class HttpService {
   // http for debugging else https
@@ -31,20 +30,24 @@ class HttpService {
       case 200:
         body = jsonDecode(res.body);
 
-        if(body["zone"] != null){
+        if (body["zone"] != null) {
           var zone = body["zone"];
-          List<String> zoneList = [
-            zone["id"],
-            zone["name"],
-            zone["radius"].toString(),
-            zone["pos"][0]["lat"].toString(),
-            zone["pos"][0]["lng"].toString()
-          ];
+
+          List<String> zoneList = [];
+          zoneList.add(zone["id"]);
+          zoneList.add(zone["name"]);
+          zoneList.add(zone["radius"].toString());
+          if(zone["pos"].length != 0){
+            zoneList.add(zone["pos"][0]["lat"].toString());
+            zoneList.add(zone["pos"][0]["lng"].toString());
+          }
 
           authorized = true;
           prefs.setString("jwt", body["jwt"]);
           prefs.setString("userid", body["userid"]);
           prefs.setStringList("zone", zoneList);
+
+          print(zoneList);
         }
         break;
       default:
@@ -93,6 +96,8 @@ class HttpService {
       body: json.encode(body),
       encoding: Encoding.getByName('utf-8'),
     );
+
+    print(res.body);
   }
 
   //TODO addGeoFence from response?

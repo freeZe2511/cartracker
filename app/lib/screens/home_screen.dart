@@ -157,7 +157,7 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Column(
         children: [
           Text("User: " + userid),
-          Text("Zone: " + zoneList[1] + " " + zoneList[2] + " " + zoneList[3] + " " + zoneList[4]),
+          // Text("Zone: " + zoneList[1] + " " + zoneList[2] + " " + zoneList[3] + " " + zoneList[4]),
           Text("GPS sent: $counter"),
           Text(_content),
         ],
