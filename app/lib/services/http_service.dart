@@ -9,7 +9,7 @@ import 'package:vector_math/vector_math.dart';
 
 class HttpService {
   // http for debugging else https
-  String url = 'https://tim-eggers.de:9090';
+  String url = 'http://tim-eggers.de:9090';
 
   Future<bool> logIn(String username, String password) async {
     bool authorized = false;
@@ -42,12 +42,10 @@ class HttpService {
             zoneList.add(zone["pos"][0]["lng"].toString());
           }
 
-          authorized = true;
           prefs.setString("jwt", body["jwt"]);
           prefs.setString("userid", body["userid"]);
           prefs.setStringList("zone", zoneList);
-
-          print(zoneList);
+          authorized = true;
         }
         break;
       default:
@@ -74,7 +72,7 @@ class HttpService {
     double speed = location.coords.speed;
 
     bool isMoving = location.isMoving;
-    bool inZone = isInZone(userid, lat, lng, zoneList); // with bg geofences??
+    bool inZone = isInZone(userid, lat, lng, zoneList);
 
     final uri = Uri.parse(url + '/api/v1/pos');
     final headers = {
@@ -86,8 +84,8 @@ class HttpService {
       'lat': lat,
       'lng': lng,
       'inZone': inZone,
-      // 'speed': speed
-      // 'isMoving': isMoving
+      'speed': speed,
+      'isMoving': isMoving
     }; // TODO more data in body like inZone
 
     http.Response res = await http.post(
@@ -97,7 +95,7 @@ class HttpService {
       encoding: Encoding.getByName('utf-8'),
     );
 
-    print(res.body);
+    print(res.statusCode);
   }
 
   //TODO addGeoFence from response?

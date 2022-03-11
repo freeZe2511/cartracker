@@ -1,9 +1,8 @@
 import 'package:cartracker_app/screens/login_screen.dart';
 import 'package:cartracker_app/screens/map_screen.dart';
 import 'package:cartracker_app/screens/settings_screen.dart';
-import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cartracker_app/services/http_service.dart' as http;
+import 'package:flutter/material.dart';
 
 class CustomDrawer extends StatefulWidget {
   const CustomDrawer({Key? key}) : super(key: key);

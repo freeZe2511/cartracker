@@ -7,6 +7,37 @@ const INPUT_TYPE_SELECT = "select";
 const INPUT_TYPE_TOGGLE = "toggle";
 const INPUT_TYPE_TEXT = "text";
 
+const PLUGIN_SETTINGS = {
+  'common': [
+// Geolocation
+//     {
+//       'name': 'desiredAccuracy',
+//       'group': 'geolocation',
+//       'dataType': 'integer',
+//       'inputType': 'select',
+//       'labels': ['NAVIGATION', 'HIGH', 'MEDIUM', 'LOW', 'MINIMUM'],
+//       'values': [-2, -1, 10, 100, 1000],
+//       'defaultValue': 0
+//     },
+//     {
+//       'name': 'distanceFilter',
+//       'group': 'geolocation',
+//       'dataType': 'integer',
+//       'inputType': 'select',
+//       'values': [0, 10, 20, 50, 100, 500],
+//       'defaultValue': 20
+//     },
+    {
+      'name': 'stopOnTerminate',
+      'group': 'application',
+      'dataType': 'boolean',
+      'inputType': 'toggle',
+      'values': [true, false],
+      'defaultValue': true
+    }
+  ]
+};
+
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({Key? key}) : super(key: key);
 
@@ -149,33 +180,4 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 }
 
-const PLUGIN_SETTINGS = {
-  'common': [
-// Geolocation
-    {
-      'name': 'desiredAccuracy',
-      'group': 'geolocation',
-      'dataType': 'integer',
-      'inputType': 'select',
-      'labels': ['NAVIGATION', 'HIGH', 'MEDIUM', 'LOW', 'MINIMUM'],
-      'values': [-2, -1, 10, 100, 1000],
-      'defaultValue': 0
-    },
-    {
-      'name': 'distanceFilter',
-      'group': 'geolocation',
-      'dataType': 'integer',
-      'inputType': 'select',
-      'values': [0, 10, 20, 50, 100, 500],
-      'defaultValue': 20
-    },
-    {
-      'name': 'stopOnTerminate',
-      'group': 'application',
-      'dataType': 'boolean',
-      'inputType': 'toggle',
-      'values': [true, false],
-      'defaultValue': true
-    }
-  ]
-};
+

@@ -49,13 +49,15 @@ class _HomeScreenState extends State<HomeScreen> {
     zoneList = [];
     _init();
     _initPlatformState();
+    _onClickGetCurrentPosition();
   }
 
   _init() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    userid = prefs.getString("userid")!;
     zoneList = prefs.getStringList("zone")!;
+    userid = prefs.getString("userid")!;
+
   }
 
   void _initPlatformState() {
@@ -154,13 +156,18 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: Text("Home"),
       ),
-      body: Column(
-        children: [
-          Text("User: " + userid),
-          // Text("Zone: " + zoneList[1] + " " + zoneList[2] + " " + zoneList[3] + " " + zoneList[4]),
-          Text("GPS sent: $counter"),
-          Text(_content),
-        ],
+      body: Center(
+        child: Column(
+          children: [
+            Text("User: " + userid),
+            // TODO bug???
+            if(zoneList.isNotEmpty) Text("Zone: " + zoneList[1]),
+            if(zoneList.isNotEmpty && zoneList[1] != "None") Text("Radius: " + zoneList[2] + "m"),
+            if(zoneList.isNotEmpty && zoneList.length > 3) Text("Center: " + zoneList[3] + " " + zoneList[4]),
+            Text("GPS sent: $counter"),
+            Text(_content)
+          ],
+        ),
       ),
       drawer: CustomDrawer(),
       floatingActionButton: FloatingActionButton(
