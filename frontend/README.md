@@ -21,6 +21,27 @@ Oder "Polygone" und steckt mit beliebig vielen Punkten die Zone ab.
 
 Jedem User kann man einzeln Folgen: "Follow", Zone anzeigen: "show zone" oder Route anzeigen: "show Route".
 
+<img src="../pictures/Screenshot%20Admin-PC%207.png" alt="Admin-PC-Map" width="800" style="margin-right: 10px"/>
 
+Oben in der Navigationsleiste kann man auf die User- und die Zonenübersicht gelangen.
+Hier kann man User und Zonen hinzufügen (+). 
+In der jeweiligen Zeile kann man auf einen User zoomen (Quadrat mit Pfeil).
+Mit einem Klick auf das Auge kann das Passwort eines jeden Users angezeigt werden.
+Jeder User kann editiert (Stift), oder gelöscht (Papierkorb) werden.
+
+Ist die Zone eines Nutzers grün, so befindet er sich darin. Ist diese rot,
+so befindet sich der User außerhalb seiner zugewiesenen Zone.
+Der Status gibt an, ob sich ein User gerade bewegt, oder inaktiv ist.
+
+<img src="../pictures/Screenshot%20Admin-PC%208.png" alt="Admin-PC-Map" width="800" style="margin-right: 10px"/>
+
+Auch die Zonen können aus der Tabelle heraus verwaltet werden.
+Erstellen einer Zone (+), zoomen auf eine Zone (Quadrat mit Pfeil),
+bearbeiten einer Zone (Stift) und löschen (Papierkorb) ist möglich.
+
+
+
+Über das Fragezeichen rechts kommt man ins Impressum. 
+Ganz rechts befindet sich der Button zum ausloggen.
 
 
