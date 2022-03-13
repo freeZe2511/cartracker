@@ -144,7 +144,7 @@ class HttpService {
   bool checkCircleZone(double zoneLat, double zoneLng, double userLat,
       double userLng, num radius) {
     // radius in m
-    const radiusEarth = SphericalUtil.earthRadius; // in km
+    const radiusEarth = 6371; // in km
     double distanceLat = radians(userLat - zoneLat);
     double distanceLon = radians(userLng - zoneLng);
     num a = sin(distanceLat / 2) * sin(distanceLat / 2) +

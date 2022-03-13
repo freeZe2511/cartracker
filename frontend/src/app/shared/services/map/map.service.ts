@@ -271,7 +271,7 @@ export class MapService {
     const pos = user.latestPositions![0];
     if(this.showDetails){
       let speed = pos.speed < 0 ? 0 : pos.speed * 3.6
-      return "<strong>" + user.username + "</strong>" + "<br>" + pos.lat + ', ' + pos.lng + "<br>" + speed.toFixed(2) + "km/h";
+      return "<strong>" + user.username + "</strong>" + "<br>" + pos.lat.toFixed(8) + ', ' + pos.lng.toFixed(8) + "<br>" + speed.toFixed(2) + "km/h";
     } else {
       return "<strong>" + user.username + "</strong>";
     }

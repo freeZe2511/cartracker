@@ -68,15 +68,27 @@ void main() {
 
   group('InfoScreen', () {
     testWidgets('Init', (WidgetTester tester) async {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setString("userid", "119274");
+      prefs.setStringList("zone", ["123", "test", "100", "[]", "0"]);
+
       await tester.pumpWidget(MaterialApp(home: InfoScreen()));
       final titleFinder = find.text("Info");
       expect(titleFinder, findsOneWidget);
+      prefs.clear();
     });
 
     testWidgets('ZoneList', (WidgetTester tester) async {
+
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setString("userid", "119274");
+      prefs.setStringList("zone", ["123", "test", "100", "[]", "0"]);
+
       await tester.pumpWidget(MaterialApp(home: InfoScreen()));
       final titleFinder = find.text("Info");
       expect(titleFinder, findsOneWidget);
+
+      prefs.clear();
     });
 
   });
@@ -132,7 +144,7 @@ void main() {
       test("No Zone", () {
         final httpService = HttpService();
         const String userid = "1234";
-        List<String> zoneList = ["1", "None", "0", "[]", "0"];
+        List<String> zoneList = ["1", "None", "0", "[[50.0, 8.0]]", "0"];
         bool res = httpService.isInZone(userid, 50.5, 8.5, zoneList);
         expect(res, true);
       });
@@ -157,12 +169,12 @@ void main() {
     group('Check Circle Zone', () {
       test("In Zone", () {
         final httpService = HttpService();
-        List<String> zoneList = ["test", "Test-Zone", "1000000", "50", "8"];
+        List<String> zoneList = ["test", "Test-Zone", "50000", "50.4", "8.4"];
         double lat = 50.5;
         double lng = 8.5;
-        bool res = httpService.checkCircleZone(double.parse(zoneList[3][0]),
+        bool res = httpService.checkCircleZone(double.parse(zoneList[3]),
             double.parse(zoneList[4]), lat, lng, num.parse(zoneList[2]));
-        expect(res, false);
+        expect(res, true);
       });
 
       test("Out Zone", () {
