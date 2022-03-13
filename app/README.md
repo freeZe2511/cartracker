@@ -5,7 +5,8 @@
 #### Bedienungshinweise:
 Der Login Screen der App sieht folgendermaßen aus:
 
-<img src="../pictures/Screenshot%20App%203.jpeg" alt="App-Login" width="100"/>
+<img src="../pictures/Screenshot%20App%203.jpeg" alt="App-Login" width="200"/>
+<img src="../pictures/Screenshot%20App%201.jpeg" alt="App-Startseite" width="200"/>
 
 ![App-Login](../pictures/Screenshot%20App%203.1.jpeg)
 
