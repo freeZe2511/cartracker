@@ -1,41 +1,48 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {Position, User} from "../../shared/models/user";
-import {MatPaginator} from '@angular/material/paginator';
-import {MatSort} from '@angular/material/sort';
-import {MatTableDataSource} from '@angular/material/table';
-import {interval, Subscription, switchMap} from "rxjs";
-import {UserService} from "../../shared/services/users/users.service";
-import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {EditUserModalComponent} from "../edit-user-modal/edit-user-modal.component";
-import {AddUserModalComponent} from "../add-user-modal/add-user-modal.component";
+import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {MatPaginator} from "@angular/material/paginator";
+import {MatSort} from "@angular/material/sort";
+import {MatTableDataSource} from "@angular/material/table";
+import {UserService} from "../../shared/services/user/user.service";
+import {User} from "../../shared/models/user";
 import {MapService} from "../../shared/services/map/map.service";
 import {Router} from "@angular/router";
-import {ConfirmService} from "../../shared/services/confirm/confirm.service";
-import {AlertsService} from "../../shared/services/alerts/alerts.service";
+import {MatDialog} from "@angular/material/dialog";
+import {DialogComponent} from "../dialog/dialog.component";
+import {interval, Subscription, switchMap} from "rxjs";
+import {AlertService} from "../../shared/services/alert/alert.service";
 
 @Component({
   selector: 'app-user-list',
   templateUrl: './user-list.component.html',
   styleUrls: ['./user-list.component.css']
 })
-export class UserListComponent implements OnInit {
+export class UserListComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  timeInterval!: Subscription;
-
-  constructor(private _user: UserService, private modalService: NgbModal, private mapService: MapService,
+  constructor(public userService: UserService,
+              public mapService: MapService,
               public router: Router,
-              public _confirm: ConfirmService,
-              public _alert: AlertsService) {
+              public dialog: MatDialog,
+              private alertService: AlertService) {
   }
 
+  private timeInterval!: Subscription;
+  hide = true;
+
+  displayedColumns: string[] = ['id', 'username', 'password', 'zone', 'status', 'position', 'created', 'actions'];
+  dataSource = new MatTableDataSource(this.userService.users);
+
   ngOnInit(): void {
+    // this.mapService.initZones();
     this.initUsers();
+    this.updateUsers();
+  }
 
-    this.mapService.getZones();
-
-    this.updateUsersEverySecond();
+  ngOnDestroy(): void {
+    if (this.timeInterval) {
+      this.timeInterval.unsubscribe();
+    }
   }
 
   ngAfterViewInit(): void {
@@ -43,81 +50,147 @@ export class UserListComponent implements OnInit {
     this.dataSource.sort = this.sort;
   }
 
-  private initUsers() {
-    this._user.getUsersList().subscribe({
+  initUsers() {
+    this.userService.getUsersList().subscribe({
       next: (res: any) => {
         this.dataSource.data = res;
-        this._user.users = res;
-        // console.log(this.mapService.zones)
+        this.userService.users = res;
       },
       error: (e: any) => console.error(e),
       complete: () => console.info('complete')
     });
   }
 
-  private updateUsersEverySecond() {
+  updateUsers() {
     this.timeInterval = interval(1000).pipe(
-      switchMap(() => this._user.getUsersList()),
+      switchMap(() => this.userService.getUsersList()),
     ).subscribe({
       next: (res: any) => {
         this.dataSource.data = res;
-        this._user.users = res;
+        this.userService.users = res;
+        // console.log(this.userService.users) TODO
       },
       error: (e) => console.error(e),
       complete: () => console.info('complete')
     });
   }
 
-  public centerOnUser(userid: string, pos: Position) {
-    this.mapService.centerOnMarker(userid, pos);
-    this.router.navigate(['map']);
-
-    // this.router.navigate(['map']).then(() => this.mapService.centerOnMarker(userid, pos));
-  }
-
-  public async add() {
-    const modalReference = this.modalService.open(AddUserModalComponent);
-
-    try {
-      const resultUser: User = await modalReference.result;
-      this._user.createUser(resultUser);
-    } catch (error) {
-      console.log(error);
+  returnStatus(user: User) {
+    if(user.latestPositions != undefined && user.latestPositions![0] != undefined) {
+      return user.latestPositions![0].isMoving ? "Active" : "Inactive"
+    } else {
+      return "No Pos"
     }
   }
 
-  public async edit(user: User) {
-    const modalReference = this.modalService.open(EditUserModalComponent);
-    modalReference.componentInstance.user = user;
-
-    try {
-      const resultUser: User = await modalReference.result;
-      this._user.updateUser(resultUser);
-    } catch (error) {
-      console.log(error);
+  returnStatusColor(user: User){
+    if(user.latestPositions != undefined && user.latestPositions![0] != undefined) {
+      return user.latestPositions[0].isMoving ? "#67ce00" : "#ff0000"
+    } else {
+      return "#ffa347"
     }
   }
 
-  public async delete(userid: string) {
-    this._confirm.confirmDialog().then((res) => {
-      if(res){
-        this._user.deleteUser(userid);
+  returnPos(user: User) {
+    if(user.latestPositions != undefined && user.latestPositions![0] != undefined) {
+      let lat = user.latestPositions[0].lat;
+      let lng = user.latestPositions[0].lng;
+      return lat + ", " + lng
+    } else {
+      return "No Pos"
+    }
+  }
+
+  returnZoneColor(user: User){
+    if(user.latestPositions != undefined && user.latestPositions![0] != undefined) {
+      return user.latestPositions[0].inZone ? "#67ce00" : "#ff0000"
+    } else {
+      return "#111111"
+    }
+  }
+
+
+
+  add() {
+    const dialogRef = this.dialog.open(DialogComponent, {
+      data: {
+        mode: 'User',
+        action: 'Create',
+        extras: [this.mapService.zones, this.hide],
+        result: []
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      //TODO empty form
+      if (result != undefined) {
+        this.userService.createUser({
+          id: "",
+          username: result[0],
+          password: result[1],
+          zoneid: result[2]
+        })
       } else {
-        this._alert.onCancel("Deleting User cancelled");
+        this.alertService.onCancel("Add cancelled")
       }
     });
   }
 
-  displayedColumns: string[] = ['id', 'username', 'password', 'zone', 'status', 'created', 'actions'];
-  dataSource = new MatTableDataSource(this._user.users);
-
-  public findZoneName(user_zoneid: string) {
-    return this.mapService.zones.find(z => z.id === user_zoneid)?.name;
+  centerOnUser(user: User) {
+    this.router.navigate(['map']).then(() => this.mapService.setFollows(user));
   }
 
-  public convertTime(id: any) {
-    let timeStamp = parseInt(id.substr(0, 8), 16) * 1000
-    return new Date(timeStamp)  // TODO refactor into nice format
+  edit(user: User) {
+    const dialogRef = this.dialog.open(DialogComponent, {
+      data: {
+        mode: 'User',
+        action: 'Update',
+        extras: [this.mapService.zones, this.hide, user],
+        result: []
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result != undefined) {
+        this.userService.updateUser({
+          id: user.id,
+          username: result[0],
+          password: result[1],
+          zoneid: result[2]
+        })
+      } else {
+        this.alertService.onCancel("Edit cancelled")
+      }
+    });
   }
+
+  delete(user: User) {
+    const dialogRef = this.dialog.open(DialogComponent, {
+      data: {
+        mode: 'User',
+        action: 'Delete'
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.userService.deleteUser(user.id)
+      } else {
+        this.alertService.onCancel("Delete cancelled")
+      }
+    });
+  }
+
+  showPasswords: Map<string, boolean> = new Map();
+
+  hidePassword(user: User){
+    let res = this.showPasswords.get(user.id);
+    if(res == null) {
+      this.showPasswords.set(user.id, true);
+    } else {
+      this.showPasswords.set(user.id, !res);
+    }
+  }
+
 
 }

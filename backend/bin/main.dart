@@ -1,25 +1,41 @@
+import 'dart:io';
+
 import 'package:cartracker_backend/database/database.dart';
 import 'package:cartracker_backend/routing/service.dart';
+import 'package:cartracker_backend/routing/utils.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart';
 import 'package:shelf_cors_headers/shelf_cors_headers.dart';
 
+import 'package:shelf_letsencrypt/shelf_letsencrypt.dart';
+
 void main() async {
   final overrideHeaders = {
     ACCESS_CONTROL_ALLOW_ORIGIN: '*',
+    // ACCESS_CONTROL_ALLOW_HEADERS: 'Origin, Content-Type',
     'Content-Type': 'application/json;charset=utf-8'
   };
 
   await Database.init();
   final service = Service();
+
+  final _ip = '0.0.0.0';
+  final _port = 9090;
+  final _secret = "super secret key";
+
+  // false for localhost dev
+  bool prod = true;
+
+  final _handler = Pipeline()
+      .addMiddleware(corsHeaders(headers: overrideHeaders))
+      .addMiddleware(logRequests())
+      .addMiddleware(handleAuth(_secret))
+      .addHandler(service.handler);
+
   final server = await serve(
-      Pipeline()
-          .addMiddleware(corsHeaders(headers: overrideHeaders))
-          .addMiddleware(logRequests())
-          // .addMiddleware(
-          //     createMiddleware(requestHandler: AuthenticationController.handle))
-          .addHandler(service.handler),
-      '0.0.0.0',
-      9090);
+      _handler, _ip, _port, securityContext: prod ? getSecurityContext() : null);
+
   print("Server running on locahost:${server.port}");
+
 }
+

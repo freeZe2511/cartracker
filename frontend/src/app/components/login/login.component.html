@@ -1,11 +1,24 @@
-<section class="login-dark">
-  <a class="btn btn-light" id="imprintBtn" routerLink="/imprint">?</a>
-  <form id="signInForm" method="post"><h2 class="visually-hidden">Log In</h2>
-    <div class="illustration"><i class="icon ion-ios-locked-outline"></i></div>
-    <div class="mb-3"><input id="loginUsername" class="form-control" type="text" placeholder="Username" #username required></div>
-    <div class="mb-3"><input id="loginPassword" class="form-control" type="password" name="password" placeholder="Password" #userPassword required></div>
-    <div class="mb-3">
-      <button class="btn btn-primary d-block w-100" type="submit" (click)="authService.logIn(username.value, userPassword.value)">Log In</button>
-    </div>
-  </form>
-</section>
+<app-toolbar></app-toolbar>
+<div class="login-wrapper" fxLayout="row" fxLayoutAlign="center center">
+  <mat-card class="box">
+    <mat-card-header>
+      <mat-card-title>Log in</mat-card-title>
+    </mat-card-header>
+    <form class="example-form">
+      <mat-card-content>
+        <mat-form-field class="example-full-width">
+          <input matInput placeholder="Username" #username>
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+          <mat-label>Enter your password</mat-label>
+          <input matInput [type]="hide ? 'password' : 'text'" #password>
+          <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+        </mat-form-field>
+      </mat-card-content>
+      <button mat-stroked-button class="btn-block" (click)="this.logIn(username.value, password.value)">Log in</button>
+    </form>
+  </mat-card>
+</div>
+<simple-notifications></simple-notifications>

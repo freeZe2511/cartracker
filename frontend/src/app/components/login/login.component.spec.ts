@@ -1,7 +1,8 @@
-import {ComponentFixture, TestBed} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {LoginComponent} from './login.component';
+import { LoginComponent } from './login.component';
 import {HttpClientTestingModule} from "@angular/common/http/testing";
+import {SimpleNotificationsModule} from "angular2-notifications";
 import {RouterTestingModule} from "@angular/router/testing";
 
 describe('LoginComponent', () => {
@@ -11,7 +12,7 @@ describe('LoginComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ LoginComponent ],
-      imports: [HttpClientTestingModule, RouterTestingModule]
+      imports: [HttpClientTestingModule, RouterTestingModule, SimpleNotificationsModule.forRoot()]
     })
       .compileComponents();
   });
@@ -23,6 +24,16 @@ describe('LoginComponent', () => {
   });
 
   it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+
+  it('should login', () => {
+    component.logIn("test", "test");
+    expect(component).toBeTruthy();
+  });
+
+  it('should not login', () => {
+    component.logIn("", "");
     expect(component).toBeTruthy();
   });
 });

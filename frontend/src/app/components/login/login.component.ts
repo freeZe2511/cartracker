@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthService} from "../../shared/services/auth/auth.service";
+import {AlertService} from "../../shared/services/alert/alert.service";
 
 @Component({
   selector: 'app-login',
@@ -8,9 +9,20 @@ import {AuthService} from "../../shared/services/auth/auth.service";
 })
 export class LoginComponent implements OnInit {
 
-  constructor(public authService: AuthService) { }
+  hide = true;
+
+  constructor(private authService: AuthService, private alertService: AlertService) { }
 
   ngOnInit(): void {
+  }
+
+  logIn(username: string, password: string): void {
+    // TODO
+    if(username != "" && password != ""){
+      this.authService.logIn(username, password)
+    } else {
+      this.alertService.onError("Login Error");
+    }
   }
 
 }

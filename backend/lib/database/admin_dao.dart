@@ -6,66 +6,19 @@ class AdminDao {
 
   AdminDao._();
 
+  // TODO sub admins?
   static Future<void> create(Admin a) async {
     await Database.db
         .collection(_collection)
-        .insert(a.toJson()); // doppelte einträge?
+        .insert(a.toJson());
   }
 
-  // static Future<Admin> readOne(String id) async {
-  //   var a =
-  //   await Database.db.collection(_collection).findOne(where.eq('id', id));
-  //   return Admin.fromJson(a!); //null?
-  // }
-  //
-  // static Future<List<Admin>> readMany(List<String> ids) async {
-  //   return Database.db
-  //       .collection(_collection)
-  //       .find({
-  //     "id": {"\$in": ids}
-  //   })
-  //       .map((doc) => Admin.fromJson(doc))
-  //       .toList();
-  // }
-  //
-  // static Future<List<Admin>> readAll() async {
-  //   return Database.db
-  //       .collection(_collection)
-  //       .find()
-  //       .map((doc) => Admin.fromJson(doc))
-  //       .toList();
-  // }
-
-  static Future<Admin?> findOne(String username, String password) async {
+  static Future<String?> findOne(String username, String password) async {
     try {
       var u = await Database.db
           .collection(_collection)
           .findOne(where.eq('username', username).eq('password', password));
-      if (u != null) return Admin.fromJson(u);
-    } catch (e) {
-      print(e);
-      return null;
-    }
-  }
-
-  static Future<Admin?> findOne1(String uniqueID) async {
-    try {
-      var u = await Database.db
-          .collection(_collection)
-          .findOne(where.eq('id', uniqueID));
-      if (u != null) return Admin.fromJson(u);
-    } catch (e) {
-      print(e);
-      return null;
-    }
-  }
-
-  static Future<Admin?> findOne2(String id, String password) async {
-    try {
-      var u = await Database.db
-          .collection(_collection)
-          .findOne(where.eq('id', id).eq('password', password));
-      if (u != null) return Admin.fromJson(u);
+      if (u != null) return Admin.fromJson(u).id;
     } catch (e) {
       print(e);
       return null;

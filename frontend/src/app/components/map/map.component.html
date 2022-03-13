@@ -1,18 +1,116 @@
-<app-header></app-header>
-<mat-sidenav-container [hasBackdrop]="false">
-  <mat-sidenav id="sidebar" [opened]="_sidebar.sidebarIsOpened">
-    <app-sidebar (drawZone)="drawZone($event)" (setCenteredMarker)="setCenteredMarker($event)"
-        (removeCenteredMarker)="removeCenteredMarker($event)"></app-sidebar>
-  </mat-sidenav>
+<app-toolbar></app-toolbar>
+<div class="control-container">
+  <div class="control-frame">
+    <div id="control">
+      <mat-tab-group mat-stretch-tabs class="stretched-tabs mat-elevation-z4"
+                     (selectedTabChange)="this.mapService.resetDataMaps('u')">
+        <mat-tab label="Users">
+          <cdk-virtual-scroll-viewport itemSize="50" class="viewport">
+            <mat-accordion>
+              <mat-expansion-panel *ngFor="let user of this.users, let i = index"
+                                   (closed)="this.mapService.resetDataMaps('u')"
+                                   [expanded]="this.mapService.expanded === i">
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    {{user.username}}
+                  </mat-panel-title>
+                  <mat-panel-description fxLayoutAlign="end">
+                    {{this.mapService.findZone(user.zoneid!)!.name}}
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+                <mat-slide-toggle [ngModel]="this.mapService.follows.get(user.id)"
+                                  (ngModelChange)="this.mapService.follows.set(user.id, $event)">Follow
+                </mat-slide-toggle>
+                <mat-slide-toggle [ngModel]="this.mapService.showZoneUser.get(user.id)"
+                                  (ngModelChange)="this.mapService.showUserZone(user, $event)">Show Zone
+                </mat-slide-toggle>
+                <mat-slide-toggle [ngModel]="this.mapService.showRoute.get(user.id)"
+                                  (ngModelChange)="this.mapService.showUserRoute(user, $event)">Show Route
+                </mat-slide-toggle>
+                <mat-form-field appearance="fill" style="margin-right: 5px">
+                  <mat-label>Hours</mat-label>
+                  <input matInput type="number" min="0" [(ngModel)]="this.mapService.routeHour">
+                </mat-form-field>
+                <mat-form-field appearance="fill">
+                  <mat-label>Minutes</mat-label>
+                  <input matInput type="number" min="0" max="59" [(ngModel)]="this.mapService.routeMin">
+                </mat-form-field>
+              </mat-expansion-panel>
+            </mat-accordion>
+          </cdk-virtual-scroll-viewport>
+        </mat-tab>
+        <mat-tab label="Zones">
+          <cdk-virtual-scroll-viewport itemSize="50" class="viewport">
+            <mat-accordion>
+              <mat-expansion-panel *ngFor="let zone of this.zones" (closed)="this.mapService.resetDataMaps('z')">
+                <mat-expansion-panel-header *ngIf="zone.id !== '1'">
+                  <mat-panel-title>
+                    {{zone.name}}
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+                <mat-slide-toggle *ngIf="zone.id !== '1'" [ngModel]="this.mapService.centers.get(zone.id!)"
+                                  (ngModelChange)="this.mapService.centers.set(zone.id!, $event)">Center
+                </mat-slide-toggle>
+                <mat-slide-toggle *ngIf="zone.id !== '1'" [ngModel]="this.mapService.showZone.get(zone.id!)"
+                                  (ngModelChange)="this.mapService.showZoneMap(zone, $event)">Show Zone
+                </mat-slide-toggle>
+              </mat-expansion-panel>
+            </mat-accordion>
+          </cdk-virtual-scroll-viewport>
+        </mat-tab>
+      </mat-tab-group>
 
-  <mat-sidenav-content id="sidebar-content">
-<!--    <div class="m-0 p-0 container-fluid">-->
-      <google-map class="m-0 p-0" id="map" width="100%" height="100%" [options]="mapOptions">
-        <ng-container *ngFor="let user of this.users; let i = index;">
-          <map-polyline [options]="polylineOptions"></map-polyline>
-        </ng-container>
-      </google-map>
-    <!--    </div>-->
-  </mat-sidenav-content>
-</mat-sidenav-container>
+      <mat-slide-toggle [(ngModel)]="this.mapService.showDetails">Show Details</mat-slide-toggle>
+      <mat-slide-toggle [(ngModel)]="this.mapService.notifications">Show Notifications</mat-slide-toggle>
+
+      <mat-slide-toggle [ngModel]="this.mapService.showZonesBool"
+                        (ngModelChange)="this.mapService.showAllZones($event)">Show All Zones
+      </mat-slide-toggle>
+
+      <mat-slide-toggle [ngModel]="this.mapService.addCircleZone"
+                        (ngModelChange)="this.mapService.toggleCircleZone($event)">Add CircleZone
+      </mat-slide-toggle>
+      <mat-form-field appearance="fill" style="margin-left: 5px">
+        <mat-label>Radius</mat-label>
+        <input matInput type="number" min="0.1" [ngModel]="this.mapService.addCircleZoneRadius"
+               (ngModelChange)="this.mapService.addCircleZoneRadiusCircle($event)"
+               [disabled]="!this.mapService.addCircleZone || this.mapService.addCircleZoneCenter == undefined">
+      </mat-form-field>
+      <mat-form-field appearance="fill" style="margin-left: 5px">
+        <mat-label>Name</mat-label>
+        <input matInput type="text" [(ngModel)]="this.mapService.addCircleZoneName"
+               [disabled]="!this.mapService.addCircleZone || this.mapService.addCircleZoneCenter == undefined">
+      </mat-form-field>
+      <button mat-mini-fab color="primary" aria-label="" (click)="this.mapService.createCircleZone()"
+              [disabled]="!this.mapService.addCircleZone || this.mapService.addCircleZoneRadius == undefined || this.mapService.addCircleZoneName == undefined">
+        <mat-icon>check</mat-icon>
+      </button>
+      <mat-slide-toggle [ngModel]="this.mapService.addPolyZone"
+                        (ngModelChange)="this.mapService.togglePolyZone($event)">Add PolyZone
+      </mat-slide-toggle>
+      <mat-form-field appearance="fill" style="margin-left: 5px">
+        <mat-label>Positions: <strong>{{this.mapService.addPolyZonePoints.length}}</strong></mat-label>
+        <input matInput type="text" disabled>
+        <mat-hint align="start"><strong>Minimum 3 for Polygon</strong></mat-hint>
+      </mat-form-field>
+      <mat-form-field appearance="fill" style="margin-left: 5px">
+        <mat-label>Name</mat-label>
+        <input matInput type="text" [(ngModel)]="this.mapService.addPolyZoneName"
+               [disabled]="!this.mapService.addPolyZone">
+      </mat-form-field>
+      <button mat-mini-fab color="primary" aria-label="" (click)="this.mapService.createPolyZone()"
+              [disabled]="!this.mapService.addPolyZone || this.mapService.addPolyZoneName == undefined || this.mapService.addPolyZonePoints.length < 3">
+        <mat-icon>check</mat-icon>
+      </button>
+
+    </div>
+  </div>
+</div>
+
+<div class="map-container">
+  <div class="map-frame">
+    <div id="map"></div>
+  </div>
+</div>
+
 <simple-notifications></simple-notifications>

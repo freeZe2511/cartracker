@@ -1,29 +1,50 @@
-import 'dart:convert';
-
-import 'package:cartracker_app/screens/map_screen.dart';
+import 'package:cartracker_app/services/http_service.dart' as http;
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
+
+  static const routeName = '/loginscreen';
 
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  http.HttpService httpService = http.HttpService();
+
   bool _passwordObscure = true;
   final _formKey = GlobalKey<FormState>();
-  var _username;
-  var _password;
+  late String _username;
+  late String _password;
 
-  void _toggle() {
-    setState(() => _passwordObscure = !_passwordObscure);
+  // bool loading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    init();
+  }
+
+  init() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    if (prefs.getString("jwt") != null) {
+      Navigator.of(context).popUntil((route) => route.isFirst); // TODO
+      Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    // if (loading) {
+    //   return Center(
+    //     child: CircularProgressIndicator(),
+    //   );
+    // } else {
     return Scaffold(
       body: Center(
         child: SizedBox(
@@ -34,13 +55,18 @@ class _LoginScreenState extends State<LoginScreen> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
+                  Container(
+                      margin: EdgeInsets.all(25),
+                      child:
+                          Text("cartracker", style: TextStyle(fontSize: 35))),
                   TextFormField(
                     key: Key("username"),
                     decoration: InputDecoration(
                       prefixIcon: Icon(Icons.account_box),
                       hintText: "Username",
+                      contentPadding: EdgeInsets.all(25),
                     ),
-                    onSaved: (val) => _username = val,
+                    onSaved: (val) => _username = val!,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Please enter Username';
@@ -52,6 +78,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     decoration: InputDecoration(
                       prefixIcon: Icon(Icons.lock),
                       hintText: "Password",
+                      contentPadding: EdgeInsets.all(25),
                       suffixIcon: IconButton(
                         onPressed: () => _toggle(),
                         icon: Icon(_passwordObscure
@@ -59,7 +86,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             : Icons.visibility),
                       ),
                     ),
-                    onSaved: (val) => _password = val,
+                    onSaved: (val) => _password = val!,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Please enter Password';
@@ -68,9 +95,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     },
                     obscureText: _passwordObscure,
                   ),
-                  ElevatedButton(
-                    child: Text("Submit"),
-                    onPressed: _handleSubmit,
+                  Container(
+                    margin: EdgeInsets.all(25),
+                    child: ElevatedButton(
+                      child: Text("Submit"),
+                      onPressed: _handleSubmit,
+                    ),
                   ),
                 ],
               ),
@@ -83,59 +113,32 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void _handleSubmit() async {
     final FormState form = _formKey.currentState!;
-    bool authorized = false;
 
-    if (!form.validate()) {
-    } else {
+    if (form.validate()) {
       form.save();
-      authorized = await authUser(_username, _password);
+      bool authorized = await httpService.logIn(_username, _password);
       if (authorized) {
-        Navigator.pushNamed(context, MapScreen.routeName);
+        Navigator.of(context).popUntil((route) => route.isFirst);
+        Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
+      } else {
+        showSnackBar("Login failed", Colors.red);
       }
+    } else {
+      showSnackBar("Form incomplete", Colors.red);
     }
   }
 
-  Future<bool> authUser(String username, String password) async {
-    bool authorized = false;
-
-    final uri =
-        Uri.parse('http://h2876375.stratoserver.net:9090/api/v1/user/login');
-    final headers = {'Content-Type': 'application/json'};
-    Map<String, dynamic> body = {
-      'username': username,
-      'password': password
-    }; // id?
-
-    http.Response res = await http.post(
-      uri,
-      headers: headers,
-      body: json.encode(body),
-      encoding: Encoding.getByName('utf-8'),
-    );
-
-    switch (res.statusCode) {
-      case 200:
-        authorized = !authorized;
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-        prefs.setString("userid", jsonDecode(res.body));
-        break;
-      default:
-        _authFail();
-        break;
-    }
-
-    return authorized;
+  void _toggle() {
+    setState(() => _passwordObscure = !_passwordObscure);
   }
 
-  void _authFail() {}
-}
-
-class User {
-  final String _userid;
-
-  User.fromJson(Map<String, dynamic> json) : _userid = json['_userid'];
-
-  Map<String, dynamic> toJson() => {
-        '_userid': _userid,
-      };
+  void showSnackBar(String msg, MaterialColor color){
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(
+        msg,
+        textAlign: TextAlign.center,
+      ),
+      backgroundColor: color,
+    ));
+  }
 }

@@ -10,7 +10,6 @@ describe('MapComponent', () => {
   let fixture: ComponentFixture<MapComponent>;
 
   beforeEach(async () => {
-
     await TestBed.configureTestingModule({
       declarations: [MapComponent],
       imports: [HttpClientTestingModule, RouterTestingModule, SimpleNotificationsModule.forRoot()]
@@ -24,7 +23,17 @@ describe('MapComponent', () => {
     fixture.detectChanges();
   });
 
+  afterEach(() => {
+    fixture.destroy();
+  })
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('init Map onInit', () => {
+    expect(component.map).toBeTruthy();
+    expect(component.map.options.zoom).toBe(10);
+  });
+
 });
