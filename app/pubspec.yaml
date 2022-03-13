@@ -39,6 +39,10 @@ dependencies:
   uuid: 3.0.4
   http: ^0.13.3
   shared_preferences: ^2.0.8
+  flutter_background_geolocation: ^4.3.4
+  flutter_map: ^0.14.0
+  mockito: ^5.1.0
+  maps_toolkit: ^2.0.0
 
 
 dev_dependencies:
@@ -51,6 +55,7 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^1.0.0
+  test: ^1.17.10
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

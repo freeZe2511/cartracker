@@ -25,7 +25,7 @@ module.exports = function (config) {
       suppressAll: true // removes the duplicated traces
     },
     coverageReporter: {
-      dir: require('path').join(__dirname, './coverage/cartracker-frontend'),
+      dir: require('path').join(__dirname, './coverage/cartracker-new-frontend'),
       subdir: '.',
       reporters: [
         { type: 'html' },
@@ -39,16 +39,6 @@ module.exports = function (config) {
     autoWatch: true,
     browsers: ['Chrome'],
     singleRun: false,
-    restartOnFileChange: true,
-    customLaunchers: {
-      ChromeHeadlessCustom: {
-        base: 'ChromeHeadless',
-        flags: ['--no-sandbox', '--disable-gpu']
-      }
-    },
-
-    files: [
-      "src/app/shared/mocks/google-maps-api.js"
-    ]
+    restartOnFileChange: true
   });
 };

@@ -1,0 +1,59 @@
+name: Frontend
+
+defaults:
+  run:
+    working-directory: ./frontend
+
+on:
+  push:
+    branches: [ main ]
+    # paths: "./frontend/**"
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    
+    name: Build and Test
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Cache node modules
+        id: cache-nodemodules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
+        with:
+          # caching node_modules
+          path: node_modules
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+      - name: Install Dependencies
+        if: steps.cache-nodemodules.outputs.cache-hit != 'true'
+        run: npm ci
+      - name: Build
+        run: npm run build:prod
+      - name: Lint
+        run: npm run lint:fix
+      - name: Test
+        run: npm run test
+      - name: Deploy
+        run: npm run deploy
+      
+      
+  

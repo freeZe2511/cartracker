@@ -10,7 +10,6 @@ export class HttpService {
   constructor(private http: HttpClient) {
   }
 
-  // <T> ?
   public get(url: string, options?: any): Observable<any> {
     return this.http.get(url, options);
   }
@@ -26,6 +25,4 @@ export class HttpService {
   public delete(url: string, options?: any): Observable<any> {
     return this.http.delete(url, options);
   }
-
-
 }

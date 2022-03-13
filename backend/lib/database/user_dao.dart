@@ -9,7 +9,7 @@ class UserDao {
   static Future<void> create(User u) async {
     await Database.db
         .collection(_collection)
-        .insert(u.toJson()); // doppelte einträge?
+        .insert(u.toJson());
   }
 
   // todo: read without token
@@ -43,12 +43,12 @@ class UserDao {
         .toList();
   }
 
-  static Future<String?> findOne(String username, String password) async {
+  static Future<User?> findOne(String username, String password) async {
     try {
       var u = await Database.db
           .collection(_collection)
           .findOne(where.eq('username', username).eq('password', password));
-      if (u != null) return User.fromJson(u).token;
+      if (u != null) return User.fromJson(u);
     } catch (e) {
       print(e);
       return null;
@@ -74,6 +74,18 @@ class UserDao {
           .collection(_collection)
           .findOne(where.eq('id', userid));
       if (u != null) return userid;
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+  static Future<String?> checkUsername(String username) async {
+    try {
+      var u = await Database.db
+          .collection(_collection)
+          .findOne(where.eq('username', username));
+      if (u != null) return username;
     } catch (e) {
       print(e);
       return null;

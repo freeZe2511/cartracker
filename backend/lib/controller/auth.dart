@@ -3,90 +3,48 @@ import 'dart:convert';
 
 import 'package:cartracker_backend/database/admin_dao.dart';
 import 'package:cartracker_backend/database/user_dao.dart';
+import 'package:cartracker_backend/database/zone_dao.dart';
 import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 import 'package:shelf/shelf.dart';
 
 class AuthenticationController {
-  // TODO refactor, very ugly, roles??
+
   Future<Response> login(Request request) async {
-    //TODO erst user dann admin tabelle checken? oder zsm tabelle mit role (auch für authorization dann)?
+    if (request.isEmpty) return Response(400);
     var body = jsonDecode(await request.readAsString());
-    String uniqueX = body["uniqueX"];
+
+    String userName = body["username"];
     String password = body["password"];
-    var a = await AdminDao.findOne1(uniqueX); //TODO just unique name?
-    if (a == null) {
-      var b = await UserDao.findOne1(uniqueX); // TODO
-      if (b == null) return Response(401);
-      var jwt = JWT({"uniqueX": uniqueX}); //TODO expire and reauth?
-      var token = jwt.sign(SecretKey("super secret key"));
-      return Response(200, body: jsonEncode(token));
+
+    var a = await AdminDao.findOne(userName, password);
+
+    if (a != null) {
+      var token = returnJWT(userName);
+      return Response(200, body: jsonEncode({
+        "jwt": token,
+        "role": "admin"
+      }));
     } else {
-      if (password == a.password) {
-        var jwt = JWT({"uniqueX": uniqueX}); //TODO expire and reauth?
-        var token = jwt.sign(SecretKey("super secret key"));
-        return Response(200, body: jsonEncode(token));
-      }
-    }
-
-    return Response(500);
-  }
-
-  // Future<Response> logout(Request request) async {
-  //   // erst user dann admin tabelle checken? oder admin token schicken?
-  //   return Response(200);
-  // }
-
-  static Future<bool> verify(Request request) async {
-    try {
-      String token =
-          request.headers["Authorization"]!.replaceAll("Bearer ", "");
-      var jwt = JWT.verify(token, SecretKey("super secret key"));
-      return true;
-    } catch (e) {
-      print("verify " + e.toString());
-      return false;
+      var b = await UserDao.findOne(userName, password);
+      if (b == null) return Response(401);
+      var zone = await ZoneDao.readOneByID(b.zoneid);
+      var token = returnJWT(userName);
+      return Response(200, body: jsonEncode({
+        "jwt": token,
+        "zone": zone,
+        "userid": b.id
+      }));
     }
   }
 
-// TODO?
-// static FutureOr<Response?> handle(Request request) async {
-//   print(request.url.toString());
-//   (request.url.toString() == "api/v1/login")
-//       ? AuthenticationController.auth(request)
-//       : AuthenticationController.verify(request);
-// }
-//
-// static FutureOr<Response> auth(Request request) async {
-//   print("auth " + request.toString());
-//   try {
-//     var body = jsonDecode(await request.readAsString());
-//
-//     String uniqueX = body["uniqueX"];
-//     String password = body["password"];
-//
-//     var a = await AdminDao.findOne2(uniqueX, password);
-//     if (a == null) throw Exception();
-//
-//     var jwt = JWT({"uniqueX": uniqueX});
-//     var token = jwt.sign(SecretKey("super secret key"));
-//     return Response(200, body: jsonEncode(token));
-//
-//   } catch (e) {
-//     print("auth " + e.toString());
-//     return Response(401);
-//   }
-// }
-//
-// static FutureOr<Response?> verify(Request request) async {
-//   print("verify " + request.toString());
-//   try {
-//     String token = request.headers["Authorization"]!.replaceAll("Bearer ", "");
-//     var jwt = JWT.verify(token, SecretKey("super secret key"));
-//     return null;
-//   } catch (e) {
-//     print("verify " + e.toString());
-//     return Response.forbidden("nonono");
-//   }
-//
-// }
+  String returnJWT(String userName) {
+    var jwt = JWT({"user": userName}); //TODO expire and reauth?
+    var token = jwt.sign(SecretKey("super secret key"));
+    return token;
+  }
 }
+
+// Future<Response> logout(Request request) async {
+//   // erst user dann admin tabelle checken? oder admin token schicken?
+//   return Response(200);
+// }
