@@ -25,10 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
   late int counter;
   http.HttpService httpService = http.HttpService();
 
-  late bool _isMoving;
   late bool _enabled;
-  late String _motionActivity;
-  late String _odometer;
   late String _content;
 
   late String userid;
@@ -38,11 +35,8 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     _content = "    Enable the switch to begin tracking.";
-    _isMoving = false;
     _enabled = false;
     _content = '';
-    _motionActivity = 'UNKNOWN';
-    _odometer = '0';
 
     counter = 0;
     userid = "";
@@ -52,6 +46,11 @@ class _HomeScreenState extends State<HomeScreen> {
     _onClickGetCurrentPosition();
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   _init() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -59,6 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
     userid = prefs.getString("userid")!;
 
   }
+
 
   void _initPlatformState() {
     // 1.  Listen to events (See docs for all 12 available events).
@@ -78,7 +78,6 @@ class _HomeScreenState extends State<HomeScreen> {
       if (!state.enabled) {
         setState(() {
           _enabled = state.enabled;
-          _isMoving = state.isMoving!;
         });
       }
     });
@@ -91,7 +90,6 @@ class _HomeScreenState extends State<HomeScreen> {
         print('[start] success $state');
         setState(() {
           _enabled = state.enabled;
-          _isMoving = state.isMoving!;
         });
       }).catchError((error) {
         print('[start] ERROR: $error');
@@ -102,7 +100,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
         setState(() {
           _enabled = state.enabled;
-          _isMoving = state.isMoving!;
         });
       });
     }
@@ -126,11 +123,12 @@ class _HomeScreenState extends State<HomeScreen> {
   void _onLocation(bg.Location location) {
     print('[location] - $location');
 
-    setState(() {
-      _content = encoder.convert(location.toMap());
-      counter += 1;
-    });
-
+    if(mounted){
+      setState(() {
+        _content = encoder.convert(location.toMap());
+        counter += 1;
+      });
+    }
     httpService.postPosition(location);
 
   }
@@ -141,13 +139,18 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _onMotionChange(bg.Location location) {
     print('[motionchange] - $location');
+
+    if(mounted){
+      setState(() {
+        _content = encoder.convert(location.toMap());
+        counter += 1;
+      });
+    }
+    httpService.postPosition(location);
   }
 
   void _onActivityChange(bg.ActivityChangeEvent event) {
     print('[activitychange] - $event');
-    setState(() {
-      _motionActivity = event.activity;
-    });
   }
 
   @override

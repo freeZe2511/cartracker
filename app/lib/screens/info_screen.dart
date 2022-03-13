@@ -11,9 +11,13 @@ class InfoScreen extends StatefulWidget {
 }
 
 class _InfoScreenState extends State<InfoScreen> {
-
-  late String userid;
-  late List<String> zoneList;
+  String userid = "";
+  List<String> zoneList = [];
+  String zoneId = "";
+  String zoneName = "";
+  String zoneRadius = "";
+  String zonePos = "";
+  String zonePosAmount = "";
 
   _init() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -21,14 +25,18 @@ class _InfoScreenState extends State<InfoScreen> {
     setState(() {
       zoneList = prefs.getStringList("zone")!;
       userid = prefs.getString("userid")!;
+
+      zoneId = zoneList[0];
+      zoneName = zoneList[1];
+      zoneRadius = zoneList[2];
+      zonePos = zoneList[3];
+      zonePosAmount = zoneList[4];
     });
   }
 
   @override
   void initState() {
     super.initState();
-    userid = "";
-    zoneList = [];
     _init();
   }
 
@@ -38,18 +46,51 @@ class _InfoScreenState extends State<InfoScreen> {
       appBar: AppBar(
         title: Text("Info"),
       ),
-      body: Center(
-        child: Column(
-          children: [
-            Text("User: " + userid),
-            // TODO bug???
-            if (zoneList.isNotEmpty) Text("Zone: " + zoneList[1]),
-            if (zoneList.isNotEmpty && zoneList[1] != "None")
-              Text("Radius: " + zoneList[2] + "m"),
-            if (zoneList.isNotEmpty && zoneList.length > 3)
-              Text("Center: " + zoneList[3] + " " + zoneList[4]),
-          ],
-        ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "User: ",
+            style: TextStyle(
+                fontWeight: FontWeight.bold,
+                decoration: TextDecoration.underline,
+                decorationThickness: 2,
+                fontSize: 20),
+          ),
+          Text(
+            "ID: " + userid,
+            style: TextStyle(
+                fontSize: 15),
+          ),
+          Text(
+            "Zone: ",
+            style: TextStyle(
+                fontWeight: FontWeight.bold,
+                decoration: TextDecoration.underline,
+                decorationThickness: 2,
+                fontSize: 20),
+          ),
+          Text(
+            "ID: " + zoneId,
+            style: TextStyle(
+                fontSize: 15),
+          ),
+          Text(
+            "Name: " + zoneName,
+            style: TextStyle(
+                fontSize: 15),
+          ),
+          Text(
+            "Radius: " + zoneRadius,
+            style: TextStyle(
+                fontSize: 15),
+          ),
+          Text(
+            "Pos: " + zonePos,
+            style: TextStyle(
+                fontSize: 15),
+          ),
+        ],
       ),
     );
   }

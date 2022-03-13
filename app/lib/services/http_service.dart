@@ -6,10 +6,11 @@ import 'package:flutter_background_geolocation/flutter_background_geolocation.da
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vector_math/vector_math.dart';
+import 'package:maps_toolkit/maps_toolkit.dart';
 
 class HttpService {
   // http for debugging else https
-  String url = 'https://tim-eggers.de:9090';
+  String url = 'http://tim-eggers.de:9090';
 
   Future<bool> logIn(String username, String password) async {
     bool authorized = false;
@@ -37,9 +38,22 @@ class HttpService {
           zoneList.add(zone["id"]);
           zoneList.add(zone["name"]);
           zoneList.add(zone["radius"].toString());
-          if(zone["pos"].length != 0){
-            zoneList.add(zone["pos"][0]["lat"].toString());
-            zoneList.add(zone["pos"][0]["lng"].toString());
+
+          if (zone["pos"].length != 0) {
+            var zonePosList = [];
+            var counter = 0;
+            for (var p in zone["pos"]) {
+              var pos = [];
+              pos.add(p["lat"].toString());
+              pos.add(p["lng"].toString());
+              zonePosList.add(pos);
+              counter++;
+            }
+            zoneList.add(zonePosList.toString());
+            zoneList.add(counter.toString());
+          } else {
+            zoneList.add("[]");
+            zoneList.add("0");
           }
 
           prefs.setString("jwt", body["jwt"]);
@@ -98,24 +112,40 @@ class HttpService {
     print(res.statusCode);
   }
 
-  //TODO addGeoFence from response?
-
   bool isInZone(String userid, double lat, double lng, List<String> zoneList) {
-    if (zoneList[0] == "1") return true;
-    // circular fences/zones
-    if (double.parse(zoneList[2]) > 0) {
-      return checkCircleZone(double.parse(zoneList[3]),
-          double.parse(zoneList[4]), lat, lng, num.parse(zoneList[2]));
+
+    var zoneId = zoneList[0];
+    var zoneName = zoneList[1];
+    var zoneRadius = zoneList[2];
+    var zonePos = zoneList[3];
+    var zonePosAmount = zoneList[4];
+
+    //ZonePos string into Array
+    var a = zonePos.substring(2, zonePos.length - 2).split("], [");
+
+    var posList = [];
+    for (var pos in a) {
+      var posArray = [];
+      var ar = pos.split(", ");
+      posArray.add(double.parse(ar[0]));
+      posArray.add(double.parse(ar[1]));
+      posList.add(posArray);
+    }
+
+    if (zoneList[1] == "None") return true;
+    if (double.parse(zoneRadius) > 0) {
+      var latZone = posList[0][0];
+      var lngZone = posList[0][1];
+      return checkCircleZone(latZone, lngZone, lat, lng, num.parse(zoneRadius));
     } else {
-      // todo special fences
-      return false;
+      return checkPolyZone(lat, lng, posList);
     }
   }
 
   bool checkCircleZone(double zoneLat, double zoneLng, double userLat,
       double userLng, num radius) {
     // radius in m
-    const radiusEarth = 6371; // in km
+    const radiusEarth = SphericalUtil.earthRadius; // in km
     double distanceLat = radians(userLat - zoneLat);
     double distanceLon = radians(userLng - zoneLng);
     num a = sin(distanceLat / 2) * sin(distanceLat / 2) +
@@ -126,5 +156,16 @@ class HttpService {
     num b = 2 * atan2(sqrt(a), sqrt(1 - a));
     num distance = radiusEarth * b;
     return ((distance * 1000) <= radius);
+  }
+
+  bool checkPolyZone(double userLat, double userLng, List<dynamic> posList) {
+    List<LatLng> polygon = [];
+
+    for (var element in posList) {
+      polygon.add(LatLng(element[0], element[1]));
+    }
+
+    return PolygonUtil.containsLocation(
+        LatLng(userLat, userLng), polygon, true);
   }
 }
