@@ -1,27 +1,48 @@
-# CartrackerNewFrontend
+# cartracker_Frontend
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.2.5.
+### Das Frontend / Admin-PC ist eine Oberfläche, die es dem Admin ermöglicht alle Fahrzeuge einzusehen und zu verwalten
 
-## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+#### Bedienungshinweise:
 
-## Code scaffolding
+<img src="../pictures/Screenshot%20Admin-PC%200.png" alt="Admin-PC-Login" width="800" style="margin-right: 10px"/>
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Im Login Screen kann sich der Admin mit den einzigartigen Admin-Zugangsdaten anmelden.
+Der Admin hat dabei jegliche Sonderrechte.
 
-## Build
+<img src="../pictures/Screenshot%20Admin-PC%206.png" alt="Admin-PC-Map" width="800" style="margin-right: 10px"/>
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+Nach erfolgreicher Anmeldung kommt man auf die Map, die Home Seite.
+Hier kann der Admin alle User und Zonen einsehen, Meldungen empfangen (diese kann man über den 
+Toggler "Show Notifications" an- oder ausschalten.)
+Mit dem Toggler "Show Details" kann man sich auf der Map bei jedem User
+die Koordinaten und die Geschwindigkeit anzeigen lassen. Außerdem kann man 
+hier Zonen hinzufügen, entweder "Circle": man setzt einen Kreis und Radius.
+Oder "Polygone" und steckt mit beliebig vielen Punkten die Zone ab.
 
-## Running unit tests
+Jedem User kann man einzeln Folgen: "Follow", Zone anzeigen: "show zone" oder Route anzeigen: "show Route".
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+<img src="../pictures/Screenshot%20Admin-PC%207.png" alt="Admin-PC-Map" width="800" style="margin-right: 10px"/>
 
-## Running end-to-end tests
+Oben in der Navigationsleiste kann man auf die User- und die Zonenübersicht gelangen.
+Hier kann man User und Zonen hinzufügen (+). 
+In der jeweiligen Zeile kann man auf einen User zoomen (Quadrat mit Pfeil).
+Mit einem Klick auf das Auge kann das Passwort eines jeden Users angezeigt werden.
+Jeder User kann editiert (Stift), oder gelöscht (Papierkorb) werden.
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+Ist die Zone eines Nutzers grün, so befindet er sich darin. Ist diese rot,
+so befindet sich der User außerhalb seiner zugewiesenen Zone.
+Der Status gibt an, ob sich ein User gerade bewegt, oder inaktiv ist.
 
-## Further help
+<img src="../pictures/Screenshot%20Admin-PC%208.png" alt="Admin-PC-Map" width="800" style="margin-right: 10px"/>
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Auch die Zonen können aus der Tabelle heraus verwaltet werden.
+Erstellen einer Zone (+), zoomen auf eine Zone (Quadrat mit Pfeil),
+bearbeiten einer Zone (Stift) und löschen (Papierkorb) ist möglich.
+
+
+
+Über das Fragezeichen rechts kommt man ins Impressum. 
+Ganz rechts befindet sich der Button zum ausloggen.
+
+
