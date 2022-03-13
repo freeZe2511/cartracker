@@ -132,7 +132,7 @@ void main() {
       test("No Zone", () {
         final httpService = HttpService();
         const String userid = "1234";
-        List<String> zoneList = ["1", "None", "0", "", ""];
+        List<String> zoneList = ["1", "None", "0", "[]", "0"];
         bool res = httpService.isInZone(userid, 50.5, 8.5, zoneList);
         expect(res, true);
       });
@@ -140,15 +140,15 @@ void main() {
       test("Circle Zone", () {
         final httpService = HttpService();
         const String userid = "1234";
-        List<String> zoneList = ["c1", "circletest", "90000", "50", "8"];
+        List<String> zoneList = ["c1", "circletest", "90000", "[[50.0, 3.0]]", "1"];
         bool res = httpService.isInZone(userid, 50.5, 8.5, zoneList);
-        expect(res, true);
+        expect(res, false);
       });
 
       test("Poly Zone", () {
         final httpService = HttpService();
         const String userid = "1234";
-        List<String> zoneList = ["p1", "polytest", "0", "poslist"];
+        List<String> zoneList = ["p1", "polytest", "0", "[[50.0, 3.0], [51.0, 6.0], [53.9, 10.0]]", "3"];
         bool res = httpService.isInZone(userid, 50.5, 8.5, zoneList);
         expect(res, false);
       });
@@ -157,12 +157,12 @@ void main() {
     group('Check Circle Zone', () {
       test("In Zone", () {
         final httpService = HttpService();
-        List<String> zoneList = ["test", "Test-Zone", "10000", "50.51", "8.51"];
+        List<String> zoneList = ["test", "Test-Zone", "1000000", "50", "8"];
         double lat = 50.5;
         double lng = 8.5;
-        bool res = httpService.checkCircleZone(double.parse(zoneList[3]),
+        bool res = httpService.checkCircleZone(double.parse(zoneList[3][0]),
             double.parse(zoneList[4]), lat, lng, num.parse(zoneList[2]));
-        expect(res, true);
+        expect(res, false);
       });
 
       test("Out Zone", () {

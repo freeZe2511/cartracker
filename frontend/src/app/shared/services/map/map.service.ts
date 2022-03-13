@@ -39,7 +39,6 @@ export class MapService {
   routeHour = 0;
   routeMin = 0;
   expanded = -1;
-  showZonesBool = false;
 
   addCircleZoneName: string | undefined;
   addCircleZone = false;
@@ -55,6 +54,7 @@ export class MapService {
 
   showDetails = true;
   notifications = true;
+  showZonesBool = false;
 
   constructor(private httpService: HttpService, private authService: AuthService, private alertService: AlertService, public zoneService: ZoneService, public router: Router) {
   }
@@ -288,6 +288,7 @@ export class MapService {
   // ### RESET DATA ### //
 
   resetDataMaps(x: string) {
+    this.showZonesBool = false;
     this.routeHour = 0;
     this.routeMin = 0;
     this.route = [];

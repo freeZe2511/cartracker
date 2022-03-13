@@ -1,13 +1,9 @@
-import 'dart:io';
-
 import 'package:cartracker_backend/database/database.dart';
 import 'package:cartracker_backend/routing/service.dart';
 import 'package:cartracker_backend/routing/utils.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart';
 import 'package:shelf_cors_headers/shelf_cors_headers.dart';
-
-import 'package:shelf_letsencrypt/shelf_letsencrypt.dart';
 
 void main() async {
   final overrideHeaders = {
@@ -32,10 +28,8 @@ void main() async {
       .addMiddleware(handleAuth(_secret))
       .addHandler(service.handler);
 
-  final server = await serve(
-      _handler, _ip, _port, securityContext: prod ? getSecurityContext() : null);
+  final server = await serve(_handler, _ip, _port,
+      securityContext: prod ? getSecurityContext() : null);
 
   print("Server running on locahost:${server.port}");
-
 }
-

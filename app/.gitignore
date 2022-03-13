@@ -21,6 +21,7 @@
 #.vscode/
 
 android/key.properties
+*.jks
 
 # Flutter/Dart/Pub related
 **/doc/api/

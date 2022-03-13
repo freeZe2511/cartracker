@@ -29,6 +29,7 @@ export class MapComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.users = [];
     this.zones = [];
+    this.mapService.showZonesBool = false;
     this.mapService.addCircleZone = false;
     this.mapService.addPolyZone = false;
     this.mapService.addCircleZoneRadius = undefined;
