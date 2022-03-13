@@ -4,7 +4,7 @@
 
 #### Bedienungshinweise:
 
-<img src="../pictures/Screenshot%20Admin-PC%200.png" alt="Admin-PC-Login" width="600" style="margin-right: 10px"/>
+<img src="../pictures/Screenshot%20Admin-PC%200.png" alt="Admin-PC-Login" width="800" style="margin-right: 10px"/>
 
 
 
