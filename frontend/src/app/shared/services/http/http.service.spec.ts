@@ -17,4 +17,28 @@ describe('HttpService', () => {
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
+
+  it('should be get', () => {
+    let url = "test.de/test"
+    let res = service.get(url);
+    expect(res).toBeTruthy();
+  });
+
+  it('should be post', () => {
+    let url = "test.de/test"
+    let res = service.post(url, null);
+    expect(res).toBeTruthy();
+  });
+
+  it('should be put', () => {
+    let url = "test.de/test"
+    let res = service.put(url, null);
+    expect(res).toBeTruthy();
+  });
+
+  it('should be delete', () => {
+    let url = "test.de/test"
+    let res = service.delete(url);
+    expect(res).toBeTruthy();
+  });
 });

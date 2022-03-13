@@ -1,55 +1,59 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import {HttpService} from "../http/http.service";
-import {Router} from "@angular/router";
 import {environment} from "../../../../environments/environment";
-import {AlertsService} from "../alerts/alerts.service";
+import {Router} from "@angular/router";
+import {AlertService} from "../alert/alert.service";
+import {Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  constructor(public httpService: HttpService, public router: Router, public _alert: AlertsService) {
-  }
+  res: any;
 
-  logIn(username: string, userPassword: string) {
-    this.httpService.post(environment.backendURL + "auth/login", {
+  constructor(private httpService: HttpService, private router: Router, private alertService: AlertService) { }
+
+  postLogIn(username: string, userPassword: string){
+    this.res = this.httpService.post(environment.backendURL + "auth/login", {
       username: username,
       password: userPassword
-    }).subscribe({
-      next: (res: any) => {
-        if(res["role"] == "admin"){
-          localStorage.setItem("idToken", JSON.stringify(res["jwt"]));
-          this.router.navigate(["home"]);
-        } else {
-          // TODO alert service not working in login page
-          window.alert("Not an Admin");
-        }
-      },
-      error: () => window.alert("login fail"),
-      complete: () => console.info('complete')
     });
   }
 
-  async logOut() {
-    localStorage.removeItem("idToken");
-    await this.router.navigate(["sign-in"]);
+  logIn(username: string, userPassword: string) {
+    this.postLogIn(username, userPassword);
+    this.res!.subscribe({
+      next: (res: any) => {
+        if(res["role"] == "admin"){
+          this.setToken(JSON.stringify(res["jwt"]))
+          this.router.navigate(["map"]);
+        } else {
+          this.alertService.onError("Not an Admin!");
+        }
+      },
+      error: () => this.alertService.onError("Login Error"),
+      complete: () => {}
+    });
+  }
+
+  logOut() {
+    this.router.navigate(["login"]).then(() => localStorage.removeItem("idToken"));
+  }
+
+  setToken(token: string){
+    localStorage.setItem("idToken", token);
   }
 
   get isLoggedIn(): boolean {
-    const idToken = JSON.parse(<string>localStorage.getItem("idToken"));
-    return (idToken !== null);
+    return (localStorage.getItem("idToken") !== null);
   }
 
   get token(): string {
-    return JSON.parse(<string>localStorage.getItem("idToken"));
+    return localStorage.getItem("idToken")!;
   }
 
   get authHeader(): string {
-    return "Authorization: Bearer " + this.token;
-  }
-
-  print(test: string){
-    console.log(test)
+    return "Authorization: Bearer " + JSON.parse(<string>this.token);
   }
 }

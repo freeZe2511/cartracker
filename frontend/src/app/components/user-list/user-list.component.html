@@ -1,72 +1,72 @@
-<app-header></app-header>
+<app-toolbar></app-toolbar>
 
-<div class="container-fluid pt-3">
+<div class="container">
 
   <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 mt-5" matSort>
 
     <ng-container matColumnDef="id">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number"> ID </th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number"> ID</th>
       <td mat-cell *matCellDef="let user"> {{user.id}} </td>
     </ng-container>
 
     <ng-container matColumnDef="username">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by name"> Name </th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by name"> Name</th>
       <td mat-cell *matCellDef="let user"> {{user.username}} </td>
     </ng-container>
 
     <ng-container matColumnDef="password">
-      <th mat-header-cell *matHeaderCellDef> Passwort </th>
-      <td mat-cell *matCellDef="let user">********<a href=""><i class="fa fa-eye-slash" aria-hidden="true"></i></a> </td>
+      <th mat-header-cell *matHeaderCellDef> Password</th>
+      <td mat-cell *matCellDef="let user"> {{!this.showPasswords.get(user.id) ? '******' : user.password}} </td>
     </ng-container>
 
     <ng-container matColumnDef="zone">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by zone"> Zone </th>
-      <td mat-cell *matCellDef="let user"> {{findZoneName(user.zoneid)}} </td>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by zone"> Zone</th>
+      <td mat-cell *matCellDef="let user" [style.color]="this.returnZoneColor(user)"> {{this.mapService.findZone(user.zoneid)?.name}} </td>
     </ng-container>
 
     <ng-container matColumnDef="status">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by status"> Status </th>
-      <td mat-cell *matCellDef="let user"> Active </td>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by status"> Status</th>
+      <td mat-cell *matCellDef="let user" [style.color]="this.returnStatusColor(user)">{{this.returnStatus(user)}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="position">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by position"> Position</th>
+      <td mat-cell *matCellDef="let user">{{this.returnPos(user)}}</td>
     </ng-container>
 
     <ng-container matColumnDef="created">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by creation"> Created </th>
-      <td mat-cell *matCellDef="let user"> {{_convert.convertTimeFromObjID(user._id)}}</td>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by creation"> Created</th>
+      <td mat-cell *matCellDef="let user"> {{this.mapService.convertTimeFromObjID(user._id)}}</td>
     </ng-container>
 
     <ng-container matColumnDef="actions">
-      <th mat-header-cell *matHeaderCellDef="let user"> <a class="btn table-link" (click)="add()">
-									<span class="fa-stack">
-										<i class="fa fa-square fa-stack-2x"></i>
-										<i class="fa fa-plus-square fa-stack-1x fa-inverse"></i>
-									</span>
-      </a></th>
-      <td mat-cell *matCellDef="let user"> <a class="btn table-link" (click)="centerOnUser(user.id, user.latestPos[0])">
-									<span class="fa-stack">
-										<i class="fa fa-square fa-stack-2x"></i>
-										<i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
-									</span>
-      </a>
-        <a class="btn table-link" (click)="edit(user)">
-									<span class="fa-stack">
-										<i class="fa fa-square fa-stack-2x"></i>
-										<i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-									</span>
-        </a>
-        <a class="btn table-link danger" (click)="delete(user.id)">
-									<span class="fa-stack">
-										<i class="fa fa-square fa-stack-2x"></i>
-										<i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-									</span>
-        </a>
+      <th mat-header-cell *matHeaderCellDef="let user">
+        <button mat-icon-button aria-label="" (click)="add()">
+          <mat-icon>library_add</mat-icon>
+        </button>
+      </th>
+      <td mat-cell *matCellDef="let user">
+        <button mat-icon-button aria-label="" (click)="centerOnUser(user)">
+          <mat-icon>open_in_new</mat-icon>
+        </button>
+        <button mat-icon-button aria-label="" (click)="hidePassword(user)">
+          <mat-icon>{{!this.showPasswords.get(user.id) ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+        <button mat-icon-button aria-label="" (click)="edit(user)">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button aria-label="" (click)="delete(user)">
+          <mat-icon>delete_outline</mat-icon>
+        </button>
       </td>
     </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
-  <mat-paginator class="mat-elevation-z8" [pageSizeOptions]="[15, 30, 45]"
-                 showFirstLastButtons>
-  </mat-paginator>
 </div>
+<mat-paginator class="mat-elevation-z8" [pageSizeOptions]="[15, 30, 45]"
+               showFirstLastButtons>
+</mat-paginator>
 <simple-notifications></simple-notifications>
+

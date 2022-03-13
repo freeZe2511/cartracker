@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthService} from "../../shared/services/auth/auth.service";
-import {AlertsService} from "../../shared/services/alerts/alerts.service";
+import {AlertService} from "../../shared/services/alert/alert.service";
 
 @Component({
   selector: 'app-login',
@@ -9,18 +9,20 @@ import {AlertsService} from "../../shared/services/alerts/alerts.service";
 })
 export class LoginComponent implements OnInit {
 
-  constructor(public authService: AuthService, public _alert: AlertsService) { }
+  hide = true;
+
+  constructor(private authService: AuthService, private alertService: AlertService) { }
 
   ngOnInit(): void {
   }
 
   logIn(username: string, password: string): void {
+    // TODO
     if(username != "" && password != ""){
       this.authService.logIn(username, password)
-    }else {
-      this._alert.onError("Please enter Username and/or Password"); // TODO not working???
+    } else {
+      this.alertService.onError("Login Error");
     }
-
   }
 
 }

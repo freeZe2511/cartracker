@@ -1,39 +1,46 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {MatPaginator} from '@angular/material/paginator';
-import {MatSort} from '@angular/material/sort';
-import {MatTableDataSource} from '@angular/material/table';
-import {Subscription} from "rxjs";
-import {UserService} from "../../shared/services/users/users.service";
-import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import {MatSort} from "@angular/material/sort";
+import {ZoneService} from "../../shared/services/zone/zone.service";
 import {MapService} from "../../shared/services/map/map.service";
 import {Router} from "@angular/router";
+import {MatDialog} from "@angular/material/dialog";
+import {interval, Subscription, switchMap} from "rxjs";
+import {MatTableDataSource} from "@angular/material/table";
+import {DialogComponent} from "../dialog/dialog.component";
 import {Zone} from "../../shared/models/zone";
-import {AlertsService} from "../../shared/services/alerts/alerts.service";
-import {EditZoneModalComponent} from "../edit-zone-modal/edit-zone-modal.component";
-import {ZoneService} from "../../shared/services/zone/zone.service";
-import {ConfirmService} from "../../shared/services/confirm/confirm.service";
-import {ConvertService} from "../../shared/services/convert/convert.service";
+import {AlertService} from "../../shared/services/alert/alert.service";
 
 @Component({
   selector: 'app-zone-list',
   templateUrl: './zone-list.component.html',
   styleUrls: ['./zone-list.component.css']
 })
-export class ZoneListComponent implements OnInit {
+export class ZoneListComponent implements OnInit, OnDestroy, AfterViewInit {
+
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  timeInterval!: Subscription;
-
-  constructor(private _user: UserService, private modalService: NgbModal, private _map: MapService,
+  constructor(public zoneService: ZoneService,
+              public mapService: MapService,
               public router: Router,
-              public _alert: AlertsService, private _zone: ZoneService,
-              public _confirm: ConfirmService,
-              public _convert: ConvertService) {
+              public dialog: MatDialog,
+              private alertService: AlertService) {
   }
 
+  private timeInterval!: Subscription;
+  hide = true;
+
+  displayedColumns: string[] = ['id', 'name', 'type', 'complexity', 'radius','actions']; // TODO created
+  dataSource = new MatTableDataSource(this.mapService.zones);
+
   ngOnInit(): void {
-    this.reloadZones();
+    // this.mapService.initZones();
+    this.updateZones();
+  }
+
+  ngOnDestroy() {
+    this.timeInterval.unsubscribe();
   }
 
   ngAfterViewInit(): void {
@@ -41,55 +48,97 @@ export class ZoneListComponent implements OnInit {
     this.dataSource.sort = this.sort;
   }
 
-  private reloadZones() {
-    this._map.getZones();
-    this.initZones();
+  private updateZones() {
+    this.timeInterval = interval(1000).pipe(
+      switchMap(() => this.mapService.getZones()),
+    ).subscribe({
+      next: (res: any) => {
+        this.dataSource.data = res;
+        this.mapService.zones = res;
+      },
+      error: (e) => console.error(e),
+      complete: () => console.info('complete')
+    });
   }
 
-  private initZones() {
-    this.dataSource.data = this._map.zones.slice(2);
-  }
+  add() {
+    const dialogRef = this.dialog.open(DialogComponent, {
+      data: {
+        mode: 'Zone',
+        action: 'Create',
+        extras: [],
+        result: []
+      }
+    });
 
-  public centerOnZone(zone: Zone) {
-    if (zone.radius == 0) {
-      // panToPolygonZone() TODO in mapService
-    } else {
-      // panToCircleZone()
-    }
-    this.router.navigate(['map']);
-  }
-
-  public async add() {
-    this.router.navigate(['map']);
-  }
-
-  public async edit(zone: Zone) {
-    // TODO in map?
-    const modalReference = this.modalService.open(EditZoneModalComponent);
-    modalReference.componentInstance.zone = zone;
-
-    try {
-      const resultZone: Zone = await modalReference.result;
-      this._zone.updateZone(resultZone);
-      this.reloadZones();
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  public async delete(zoneid: string) {
-    this._confirm.confirmDialog().then((res) => {
-      if (res) {
-        this._zone.deleteZone(zoneid);
-        this.reloadZones();
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result)
+      if (result != undefined) {
+        this.router.navigate(['map']).then(() => {
+          setTimeout(() => {
+            // change or notify admin?!
+            // this.alertService.onSuccess("Zone adding Mode"); //TODO
+            if(result[0] == "circle") this.mapService.addCircleZone = true;
+            if(result[0] == "poly") this.mapService.addPolyZone = true;
+          }, 100)
+        });
       } else {
-        this._alert.onCancel("Deleting Zone cancelled");
+        this.alertService.onCancel("Add cancelled")
+      }
+    });
+
+
+
+  }
+
+  centerOnZone(zone: Zone) {
+    this.router.navigate(['map']).then(() => {
+      // needed so map can first load?
+      setTimeout(() => {
+        this.mapService.showZoneMap(zone, true);
+      }, 10)
+    });
+  }
+
+  edit(zone: Zone) {
+    const dialogRef = this.dialog.open(DialogComponent, {
+      data: {
+        mode: 'Zone',
+        action: 'Update',
+        extras: [zone],
+        result: []
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result != undefined) {
+        this.zoneService.updateZone({
+          id: zone.id,
+          name: result[0],
+          pos: zone.pos,
+          radius: result[1],
+        })
+      } else {
+        this.alertService.onCancel("Edit cancelled")
       }
     });
   }
 
-  displayedColumns: string[] = ['id', 'name', 'type', 'complexity', 'radius','actions']; // TODO created
-  dataSource = new MatTableDataSource(this._map.zones);
+  delete(zone: Zone) {
+    const dialogRef = this.dialog.open(DialogComponent, {
+      data: {
+        mode: 'Zone',
+        action: 'Delete'
+      }
+    });
 
+    dialogRef.afterClosed().subscribe(result => {
+      if(result) {
+        this.zoneService.deleteZone(zone.id!);
+      } else {
+        this.alertService.onCancel("Delete cancelled")
+      }
+    });
+  }
 }
 

@@ -1,90 +1,74 @@
-.login-dark {
-  height: 100vh;
-  background: url(../../../assets/img/login_background.jpg) 0 0/cover #475d62;
-  position: relative
-}
-
-.login-dark form {
-  max-width: 320px;
-  width: 90%;
-  background-color: #1e2833;
-  padding: 40px;
-  border-radius: 4px;
-  transform: translate(-50%, -50%);
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  color: #fff;
-  box-shadow: 3px 3px 4px rgba(0, 0, 0, .2)
-}
-
-.login-dark .illustration {
-  text-align: center;
-  padding: 15px 0 20px;
-  font-size: 100px;
-  color: #2980ef
-}
-
-.login-dark form .form-control {
-  background: 0 0;
-  border: none;
-  border-bottom: 1px solid #434a52;
-  border-radius: 0;
-  box-shadow: none;
-  outline: 0;
-  color: inherit
-}
-
-.login-dark form .btn-primary {
-  background: #214a80;
-  border: none;
-  border-radius: 4px;
-  padding: 11px;
-  box-shadow: none;
-  margin-top: 26px;
-  text-shadow: none;
-  outline: 0
-}
-
-.login-dark form .btn-primary:active, .login-dark form .btn-primary:hover {
-  background: #214a80;
-  outline: 0
-}
-
-.login-dark form .forgot {
-  display: block;
-  text-align: center;
-  font-size: 12px;
-  color: #6f7a85;
-  opacity: .9;
-  text-decoration: none
-}
-
-.login-dark form .forgot:active, .login-dark form .forgot:hover {
+.box {
+  position: relative;
+  top: 0;
   opacity: 1;
-  text-decoration: none
+  float: left;
+  padding: 60px 50px 40px 50px;
+  width: 100%;
+  background: #fff;
+  border-radius: 10px;
+  transform: scale(1);
+  -webkit-transform: scale(1);
+  -ms-transform: scale(1);
+  z-index: 5;
+  max-width: 330px;
 }
 
-.login-dark form .btn-primary:active {
-  transform: translateY(1px)
+.box.back {
+  transform: scale(.95);
+  -webkit-transform: scale(.95);
+  -ms-transform: scale(.95);
+  top: -20px;
+  opacity: .8;
+  z-index: -1;
 }
-
-
-#imprintBtn {
-  margin: 20px;
+.box:before {
+  content: "";
+  width: 100%;
+  height: 30px;
+  border-radius: 10px;
   position: absolute;
-  right: 0;
-  top: 0;
-  opacity: 0.2;
-  border-radius: 100%;
+  top: -10px;
+  background: rgba(255, 255, 255, .6);
+  left: 0;
+  transform: scale(.95);
+  -webkit-transform: scale(.95);
+  -ms-transform: scale(.95);
+  z-index: -1;
 }
 
-#imprintBtn:hover {
-  margin: 20px;
-  position: absolute;
-  right: 0;
-  top: 0;
-  opacity: 0.5;
-  border-radius: 100%;
-  background-color: lightgrey;
+.login-wrapper {
+  min-height: 350px;
+  height: 50%;
+}
+
+.login-wrapper .example-form {
+  min-width: 100%;
+  max-width: 300px;
+  width: 100%;
+}
+.login-wrapper .example-full-width,
+.login-wrapper .btn-block {
+  width: 100%;
+}
+.login-wrapper mat-card-header {
+  text-align: center;
+  width: 100%;
+  display: block;
+  font-weight: 700;
+}
+.login-wrapper mat-card-header mat-card-title {
+  font-size: 30px;
+  margin: 0;
+}
+.login-wrapper .mat-card {
+  padding: 40px 70px 50px;
+}
+.login-wrapper .mat-stroked-button {
+  border: 1px solid currentColor;
+  line-height: 54px;
+  background: #FFF7FA;
+}
+.login-wrapper .mat-form-field-appearance-legacy .mat-form-field-infix {
+  padding: 0.8375em 0;
 }
