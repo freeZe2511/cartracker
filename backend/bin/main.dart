@@ -24,7 +24,7 @@ void main() async {
   final _secret = "super secret key";
 
   // false for localhost dev
-  bool prod = true;
+  bool prod = false;
 
   final _handler = Pipeline()
       .addMiddleware(corsHeaders(headers: overrideHeaders))

@@ -1,5 +1,6 @@
 import 'package:cartracker_app/custom/drawer.dart';
 import 'package:cartracker_app/screens/home_screen.dart';
+import 'package:cartracker_app/screens/info_screen.dart';
 import 'package:cartracker_app/screens/login_screen.dart';
 import 'package:cartracker_app/screens/map_screen.dart';
 import 'package:cartracker_app/screens/settings_screen.dart';
@@ -63,6 +64,21 @@ void main() {
       final titleFinder = find.text("Map");
       expect(titleFinder, findsOneWidget);
     });
+  });
+
+  group('InfoScreen', () {
+    testWidgets('Init', (WidgetTester tester) async {
+      await tester.pumpWidget(MaterialApp(home: InfoScreen()));
+      final titleFinder = find.text("Info");
+      expect(titleFinder, findsOneWidget);
+    });
+
+    testWidgets('ZoneList', (WidgetTester tester) async {
+      await tester.pumpWidget(MaterialApp(home: InfoScreen()));
+      final titleFinder = find.text("Info");
+      expect(titleFinder, findsOneWidget);
+    });
+
   });
 
   group('SettingsScreen', () {

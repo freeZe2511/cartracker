@@ -9,7 +9,7 @@ import 'package:vector_math/vector_math.dart';
 
 class HttpService {
   // http for debugging else https
-  String url = 'http://tim-eggers.de:9090';
+  String url = 'https://tim-eggers.de:9090';
 
   Future<bool> logIn(String username, String password) async {
     bool authorized = false;
@@ -86,7 +86,7 @@ class HttpService {
       'inZone': inZone,
       'speed': speed,
       'isMoving': isMoving
-    }; // TODO more data in body like inZone
+    };
 
     http.Response res = await http.post(
       uri,

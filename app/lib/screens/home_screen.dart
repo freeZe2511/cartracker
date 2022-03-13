@@ -156,19 +156,7 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: Text("Home"),
       ),
-      body: Center(
-        child: Column(
-          children: [
-            Text("User: " + userid),
-            // TODO bug???
-            if(zoneList.isNotEmpty) Text("Zone: " + zoneList[1]),
-            if(zoneList.isNotEmpty && zoneList[1] != "None") Text("Radius: " + zoneList[2] + "m"),
-            if(zoneList.isNotEmpty && zoneList.length > 3) Text("Center: " + zoneList[3] + " " + zoneList[4]),
-            Text("GPS sent: $counter"),
-            Text(_content)
-          ],
-        ),
-      ),
+      body: Text(_content),
       drawer: CustomDrawer(),
       floatingActionButton: FloatingActionButton(
         onPressed: _onClickGetCurrentPosition,
@@ -182,6 +170,12 @@ class _HomeScreenState extends State<HomeScreen> {
           data: IconThemeData(color: Theme.of(context).colorScheme.onPrimary),
           child: Row(
             children: [
+              Card(
+                child: Padding(
+                  padding: EdgeInsets.all(3.0),
+                  child: Text('GPS: ' + counter.toString()),
+                ),
+              ),
               Spacer(),
               Text(
                 "Tracking",

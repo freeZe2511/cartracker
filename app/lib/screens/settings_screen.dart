@@ -90,7 +90,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
     String inputType = setting['inputType'];
     print('[buildField] - $name: $inputType');
     Widget field;
-    print(_state);
     switch (inputType) {
       case INPUT_TYPE_SELECT:
         field = _buildSelectField(setting);
