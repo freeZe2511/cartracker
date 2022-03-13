@@ -1,4 +1,4 @@
-# cartracker_app
+# cartracker_App
 
 ### Die App sendet GPS-Daten an das Backend, um eine Verfolgung des mobilen Geräts zu ermöglichen
 
@@ -17,21 +17,16 @@ Hier kann man sich einloggen, nachdem der Admin den User registriert hat.
 
 Nach dem Login wird man auf die Startseite geleitet(Bild 2).
 
-[comment]: <> (![App-Startseite]&#40;../pictures/Screenshot%20App%201.1.jpeg&#41;)
-
-Hier kann man seine Koordinaten und weitere Details wie aktuelle Geschiwndigkeit,
+Hier kann man seine Koordinaten und weitere Details wie aktuelle Geschwindigkeit,
 Genauigkeiten, Höhenlage etc. einsehen. Unten rechts kann man das GPS-tracking
-ein- und ausschalten. Unten links sieht man, wieviele Standorte bereits gesendet wurden.
+ein- und ausschalten. Unten links sieht man, wie viele Standorte bereits gesendet wurden.
 Mithilfe des roten Knopfes kann man manuell einen Standort senden.
 
 Mithilfe der Sidebar (drei Striche oben links) kann man zu weiteren Seiten navigieren (Bild 3).
-
-[comment]: <> (![App-Sidebar]&#40;../pictures/Screenshot%20App%202.1.jpeg&#41;)
 
 Die Map zeigt einfach eine Karte. In den Settings kann man die App final ausschalten,
 da sie beim normalen Schließen im Hintergrund weiterläuft.
 
 Im Info Bereich sieht man seine User-ID und die Zone in die man zugewiesen wurde (Bild 4).
 
-[comment]: <> (![App-Info]&#40;../pictures/Screenshot%20App%204.1.jpeg&#41;)
 
