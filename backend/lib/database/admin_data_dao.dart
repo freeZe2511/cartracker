@@ -19,7 +19,7 @@ class AdminDataDao {
             }),
             Limit(1)
           ],
-          as: "latestPos",
+          as: "latestPositions",
         ))
         .addStage(Project({"token": 0}))
         .build();

@@ -1,0 +1,99 @@
+<h1 mat-dialog-title *ngIf="data.mode === 'User'">
+  {{data.action}} User
+</h1>
+
+<h1 mat-dialog-title *ngIf="data.mode === 'Zone'">
+  {{data.action}} Zone
+</h1>
+
+
+<div mat-dialog-content>
+
+  <div class="confirmDialog" *ngIf="data.mode === 'Confirm'">
+    <h4>Are you sure?</h4>
+  </div>
+
+  <div *ngIf="data.mode === 'User' && data.action === 'Create'">
+    <mat-form-field appearance="fill">
+      <mat-label>Name</mat-label>
+      <input matInput #inputName maxlength="20" [(ngModel)]="data.result[0]">
+      <mat-hint align="end">{{inputName.value.length}} / 20</mat-hint>
+    </mat-form-field>
+    <br>
+    <mat-form-field appearance="fill">
+      <mat-label>Password</mat-label>
+      <input matInput #inputPW maxlength="20" [type]="data.extras[1] ? 'password' : 'text'" [(ngModel)]="data.result[1]">
+      <mat-hint align="end">{{inputPW.value.length}} / 20</mat-hint>
+      <button mat-icon-button matSuffix (click)="data.extras[1] = !data.extras[1]" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="data.extras[1]">
+        <mat-icon>{{data.extras[1] ? 'visibility_off' : 'visibility'}}</mat-icon>
+      </button>
+    </mat-form-field>
+    <br>
+    <mat-form-field appearance="fill">
+      <mat-label>Zone</mat-label>
+      <mat-select [(ngModel)]="data.result[2]">
+        <mat-option *ngFor="let zone of data.extras[0]" value="{{zone.id}}">{{zone.name}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div *ngIf="data.mode === 'User' && data.action === 'Update'">
+    <mat-form-field appearance="fill">
+      <mat-label>Name</mat-label>
+      <input matInput #inputName maxlength="20" [(ngModel)]="data.result[0]">
+      <mat-hint align="end">{{inputName.value.length}} / 20</mat-hint>
+    </mat-form-field>
+    <br>
+    <mat-form-field appearance="fill">
+      <mat-label>Password</mat-label>
+      <input matInput #inputPW maxlength="20" [type]="data.extras[1] ? 'password' : 'text'" [(ngModel)]="data.result[1]">
+      <mat-hint align="end">{{inputPW.value.length}} / 20</mat-hint>
+      <button mat-icon-button matSuffix (click)="data.extras[1] = !data.extras[1]" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="data.extras[1]">
+        <mat-icon>{{data.extras[1] ? 'visibility_off' : 'visibility'}}</mat-icon>
+      </button>
+    </mat-form-field>
+    <br>
+    <mat-form-field appearance="fill">
+      <mat-label>Zone</mat-label>
+      <mat-select [(ngModel)]="data.result[2]">
+        <mat-option *ngFor="let zone of data.extras[0]" value="{{zone.id}}">{{zone.name}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div *ngIf="data.mode === 'User' && data.action === 'Delete'">
+    <p>Are you sure?</p>
+  </div>
+
+  <div *ngIf="data.mode == 'Zone' && data.action == 'Create'">
+    <mat-radio-group class="radio-group" aria-label="Select an Type" [(ngModel)]="data.result[0]">
+      <mat-radio-button class="radio-button" value="circle" >Circle</mat-radio-button>
+      <mat-radio-button class="radio-button" value="poly">Poly</mat-radio-button>
+    </mat-radio-group>
+  </div>
+
+
+  <div *ngIf="data.mode === 'Zone' && data.action === 'Update'">
+    <mat-form-field appearance="fill">
+      <mat-label>Name</mat-label>
+      <input matInput #inputName maxlength="20" [(ngModel)]="data.result[0]">
+      <mat-hint align="end">{{inputName.value.length}} / 20</mat-hint>
+    </mat-form-field>
+    <br>
+    <mat-form-field appearance="fill" *ngIf="data.extras[0].radius > 0">
+      <mat-label>Radius</mat-label>
+      <input type="number" min="0.1" matInput [(ngModel)]="data.result[1]">
+    </mat-form-field>
+  </div>
+
+  <div *ngIf="data.mode === 'Zone' && data.action === 'Delete'">
+    <p>Are you sure?</p>
+  </div>
+
+</div>
+
+<div mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close [mat-dialog-close]="undefined">Cancel</button>
+  <button mat-button class="actionBtn" [mat-dialog-close]="data.result" *ngIf="data.action !== 'Delete'" cdkFocusInitial>{{data.action}}</button>
+  <button mat-button class="confirmBtn" [mat-dialog-close]="true" *ngIf="data.action === 'Delete' || data.mode === 'Confirm'" cdkFocusInitial>{{data.action}}</button>
+</div>

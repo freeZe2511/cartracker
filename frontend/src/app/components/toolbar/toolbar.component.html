@@ -1,0 +1,35 @@
+<div class="container">
+  <mat-toolbar color="primary" *ngIf="this.authService.isLoggedIn">
+    <span class="title">cartracker</span>
+    <button mat-icon-button class="icon" aria-label="Map Button" routerLink="/map">
+      <mat-icon>map</mat-icon>
+    </button>
+    <span routerLink="/map">Map</span>
+    <button mat-icon-button class="icon" aria-label="Users Button" routerLink="/users">
+      <mat-icon>supervisor_account</mat-icon>
+    </button>
+    <span routerLink="/users">Users</span>
+    <button mat-icon-button class="icon" aria-label="Zones Button" routerLink="/zones">
+      <mat-icon>explore</mat-icon>
+    </button>
+    <span routerLink="/zones">Zones</span>
+    <button mat-icon-button class="icon" aria-label="Stats Button" routerLink="/stats">
+      <mat-icon>bar_chart_icon</mat-icon>
+    </button>
+    <span routerLink="/stats">Stats</span>
+    <span class="spacer"></span>
+    <button mat-icon-button class="icon" aria-label="Help Button" routerLink="/help">
+      <mat-icon>help</mat-icon>
+    </button>
+    <button mat-icon-button class="icon" aria-label="Log out Button" (click)="this.logOut()">
+      <mat-icon>logout</mat-icon>
+    </button>
+  </mat-toolbar>
+  <mat-toolbar color="primary" *ngIf="!this.authService.isLoggedIn">
+    <span class="title">cartracker</span>
+    <span class="spacer"></span>
+    <button mat-icon-button class="icon" aria-label="Help Button" routerLink="/help">
+      <mat-icon>help</mat-icon>
+    </button>
+  </mat-toolbar>
+</div>
