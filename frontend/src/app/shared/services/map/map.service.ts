@@ -271,7 +271,7 @@ export class MapService {
     const pos = user.latestPositions![0];
     if(this.showDetails){
       let speed = pos.speed < 0 ? 0 : pos.speed * 3.6
-      return "<strong>" + user.username + "</strong>" + "<br>" + pos.lat + ', ' + pos.lng + "<br>" + speed + "km/h";
+      return "<strong>" + user.username + "</strong>" + "<br>" + pos.lat + ', ' + pos.lng + "<br>" + speed.toFixed(2) + "km/h";
     } else {
       return "<strong>" + user.username + "</strong>";
     }
@@ -292,6 +292,7 @@ export class MapService {
     this.routeMin = 0;
     this.route = [];
     this.expanded = -1;
+    // this.showZonesBool = false;
     this.follows.forEach((v, k, m) => m.set(k, false));
     this.showZoneUser.forEach((v, k, m) => m.set(k, false));
     this.showRoute.forEach((v, k, m) => m.set(k, false));

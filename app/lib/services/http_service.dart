@@ -9,8 +9,7 @@ import 'package:vector_math/vector_math.dart';
 import 'package:maps_toolkit/maps_toolkit.dart';
 
 class HttpService {
-  // http for debugging else https
-  String url = 'http://tim-eggers.de:9090';
+  String url = 'https://tim-eggers.de:9090';
 
   Future<bool> logIn(String username, String password) async {
     bool authorized = false;
