@@ -19,7 +19,7 @@ Im Backend werden alle Komponenten vernetzt und die Daten mit der Datenbank
 synchronisiert. Das Frontend ruft alle benötigten Daten aus dem Backend 
 für den Admin ab.
 
-![Kommunikationsdiagramm](Kommunikationsdiagramm%20SWTP.png)
+![Kommunikationsdiagramm](pictures/Kommunikationsdiagramm%20SWTP.png)
 
 Umgesetzt wurde dieses Projekt mithilfe folgender Tools und Sprachen:
 - Frontend: Angular JS
