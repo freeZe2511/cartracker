@@ -1,11 +1,11 @@
 # cartracker_app
 
-###Die App sendet GPS-Daten an das Backend, um eine Verfolgung des mobilen Geräts zu ermöglichen
+### Die App sendet GPS-Daten an das Backend, um eine Verfolgung des mobilen Geräts zu ermöglichen
 
-####Bedienungshinweise:
+#### Bedienungshinweise:
 Der Login Screen der App sieht folgendermaßen aus:
 
-<img src="../pictures/Screenshot%20App%203.jpeg" alt="App-Login" width="500"/>
+<img src="../pictures/Screenshot%20App%203.jpeg" alt="App-Login" width="100"/>
 
 ![App-Login](../pictures/Screenshot%20App%203.1.jpeg)
 
