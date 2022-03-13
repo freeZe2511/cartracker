@@ -9,7 +9,8 @@
     "test": "ng test",
     "lint": "ng lint",
     "lint:fix": "ng lint --fix",
-    "deploy": "ng deploy --base-href /cartracker/"
+    "deploy": "ng deploy --base-href /cartracker/",
+    "e2ec": "cypress open"
   },
   "private": true,
   "dependencies": {
@@ -51,6 +52,7 @@
     "@typescript-eslint/eslint-plugin": "5.11.0",
     "@typescript-eslint/parser": "5.11.0",
     "angular-cli-ghpages": "^1.0.0",
+    "cypress": "^9.5.1",
     "eslint": "^8.2.0",
     "jasmine-core": "~4.0.0",
     "karma": "~6.3.0",
