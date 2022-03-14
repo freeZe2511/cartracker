@@ -5,11 +5,11 @@ describe('cartracker', () => {
   const cypressTestInputUsername1 = 'aCypressB';
   const cypressTestInputPassword1 = 'acPasswordB';
   const cypressTestInputZoneName1 = 'acZNameB';
-  const cypressTestInputZoneRadius1 = '10';
+  const cypressTestInputZoneRadius1 = '20';
   const cypressTestInputUsername2 = 'aCypressA';
   const cypressTestInputPassword2 = 'acPasswordA';
   const cypressTestInputZoneName2 = 'acZNameA';
-  const cypressTestInputZoneRadius2 = '50';
+  const cypressTestInputZoneRadius2 = '10';
 
   beforeEach(() => {
     cy.visit('http://localhost:4200/login');
@@ -28,7 +28,6 @@ describe('cartracker', () => {
     cy.contains('Log in');
   });
 
-  /*
   it('should log in', () => {
     cy.visit('http://localhost:4200/login');
     cy.get('#mat-input-0').type(username);
@@ -39,9 +38,7 @@ describe('cartracker', () => {
       return false
     });
     cy.url().should('contain', '/map');
-    cy.wait(1000);
   });
-   */
 
   it('should navigate to user screen', () => {
     cy.get('span:nth-child(5)').click();
@@ -116,26 +113,27 @@ describe('cartracker', () => {
     cy.contains('Radius (in km)');
   });
 
-  it('should create zone', () => {
+  it('should create circle zone', () => {
     cy.get('span:nth-child(7)').click();
     cy.contains('library_add').click();
     cy.get('*[class="mat-radio-inner-circle"]').first().click();
     cy.contains(/^Create$/).click();
     cy.get('#map').click().click(500,500);
-    cy.get('input[type="number"]').last().type('50').trigger('change');
+    cy.get('input[type="number"]').last().type('20').trigger('change');
     cy.get('input[type="text"]').first().type(cypressTestInputZoneName2);
     cy.contains('check').click();
     cy.get('span:nth-child(7)').click();
     cy.contains(cypressTestInputZoneName2);
   });
 
-  it('should zoom at zone', () => {
+  it('should zoom at circle zone', () => {
     cy.get('span:nth-child(7)').click();
+    cy.contains('Name').click().click();
     cy.contains('open_in_new').click();
     cy.contains('Add CircleZone');
   })
 
-  it('should edit zone', () => {
+  it('should edit circle zone', () => {
     cy.get('span:nth-child(7)').click();
     cy.contains('Name').click().click();
     cy.contains('edit').click();
@@ -147,7 +145,35 @@ describe('cartracker', () => {
     cy.contains(cypressTestInputZoneName1);
   });
 
-  it('should delete zone', () => {
+  it('should delete circle zone', () => {
+    cy.get('span:nth-child(7)').click();
+    cy.contains('Name').click().click();
+    cy.contains('delete_outline').click();
+    cy.contains(/^Delete$/).click();
+    cy.contains(cypressTestInputZoneName1).should('not.exist');
+  });
+
+  it('should create polygon zone', () => {
+    cy.get('span:nth-child(7)').click();
+    cy.contains('library_add').click();
+    cy.get('*[class="mat-radio-inner-circle"]').last().click();
+    cy.contains(/^Create$/).click();
+    cy.get('#map').click().click(250,250).click(500,250).click(250,500);
+    cy.get('input[type="text"]').last().type(cypressTestInputZoneName2);
+    cy.get('mat-icon[class="mat-icon notranslate material-icons mat-icon-no-color"]').last().click();
+    // cy.contains('check').last().click();
+    cy.get('span:nth-child(7)').click();
+    cy.contains(cypressTestInputZoneName2);
+  });
+
+  it('should zoom at polygon zone', () => {
+    cy.get('span:nth-child(7)').click();
+    cy.contains('Name').click().click();
+    cy.contains('open_in_new').click();
+    cy.contains('Add CircleZone');
+  })
+
+  it('should delete polygon zone', () => {
     cy.get('span:nth-child(7)').click();
     cy.contains('Name').click().click();
     cy.contains('delete_outline').click();
