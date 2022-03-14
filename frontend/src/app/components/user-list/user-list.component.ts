@@ -28,17 +28,27 @@ export class UserListComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private timeInterval!: Subscription;
-  hide = true;
+  public hide = true;
+  public showPasswords: Map<string, boolean> = new Map();
 
+  /**
+   * List of displayed columns from MatTable
+   */
   displayedColumns: string[] = ['id', 'username', 'password', 'zone', 'status', 'position', 'created', 'actions'];
   dataSource = new MatTableDataSource(this.userService.users);
 
+  /**
+   * Init Users and call update loop
+   */
   ngOnInit(): void {
     // this.mapService.initZones();
     this.initUsers();
     this.updateUsers();
   }
 
+  /**
+   * Unsubscribe from update loop after destruction
+   */
   ngOnDestroy(): void {
     if (this.timeInterval) {
       this.timeInterval.unsubscribe();
@@ -50,6 +60,9 @@ export class UserListComponent implements OnInit, OnDestroy, AfterViewInit {
     this.dataSource.sort = this.sort;
   }
 
+  /**
+   * Initial subscription to get Users for Table
+   */
   initUsers() {
     this.userService.getUsersList().subscribe({
       next: (res: any) => {
@@ -61,6 +74,9 @@ export class UserListComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
+  /**
+   * Updating subscription loop to get updated data for Table
+   */
   updateUsers() {
     this.timeInterval = interval(1000).pipe(
       switchMap(() => this.userService.getUsersList()),
@@ -75,6 +91,10 @@ export class UserListComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
+  /**
+   * Returns status string based on last position data
+   * @param user
+   */
   returnStatus(user: User) {
     if(user.latestPositions != undefined && user.latestPositions![0] != undefined) {
       return user.latestPositions![0].isMoving ? "Active" : "Inactive"
@@ -83,6 +103,10 @@ export class UserListComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
+  /**
+   * Returns status color based on last position data
+   * @param user
+   */
   returnStatusColor(user: User){
     if(user.latestPositions != undefined && user.latestPositions![0] != undefined) {
       return user.latestPositions[0].isMoving ? "#67ce00" : "#ff0000"
@@ -91,6 +115,10 @@ export class UserListComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
+  /**
+   * Returns position string based on last position data
+   * @param user
+   */
   returnPos(user: User) {
     if(user.latestPositions != undefined && user.latestPositions![0] != undefined) {
       let lat = user.latestPositions[0].lat;
@@ -101,6 +129,10 @@ export class UserListComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
+  /**
+   * Returns zone color based on last position data
+   * @param user
+   */
   returnZoneColor(user: User){
     if(user.latestPositions != undefined && user.latestPositions![0] != undefined) {
       return user.latestPositions[0].inZone ? "#67ce00" : "#ff0000"
@@ -110,7 +142,10 @@ export class UserListComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
 
-
+  /**
+   * Opens dialog to fill in new user data and calls userService to create user
+   * @param user
+   */
   add() {
     const dialogRef = this.dialog.open(DialogComponent, {
       data: {
@@ -136,10 +171,18 @@ export class UserListComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
+  /**
+   * Centers user on map to follow
+   * @param user
+   */
   centerOnUser(user: User) {
     this.router.navigate(['map']).then(() => this.mapService.setFollows(user));
   }
 
+  /**
+   * Opens dialog to edit user data and calls userService to edit user
+   * @param user
+   */
   edit(user: User) {
     const dialogRef = this.dialog.open(DialogComponent, {
       data: {
@@ -164,6 +207,10 @@ export class UserListComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
+  /**
+   * Opens dialog to delete user and calls userService to delete user
+   * @param user
+   */
   delete(user: User) {
     const dialogRef = this.dialog.open(DialogComponent, {
       data: {
@@ -181,8 +228,10 @@ export class UserListComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  showPasswords: Map<string, boolean> = new Map();
-
+  /**
+   * Toggles password visibility of user
+   * @param user
+   */
   hidePassword(user: User){
     let res = this.showPasswords.get(user.id);
     if(res == null) {

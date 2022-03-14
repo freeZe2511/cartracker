@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import * as L from 'leaflet';
 import {MapService} from "../../shared/services/map/map.service";
 import {User} from "../../shared/models/user";
@@ -18,6 +18,9 @@ export class MapComponent implements OnInit, OnDestroy {
   constructor(public mapService: MapService) {
   }
 
+  /**
+   * Init users, zones, map with MapService
+   */
   ngOnInit(): void {
     this.initMap();
     this.mapService.initMap(this.map);
@@ -26,6 +29,9 @@ export class MapComponent implements OnInit, OnDestroy {
     this.zones = this.mapService.zones;
   }
 
+  /**
+   * Reset Data on component destruction
+   */
   ngOnDestroy() {
     this.users = [];
     this.zones = [];
@@ -44,11 +50,14 @@ export class MapComponent implements OnInit, OnDestroy {
     this.mapService.addPolyZoneLine?.removeFrom(this.map);
     this.mapService.addPolyZoneName = undefined;
 
-    if(this.mapService.timeInterval) {
+    if (this.mapService.timeInterval) {
       this.mapService.timeInterval.unsubscribe();
     }
   }
 
+  /**
+   * Init Leaflet Map with OSM as base layer
+   */
   public initMap(): void {
     const options = {
       zoom: 10,

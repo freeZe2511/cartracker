@@ -9,13 +9,21 @@ import {AlertService} from "../../shared/services/alert/alert.service";
 })
 export class LoginComponent implements OnInit {
 
-  hide = true;
+  /**
+   * bool if password is visible
+   */
+  public hide = true;
 
   constructor(private authService: AuthService, private alertService: AlertService) { }
 
   ngOnInit(): void {
   }
 
+  /**
+   * Pass login data to AuthService
+   * @param username
+   * @param password
+   */
   logIn(username: string, password: string): void {
     // TODO
     if(username != "" && password != ""){

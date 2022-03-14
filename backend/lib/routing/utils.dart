@@ -3,6 +3,9 @@ import 'dart:io';
 import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 import 'package:shelf/shelf.dart';
 
+/// Middleware to handle authentication based on Bearer Token in Request
+///
+/// If valid Token (JWT), request is marked as valid
 Middleware handleAuth(String secret) {
   return (Handler innerHandler) {
     return (Request request) async {
@@ -24,6 +27,7 @@ Middleware handleAuth(String secret) {
   };
 }
 
+/// Middleware to check authentication by marked request
 Middleware checkAuth() {
   return createMiddleware(
     requestHandler: (Request request) {
@@ -35,6 +39,7 @@ Middleware checkAuth() {
   );
 }
 
+/// SecurityContext to enable https protocol
 // Certificate (HTTPS) for educational purposes implemented like this
 SecurityContext getSecurityContext() { // Bind with a secure HTTPS connection
   final chain = Platform.script.resolve('../certificates/server_chain.pem').toFilePath();
