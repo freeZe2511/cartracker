@@ -51,6 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.dispose();
   }
 
+  /// Get stored userid and zoneList from sharedPreferences
   _init() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -59,11 +60,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   }
 
-
+  /// Init GPS background location
   void _initPlatformState() {
     // 1.  Listen to events (See docs for all 12 available events).
     bg.BackgroundGeolocation.onLocation(_onLocation, _onLocationError);
-    // bg.BackgroundGeolocation.onMotionChange(_onMotionChange);
 
     bg.BackgroundGeolocation.ready(bg.Config(
       desiredAccuracy: bg.Config.DESIRED_ACCURACY_HIGH,
@@ -82,6 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  /// Start/ Stop GPS background location
   void _onClickEnable(enabled) {
     if (enabled) {
       // Reset odometer.
@@ -104,7 +105,7 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  // Manually fetch the current position.
+  /// Manually fetch the current position
   void _onClickGetCurrentPosition() {
     bg.BackgroundGeolocation.getCurrentPosition(
             persist: true, // <-- do persist this location
@@ -117,6 +118,7 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  /// Handler when location detected
   void _onLocation(bg.Location location) {
     print('[location] - $location');
 
@@ -130,21 +132,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   }
 
+  /// Handler when location error detected
   void _onLocationError(bg.LocationError error) {
     print('[location] ERROR - $error');
   }
-
-  // void _onMotionChange(bg.Location location) {
-  //   print('[motionchange] - $location');
-  //
-  //   if(mounted){
-  //     setState(() {
-  //       _content = encoder.convert(location.toMap());
-  //       counter += 1;
-  //     });
-  //   }
-  //   httpService.postPosition(location);
-  // }
 
   @override
   Widget build(BuildContext context) {

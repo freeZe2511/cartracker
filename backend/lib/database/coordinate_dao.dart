@@ -11,7 +11,7 @@ class CoordinateDao {
     await Database.db.collection(_collection).insert(c.toJson());
   }
 
-  ///
+  /// Read specific amount of coordinates from user (by limit)
   static Future<List<Coordinate>> readMany(String id, int limit) async {
     return Database.db
         .collection(_collection)
@@ -20,6 +20,7 @@ class CoordinateDao {
         .toList();
   }
 
+  /// Read route from user until specific time
   static Future<List<Coordinate>> readRoute(
       String id, int timeInHours, int timeInMinutes) async {
     DateTime timestamp = DateTime.now()
@@ -38,6 +39,7 @@ class CoordinateDao {
         .toList();
   }
 
+  /// Read all Coordinates in database
   static Future<List<Coordinate>> readAll() async {
     return Database.db
         .collection(_collection)
@@ -46,12 +48,13 @@ class CoordinateDao {
         .toList();
   }
 
+  /// Delete all coordinates from specific user (by id)
   static Future<void> delete(String id) async {
-    //return coord?
     await Database.db.collection(_collection).remove(where.eq('id', id));
   }
 }
 
+/// Coordinate class with JSON en/decoding
 class Coordinate {
   final String id;
   final double lat;

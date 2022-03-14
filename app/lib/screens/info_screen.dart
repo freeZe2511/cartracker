@@ -19,6 +19,7 @@ class _InfoScreenState extends State<InfoScreen> {
   String zonePos = "";
   String zonePosAmount = "";
 
+  /// Get userid and zone from sharedPreferences
   _init() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
