@@ -6,10 +6,12 @@ class CoordinateDao {
 
   CoordinateDao._();
 
+  /// Insert coordinate into database
   static Future<void> create(Coordinate c) async {
     await Database.db.collection(_collection).insert(c.toJson());
   }
 
+  ///
   static Future<List<Coordinate>> readMany(String id, int limit) async {
     return Database.db
         .collection(_collection)

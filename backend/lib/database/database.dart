@@ -1,20 +1,20 @@
 import 'package:mongo_dart/mongo_dart.dart';
+import 'package:cartracker_backend/config.dart';
 
 /// MongoDB Database initialization
 class Database {
-  static const String host = "mongodb";
-  static const String port = "27017";
-  static const String dbName = "cartracker";
   static late Db db;
-  static const String userName = "myuserAdmin";
-  static const String password = "admin123";
-
 
   static Future<void> init() async {
-    db = Db("mongodb://$host:$port/$dbName");
+    var host = Config.config["host"];
+    var port = Config.config["port"];
+    var dbName = Config.config["dbName"];
+    var userName = Config.config["userName"];
+    var password = Config.config["password"];
+
+    db = Db("mongodb://$host:$port/$dbName?authSource=$dbName");
     await db.open();
-    // TODO
-    // await db.authenticate(userName, password);
+    await db.authenticate(userName!, password!);
 
   }
 }
