@@ -1,0 +1,851 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>cartracker-frontend documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">cartracker-frontend documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li>Components</li>
+  <li
+  >
+  MapComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li >
+            <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li >
+            <a href="#styleData" role="tab" id="styleData-tab" data-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li >
+            <a href="#tree" role="tab" id="tree-tab" data-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/components/map/map.component.ts</code>
+</p>
+
+
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+                    <code><a href="https://angular.io/api/core/OnDestroy" target="_blank" >OnDestroy</a></code>
+    </p>
+
+
+<section>
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-map</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./map.component.css</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./map.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#map" >map</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#mapService" >mapService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#users" >users</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#zones" >zones</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#initMap" >initMap</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnDestroy" >ngOnDestroy</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit" >ngOnInit</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(mapService: <a href="../injectables/MapService.html" target="_self">MapService</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">src/app/components/map/map.component.ts:16</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>mapService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/MapService.html" target="_self" >MapService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+
+
+    <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="initMap"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span ><b>initMap</b></span>
+                        <a href="#initMap"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>initMap()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="61"
+                            class="link-to-prism">src/app/components/map/map.component.ts:61</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Init Leaflet Map with OSM as base layer</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnDestroy"></a>
+                    <span class="name">
+                        <span ><b>ngOnDestroy</b></span>
+                        <a href="#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnDestroy()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="35"
+                            class="link-to-prism">src/app/components/map/map.component.ts:35</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Reset Data on component destruction</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <span ><b>ngOnInit</b></span>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="24"
+                            class="link-to-prism">src/app/components/map/map.component.ts:24</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Init users, zones, map with MapService</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section>
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="map"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>map</b></span>
+                        <a href="#map"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>L.Map</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">src/app/components/map/map.component.ts:14</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="mapService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>mapService</b></span>
+                        <a href="#mapService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/MapService.html" target="_self" >MapService</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">src/app/components/map/map.component.ts:18</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="users"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>users</b></span>
+                        <a href="#users"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/User.html" target="_self" >User[]</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">src/app/components/map/map.component.ts:15</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="zones"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>zones</b></span>
+                        <a href="#zones"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/Zone.html" target="_self" >Zone[]</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">src/app/components/map/map.component.ts:16</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Component, OnDestroy, OnInit, ViewChild} from &#x27;@angular/core&#x27;;
+import * as L from &#x27;leaflet&#x27;;
+import {MapService} from &quot;../../shared/services/map/map.service&quot;;
+import {User} from &quot;../../shared/models/user&quot;;
+import {Zone} from &quot;../../shared/models/zone&quot;;
+
+@Component({
+  selector: &#x27;app-map&#x27;,
+  templateUrl: &#x27;./map.component.html&#x27;,
+  styleUrls: [&#x27;./map.component.css&#x27;]
+})
+export class MapComponent implements OnInit, OnDestroy {
+
+  public map!: L.Map;
+  public users!: User[];
+  public zones!: Zone[];
+
+  constructor(public mapService: MapService) {
+  }
+
+  /**
+   * Init users, zones, map with MapService
+   */
+  ngOnInit(): void {
+    this.initMap();
+    this.mapService.initMap(this.map);
+    this.mapService.updateUserMarkers();
+    this.users &#x3D; this.mapService.users;
+    this.zones &#x3D; this.mapService.zones;
+  }
+
+  /**
+   * Reset Data on component destruction
+   */
+  ngOnDestroy() {
+    this.users &#x3D; [];
+    this.zones &#x3D; [];
+    this.mapService.showZonesBool &#x3D; false;
+    this.mapService.addCircleZone &#x3D; false;
+    this.mapService.addPolyZone &#x3D; false;
+    this.mapService.addCircleZoneRadius &#x3D; undefined;
+    this.mapService.addCircleZoneName &#x3D; undefined;
+    this.mapService.addPolyZonePoints &#x3D; [];
+
+    this.mapService.addPolyZoneLine?.setLatLngs([]);
+    this.mapService.addPolyZonePoints.forEach((v, k, m) &#x3D;&gt; {
+      v.removeFrom(this.map)
+    });
+    this.mapService.addPolyZonePoints &#x3D; [];
+    this.mapService.addPolyZoneLine?.removeFrom(this.map);
+    this.mapService.addPolyZoneName &#x3D; undefined;
+
+    if(this.mapService.timeInterval) {
+      this.mapService.timeInterval.unsubscribe();
+    }
+  }
+
+  /**
+   * Init Leaflet Map with OSM as base layer
+   */
+  public initMap(): void {
+    const options &#x3D; {
+      zoom: 10,
+      center: L.latLng([50.5, 8.65])
+    };
+
+    this.map &#x3D; L.map(&#x27;map&#x27;, options);
+
+    const tiles &#x3D; L.tileLayer(&#x27;https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png&#x27;, {
+      maxZoom: 18,
+      minZoom: 3,
+      attribution: &#x27;&amp;copy; &lt;a href&#x3D;&quot;http://www.openstreetmap.org/copyright&quot;&gt;OpenStreetMap&lt;/a&gt;&#x27;
+    }).addTo(this.map);
+  }
+
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;app-toolbar&gt;&lt;/app-toolbar&gt;
+&lt;div class&#x3D;&quot;control-container&quot;&gt;
+  &lt;div class&#x3D;&quot;control-frame&quot;&gt;
+    &lt;div id&#x3D;&quot;control&quot;&gt;
+      &lt;mat-tab-group mat-stretch-tabs class&#x3D;&quot;stretched-tabs mat-elevation-z4&quot;
+                     (selectedTabChange)&#x3D;&quot;this.mapService.resetDataMaps(&#x27;u&#x27;)&quot;&gt;
+        &lt;mat-tab label&#x3D;&quot;Users&quot;&gt;
+          &lt;cdk-virtual-scroll-viewport itemSize&#x3D;&quot;50&quot; class&#x3D;&quot;viewport&quot;&gt;
+            &lt;mat-accordion&gt;
+              &lt;mat-expansion-panel *ngFor&#x3D;&quot;let user of this.users, let i &#x3D; index&quot;
+                                   (closed)&#x3D;&quot;this.mapService.resetDataMaps(&#x27;u&#x27;)&quot;
+                                   [expanded]&#x3D;&quot;this.mapService.expanded &#x3D;&#x3D;&#x3D; i&quot;&gt;
+                &lt;mat-expansion-panel-header&gt;
+                  &lt;mat-panel-title&gt;
+                    {{user.username}}
+                  &lt;/mat-panel-title&gt;
+                  &lt;mat-panel-description fxLayoutAlign&#x3D;&quot;end&quot;&gt;
+                    {{this.mapService.findZone(user.zoneid!)!.name}}
+                  &lt;/mat-panel-description&gt;
+                &lt;/mat-expansion-panel-header&gt;
+                &lt;mat-slide-toggle [ngModel]&#x3D;&quot;this.mapService.follows.get(user.id)&quot;
+                                  (ngModelChange)&#x3D;&quot;this.mapService.follows.set(user.id, $event)&quot;&gt;Follow
+                &lt;/mat-slide-toggle&gt;
+                &lt;mat-slide-toggle [ngModel]&#x3D;&quot;this.mapService.showZoneUser.get(user.id)&quot;
+                                  (ngModelChange)&#x3D;&quot;this.mapService.showUserZone(user, $event)&quot;&gt;Show Zone
+                &lt;/mat-slide-toggle&gt;
+                &lt;mat-slide-toggle [ngModel]&#x3D;&quot;this.mapService.showRoute.get(user.id)&quot;
+                                  (ngModelChange)&#x3D;&quot;this.mapService.showUserRoute(user, $event)&quot;&gt;Show Route
+                &lt;/mat-slide-toggle&gt;
+                &lt;mat-form-field appearance&#x3D;&quot;fill&quot; style&#x3D;&quot;margin-right: 5px&quot;&gt;
+                  &lt;mat-label&gt;Hours&lt;/mat-label&gt;
+                  &lt;input matInput type&#x3D;&quot;number&quot; min&#x3D;&quot;0&quot; [(ngModel)]&#x3D;&quot;this.mapService.routeHour&quot;&gt;
+                &lt;/mat-form-field&gt;
+                &lt;mat-form-field appearance&#x3D;&quot;fill&quot;&gt;
+                  &lt;mat-label&gt;Minutes&lt;/mat-label&gt;
+                  &lt;input matInput type&#x3D;&quot;number&quot; min&#x3D;&quot;0&quot; max&#x3D;&quot;59&quot; [(ngModel)]&#x3D;&quot;this.mapService.routeMin&quot;&gt;
+                &lt;/mat-form-field&gt;
+              &lt;/mat-expansion-panel&gt;
+            &lt;/mat-accordion&gt;
+          &lt;/cdk-virtual-scroll-viewport&gt;
+        &lt;/mat-tab&gt;
+        &lt;mat-tab label&#x3D;&quot;Zones&quot;&gt;
+          &lt;cdk-virtual-scroll-viewport itemSize&#x3D;&quot;50&quot; class&#x3D;&quot;viewport&quot;&gt;
+            &lt;mat-accordion&gt;
+              &lt;mat-expansion-panel *ngFor&#x3D;&quot;let zone of this.zones&quot; (closed)&#x3D;&quot;this.mapService.resetDataMaps(&#x27;z&#x27;)&quot;&gt;
+                &lt;mat-expansion-panel-header *ngIf&#x3D;&quot;zone.id !&#x3D;&#x3D; &#x27;1&#x27;&quot;&gt;
+                  &lt;mat-panel-title&gt;
+                    {{zone.name}}
+                  &lt;/mat-panel-title&gt;
+                &lt;/mat-expansion-panel-header&gt;
+                &lt;mat-slide-toggle *ngIf&#x3D;&quot;zone.id !&#x3D;&#x3D; &#x27;1&#x27;&quot; [ngModel]&#x3D;&quot;this.mapService.centers.get(zone.id!)&quot;
+                                  (ngModelChange)&#x3D;&quot;this.mapService.centers.set(zone.id!, $event)&quot;&gt;Center
+                &lt;/mat-slide-toggle&gt;
+                &lt;mat-slide-toggle *ngIf&#x3D;&quot;zone.id !&#x3D;&#x3D; &#x27;1&#x27;&quot; [ngModel]&#x3D;&quot;this.mapService.showZone.get(zone.id!)&quot;
+                                  (ngModelChange)&#x3D;&quot;this.mapService.showZoneMap(zone, $event)&quot;&gt;Show Zone
+                &lt;/mat-slide-toggle&gt;
+              &lt;/mat-expansion-panel&gt;
+            &lt;/mat-accordion&gt;
+          &lt;/cdk-virtual-scroll-viewport&gt;
+        &lt;/mat-tab&gt;
+      &lt;/mat-tab-group&gt;
+
+      &lt;mat-slide-toggle [(ngModel)]&#x3D;&quot;this.mapService.showDetails&quot;&gt;Show Details&lt;/mat-slide-toggle&gt;
+      &lt;mat-slide-toggle [(ngModel)]&#x3D;&quot;this.mapService.notifications&quot;&gt;Show Notifications&lt;/mat-slide-toggle&gt;
+
+      &lt;mat-slide-toggle [ngModel]&#x3D;&quot;this.mapService.showZonesBool&quot;
+                        (ngModelChange)&#x3D;&quot;this.mapService.showAllZones($event)&quot;&gt;Show All Zones
+      &lt;/mat-slide-toggle&gt;
+
+      &lt;mat-slide-toggle [ngModel]&#x3D;&quot;this.mapService.addCircleZone&quot;
+                        (ngModelChange)&#x3D;&quot;this.mapService.toggleCircleZone($event)&quot;&gt;Add CircleZone
+      &lt;/mat-slide-toggle&gt;
+      &lt;mat-form-field appearance&#x3D;&quot;fill&quot; style&#x3D;&quot;margin-left: 5px&quot;&gt;
+        &lt;mat-label&gt;Radius&lt;/mat-label&gt;
+        &lt;input matInput type&#x3D;&quot;number&quot; min&#x3D;&quot;0.1&quot; [ngModel]&#x3D;&quot;this.mapService.addCircleZoneRadius&quot;
+               (ngModelChange)&#x3D;&quot;this.mapService.addCircleZoneRadiusCircle($event)&quot;
+               [disabled]&#x3D;&quot;!this.mapService.addCircleZone || this.mapService.addCircleZoneCenter &#x3D;&#x3D; undefined&quot;&gt;
+      &lt;/mat-form-field&gt;
+      &lt;mat-form-field appearance&#x3D;&quot;fill&quot; style&#x3D;&quot;margin-left: 5px&quot;&gt;
+        &lt;mat-label&gt;Name&lt;/mat-label&gt;
+        &lt;input matInput type&#x3D;&quot;text&quot; [(ngModel)]&#x3D;&quot;this.mapService.addCircleZoneName&quot;
+               [disabled]&#x3D;&quot;!this.mapService.addCircleZone || this.mapService.addCircleZoneCenter &#x3D;&#x3D; undefined&quot;&gt;
+      &lt;/mat-form-field&gt;
+      &lt;button mat-mini-fab color&#x3D;&quot;primary&quot; aria-label&#x3D;&quot;&quot; (click)&#x3D;&quot;this.mapService.createCircleZone()&quot;
+              [disabled]&#x3D;&quot;!this.mapService.addCircleZone || this.mapService.addCircleZoneRadius &#x3D;&#x3D; undefined || this.mapService.addCircleZoneName &#x3D;&#x3D; undefined&quot;&gt;
+        &lt;mat-icon&gt;check&lt;/mat-icon&gt;
+      &lt;/button&gt;
+      &lt;mat-slide-toggle [ngModel]&#x3D;&quot;this.mapService.addPolyZone&quot;
+                        (ngModelChange)&#x3D;&quot;this.mapService.togglePolyZone($event)&quot;&gt;Add PolyZone
+      &lt;/mat-slide-toggle&gt;
+      &lt;mat-form-field appearance&#x3D;&quot;fill&quot; style&#x3D;&quot;margin-left: 5px&quot;&gt;
+        &lt;mat-label&gt;Positions: &lt;strong&gt;{{this.mapService.addPolyZonePoints.length}}&lt;/strong&gt;&lt;/mat-label&gt;
+        &lt;input matInput type&#x3D;&quot;text&quot; disabled&gt;
+        &lt;mat-hint align&#x3D;&quot;start&quot;&gt;&lt;strong&gt;Minimum 3 for Polygon&lt;/strong&gt;&lt;/mat-hint&gt;
+      &lt;/mat-form-field&gt;
+      &lt;mat-form-field appearance&#x3D;&quot;fill&quot; style&#x3D;&quot;margin-left: 5px&quot;&gt;
+        &lt;mat-label&gt;Name&lt;/mat-label&gt;
+        &lt;input matInput type&#x3D;&quot;text&quot; [(ngModel)]&#x3D;&quot;this.mapService.addPolyZoneName&quot;
+               [disabled]&#x3D;&quot;!this.mapService.addPolyZone&quot;&gt;
+      &lt;/mat-form-field&gt;
+      &lt;button mat-mini-fab color&#x3D;&quot;primary&quot; aria-label&#x3D;&quot;&quot; (click)&#x3D;&quot;this.mapService.createPolyZone()&quot;
+              [disabled]&#x3D;&quot;!this.mapService.addPolyZone || this.mapService.addPolyZoneName &#x3D;&#x3D; undefined || this.mapService.addPolyZonePoints.length &lt; 3&quot;&gt;
+        &lt;mat-icon&gt;check&lt;/mat-icon&gt;
+      &lt;/button&gt;
+
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class&#x3D;&quot;map-container&quot;&gt;
+  &lt;div class&#x3D;&quot;map-frame&quot;&gt;
+    &lt;div id&#x3D;&quot;map&quot;&gt;&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;simple-notifications&gt;&lt;/simple-notifications&gt;
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-styleData">
+                <p class="comment">
+                    <code>./map.component.css</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">.map-container {
+  position: absolute;
+  top: 0;
+  left: 25%;
+  right: 0;
+  bottom: 0;
+  margin: 6vh 1vw 2vh 5vw;
+  border: 2px solid black;
+}
+
+.map-frame {
+  height: 100%;
+}
+
+#map {
+  height: 100%;
+}
+
+.control-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 70%;
+  bottom: 0;
+  margin: 6vh 1vw 2vh 2vw;
+  overflow-y: auto;
+  border: 2px solid black;
+}
+
+.control-frame {
+  /*border: 2px solid black;*/
+  height: 100%;
+}
+
+#control {
+  position: relative;
+  top: 0;
+  bottom: 0;
+  align-self: center;
+}
+
+.mat-slide-toggle {
+  margin: 8px 0 8px 5px;
+  display: block;
+}
+
+.viewport {
+  height: 50vh;
+  width: 100%;
+}
+
+.mat-mini-fab{
+  margin-left: 10px;
+}
+
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><app-toolbar></app-toolbar><div class="control-container">  <div class="control-frame">    <div id="control">      <mat-tab-group mat-stretch-tabs class="stretched-tabs mat-elevation-z4"                     (selectedTabChange)="this.mapService.resetDataMaps(\'u\')">        <mat-tab label="Users">          <cdk-virtual-scroll-viewport itemSize="50" class="viewport">            <mat-accordion>              <mat-expansion-panel *ngFor="let user of this.users, let i = index"                                   (closed)="this.mapService.resetDataMaps(\'u\')"                                   [expanded]="this.mapService.expanded === i">                <mat-expansion-panel-header>                  <mat-panel-title>                    {{user.username}}                  </mat-panel-title>                  <mat-panel-description fxLayoutAlign="end">                    {{this.mapService.findZone(user.zoneid!)!.name}}                  </mat-panel-description>                </mat-expansion-panel-header>                <mat-slide-toggle [ngModel]="this.mapService.follows.get(user.id)"                                  (ngModelChange)="this.mapService.follows.set(user.id, $event)">Follow                </mat-slide-toggle>                <mat-slide-toggle [ngModel]="this.mapService.showZoneUser.get(user.id)"                                  (ngModelChange)="this.mapService.showUserZone(user, $event)">Show Zone                </mat-slide-toggle>                <mat-slide-toggle [ngModel]="this.mapService.showRoute.get(user.id)"                                  (ngModelChange)="this.mapService.showUserRoute(user, $event)">Show Route                </mat-slide-toggle>                <mat-form-field appearance="fill" style="margin-right: 5px">                  <mat-label>Hours</mat-label>                  <input matInput type="number" min="0" [(ngModel)]="this.mapService.routeHour">                </mat-form-field>                <mat-form-field appearance="fill">                  <mat-label>Minutes</mat-label>                  <input matInput type="number" min="0" max="59" [(ngModel)]="this.mapService.routeMin">                </mat-form-field>              </mat-expansion-panel>            </mat-accordion>          </cdk-virtual-scroll-viewport>        </mat-tab>        <mat-tab label="Zones">          <cdk-virtual-scroll-viewport itemSize="50" class="viewport">            <mat-accordion>              <mat-expansion-panel *ngFor="let zone of this.zones" (closed)="this.mapService.resetDataMaps(\'z\')">                <mat-expansion-panel-header *ngIf="zone.id !== \'1\'">                  <mat-panel-title>                    {{zone.name}}                  </mat-panel-title>                </mat-expansion-panel-header>                <mat-slide-toggle *ngIf="zone.id !== \'1\'" [ngModel]="this.mapService.centers.get(zone.id!)"                                  (ngModelChange)="this.mapService.centers.set(zone.id!, $event)">Center                </mat-slide-toggle>                <mat-slide-toggle *ngIf="zone.id !== \'1\'" [ngModel]="this.mapService.showZone.get(zone.id!)"                                  (ngModelChange)="this.mapService.showZoneMap(zone, $event)">Show Zone                </mat-slide-toggle>              </mat-expansion-panel>            </mat-accordion>          </cdk-virtual-scroll-viewport>        </mat-tab>      </mat-tab-group>      <mat-slide-toggle [(ngModel)]="this.mapService.showDetails">Show Details</mat-slide-toggle>      <mat-slide-toggle [(ngModel)]="this.mapService.notifications">Show Notifications</mat-slide-toggle>      <mat-slide-toggle [ngModel]="this.mapService.showZonesBool"                        (ngModelChange)="this.mapService.showAllZones($event)">Show All Zones      </mat-slide-toggle>      <mat-slide-toggle [ngModel]="this.mapService.addCircleZone"                        (ngModelChange)="this.mapService.toggleCircleZone($event)">Add CircleZone      </mat-slide-toggle>      <mat-form-field appearance="fill" style="margin-left: 5px">        <mat-label>Radius</mat-label>        <input matInput type="number" min="0.1" [ngModel]="this.mapService.addCircleZoneRadius"               (ngModelChange)="this.mapService.addCircleZoneRadiusCircle($event)"               [disabled]="!this.mapService.addCircleZone || this.mapService.addCircleZoneCenter == undefined">      </mat-form-field>      <mat-form-field appearance="fill" style="margin-left: 5px">        <mat-label>Name</mat-label>        <input matInput type="text" [(ngModel)]="this.mapService.addCircleZoneName"               [disabled]="!this.mapService.addCircleZone || this.mapService.addCircleZoneCenter == undefined">      </mat-form-field>      <button mat-mini-fab color="primary" aria-label="" (click)="this.mapService.createCircleZone()"              [disabled]="!this.mapService.addCircleZone || this.mapService.addCircleZoneRadius == undefined || this.mapService.addCircleZoneName == undefined">        <mat-icon>check</mat-icon>      </button>      <mat-slide-toggle [ngModel]="this.mapService.addPolyZone"                        (ngModelChange)="this.mapService.togglePolyZone($event)">Add PolyZone      </mat-slide-toggle>      <mat-form-field appearance="fill" style="margin-left: 5px">        <mat-label>Positions: <strong>{{this.mapService.addPolyZonePoints.length}}</strong></mat-label>        <input matInput type="text" disabled>        <mat-hint align="start"><strong>Minimum 3 for Polygon</strong></mat-hint>      </mat-form-field>      <mat-form-field appearance="fill" style="margin-left: 5px">        <mat-label>Name</mat-label>        <input matInput type="text" [(ngModel)]="this.mapService.addPolyZoneName"               [disabled]="!this.mapService.addPolyZone">      </mat-form-field>      <button mat-mini-fab color="primary" aria-label="" (click)="this.mapService.createPolyZone()"              [disabled]="!this.mapService.addPolyZone || this.mapService.addPolyZoneName == undefined || this.mapService.addPolyZonePoints.length < 3">        <mat-icon>check</mat-icon>      </button>    </div>  </div></div><div class="map-container">  <div class="map-frame">    <div id="map"></div>  </div></div><simple-notifications></simple-notifications></div>'
+    var COMPONENTS = [{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'DialogComponent', 'selector': 'app-dialog'},{'name': 'HelpComponent', 'selector': 'app-help'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'MapComponent', 'selector': 'app-map'},{'name': 'StatisticsComponent', 'selector': 'app-statistics'},{'name': 'ToolbarComponent', 'selector': 'app-toolbar'},{'name': 'UserListComponent', 'selector': 'app-user-list'},{'name': 'ZoneListComponent', 'selector': 'app-zone-list'}];
+    var DIRECTIVES = [];
+    var ACTUAL_COMPONENT = {'name': 'MapComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'MapComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>
