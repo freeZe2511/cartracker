@@ -16,11 +16,8 @@ void main() async {
   await Database.init();
   final service = Service();
 
-  final _ip = '0.0.0.0';
-  final _port = 9090;
-
   // false for localhost dev TODO environments
-  bool prod = false;
+  bool prod = true;
 
   // Pipeline with all Middlewares and Handlers
   final _handler = Pipeline()
@@ -30,7 +27,7 @@ void main() async {
       .addHandler(service.handler);
 
   // Server based on
-  final server = await serve(_handler, _ip, _port,
+  final server = await serve(_handler, Config.config["ip"]!, int.parse(Config.config["portServer"]!),
       securityContext: prod ? getSecurityContext() : null);
 
   print("Server running on locahost:${server.port}");
