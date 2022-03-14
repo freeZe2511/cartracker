@@ -7,6 +7,8 @@ import 'package:cartracker_backend/database/zone_dao.dart';
 import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 import 'package:shelf/shelf.dart';
 
+import '../config.dart';
+
 class AuthenticationController {
 
   /// LogIn Controller
@@ -45,7 +47,7 @@ class AuthenticationController {
   /// Signing JWT token with key
   String returnJWT(String userName) {
     var jwt = JWT({"user": userName});
-    var token = jwt.sign(SecretKey("super secret key")); // TODO
+    var token = jwt.sign(SecretKey(Config.config["jwt_key"]!));
     return token;
   }
 }

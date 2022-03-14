@@ -8,7 +8,7 @@ class AdminDataDao {
   AdminDataDao._();
 
 
-  /// Join user data with latest user position
+  /// Join all user data with latest user position
   ///
   /// Return joined data
   static Future<List<Map<String, dynamic>>> readFullUsersWithLatestPos() async {
@@ -36,6 +36,9 @@ class AdminDataDao {
     // return AdminData(data: data);
   }
 
+  /// Join all user data without password with latest user position
+  ///
+  /// Return joined data
   static Future<List<Map<String, dynamic>>> readBasicUsersWithLatestPositions(
       int limit) async {
     final pipeline = AggregationPipelineBuilder()
@@ -62,6 +65,7 @@ class AdminDataDao {
     // return AdminData(data: data);
   }
 
+  /// Join specific user (from id) with latest Position
   static Future<List<Map<String, dynamic>>> readBasicUserByID(
       String id, int limit) async {
     final pipeline = AggregationPipelineBuilder()

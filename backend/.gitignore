@@ -31,3 +31,5 @@ out/
 # Conventional directory for build output.
 build/
 #/certificates/
+certificates/**
+/lib/config.dart
