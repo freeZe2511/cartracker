@@ -6,25 +6,34 @@ class UserDao {
 
   UserDao._();
 
+  /// Insert user into database
   static Future<void> create(User u) async {
     await Database.db
         .collection(_collection)
         .insert(u.toJson());
   }
 
-  // todo: read without token
+  /// Read specific user by username
+  ///
+  /// Returns user
   static Future<User> readOne(String username) async {
     var u =
         await Database.db.collection(_collection).findOne(where.eq('username', username));
     return User.fromJson(u!); //null?
   }
 
+  /// Read specific user by id
+  ///
+  /// Return user or null
   static Future<User> readOneByID(String userid) async {
     var u =
     await Database.db.collection(_collection).findOne(where.eq('id', userid));
     return User.fromJson(u!); //null?
   }
 
+  /// Read many users by list of usernames
+  ///
+  /// Return list of users
   static Future<List<User>> readMany(List<String> usernames) async {
     return Database.db
         .collection(_collection)
@@ -35,6 +44,9 @@ class UserDao {
         .toList();
   }
 
+  /// Read all users
+  ///
+  /// Returns list of users
   static Future<List<User>> readAll() async {
     return Database.db
         .collection(_collection)
@@ -43,6 +55,9 @@ class UserDao {
         .toList();
   }
 
+  /// Check if given username and password match user in database
+  ///
+  /// Return user or null
   static Future<User?> findOne(String username, String password) async {
     try {
       var u = await Database.db
@@ -55,20 +70,10 @@ class UserDao {
     }
   }
 
-  static Future<User?> findOne1(String uniqueID) async {
-    try {
-      var u = await Database.db
-          .collection(_collection)
-          .findOne(where.eq('id', uniqueID));
-      if (u != null) return User.fromJson(u);
-    } catch (e) {
-      print(e);
-      return null;
-    }
-  }
-
+  /// Check if given userid match user in database
+  ///
+  /// Return user id or null
   static Future<String?> checkID(String userid) async {
-    // todo other find method?
     try {
       var u = await Database.db
           .collection(_collection)
@@ -80,6 +85,9 @@ class UserDao {
     }
   }
 
+  /// Check if given username match user in database
+  ///
+  /// Returns username or null
   static Future<String?> checkUsername(String username) async {
     try {
       var u = await Database.db
@@ -92,6 +100,7 @@ class UserDao {
     }
   }
 
+  /// Update user with given parameters
   static Future<void> update(
       String id, String newUsername, String newPassword, String newZone) async {
     // return user?
@@ -105,6 +114,7 @@ class UserDao {
         .updateOne(where.eq('id', id), modifier);
   }
 
+  /// Delete user by user id
   static Future<void> delete(String id) async {
     await Database.db
         .collection(_collection)
@@ -112,6 +122,7 @@ class UserDao {
   }
 }
 
+/// User class with JSON en/decoding
 class User {
   final String id;
   final String username;

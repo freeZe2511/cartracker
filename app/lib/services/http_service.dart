@@ -4,18 +4,20 @@ import 'dart:math';
 import 'package:flutter_background_geolocation/flutter_background_geolocation.dart'
     as bg;
 import 'package:http/http.dart' as http;
+import 'package:maps_toolkit/maps_toolkit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vector_math/vector_math.dart';
-import 'package:maps_toolkit/maps_toolkit.dart';
 
 class HttpService {
   String url = 'https://tim-eggers.de:9090';
 
+  /// Handler for logIn with username and password parameters
   Future<bool> logIn(String username, String password) async {
     final uri = Uri.parse(url + '/auth/login');
     final headers = {'Content-Type': 'application/json'};
     Map<String, dynamic> body = {'username': username, 'password': password};
 
+    // post to server
     http.Response res = await http.post(
       uri,
       headers: headers,
@@ -26,16 +28,17 @@ class HttpService {
     return await authorize(res.statusCode, jsonDecode(res.body));
   }
 
+  /// Handler to check if response is valid
   authorize(num statusCode, var body) async {
     bool authorized = false;
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     switch (statusCode) {
       case 200:
-
         if (body["zone"] != null) {
           var zone = body["zone"];
 
+          // transform response into string for sharedPreferences
           List<String> zoneList = [];
           zoneList.add(zone["id"]);
           zoneList.add(zone["name"]);
@@ -58,6 +61,7 @@ class HttpService {
             zoneList.add("0");
           }
 
+          // set sharedPreferences
           prefs.setString("jwt", body["jwt"]);
           prefs.setString("userid", body["userid"]);
           prefs.setStringList("zone", zoneList);
@@ -71,15 +75,16 @@ class HttpService {
     return authorized;
   }
 
+  /// LogOut clears sharedPreferences so local token is cleared
   logOut() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.clear();
   }
 
+  /// Handler to post location to server
   postPosition(bg.Location location) async {
-    print(location);
-
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    // get stored information to send with post request
     String token = prefs.getString("jwt")!;
     String userid = prefs.getString("userid")!;
     List<String> zoneList = prefs.getStringList("zone")!;
@@ -116,6 +121,9 @@ class HttpService {
     print(res.statusCode);
   }
 
+  /// Check if user coords are inside of stored zone
+  ///
+  /// Outsourced into app to reduce server load!
   bool isInZone(String userid, double lat, double lng, List<String> zoneList) {
     var zoneId = zoneList[0];
     var zoneName = zoneList[1];
@@ -135,6 +143,7 @@ class HttpService {
       posList.add(posArray);
     }
 
+    // check in none, cirle or poly zone
     if (zoneList[1] == "None") return true;
     if (double.parse(zoneRadius) > 0) {
       var latZone = posList[0][0];
@@ -145,6 +154,7 @@ class HttpService {
     }
   }
 
+  /// Check if position inside circular zone
   bool checkCircleZone(double zoneLat, double zoneLng, double userLat,
       double userLng, num radius) {
     // radius in m
@@ -161,6 +171,7 @@ class HttpService {
     return ((distance * 1000) <= radius);
   }
 
+  /// Check if position inside poly zone
   bool checkPolyZone(double userLat, double userLng, List<dynamic> posList) {
     List<LatLng> polygon = [];
 
