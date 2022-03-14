@@ -1,3 +1,4 @@
+import 'package:cartracker_app/screens/home_screen.dart';
 import 'package:cartracker_app/screens/info_screen.dart';
 import 'package:cartracker_app/screens/login_screen.dart';
 import 'package:cartracker_app/screens/map_screen.dart';
@@ -72,6 +73,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   leading: Icon(Icons.help),
                   onTap: () {
                     Navigator.pop(context);
+                    Navigator.pushNamed(context, HomeScreen.routeName);
                   },
                 ),
                 ListTile(
