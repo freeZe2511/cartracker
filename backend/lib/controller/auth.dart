@@ -9,6 +9,11 @@ import 'package:shelf/shelf.dart';
 
 class AuthenticationController {
 
+  /// LogIn Controller
+  /// Checks if requested username and password are valid
+  ///
+  /// First check admin database, if no match user database, or error response
+  /// Return JWT token and needed data
   Future<Response> login(Request request) async {
     if (request.isEmpty) return Response(400);
     var body = jsonDecode(await request.readAsString());
@@ -37,14 +42,10 @@ class AuthenticationController {
     }
   }
 
+  /// Signing JWT token with key
   String returnJWT(String userName) {
-    var jwt = JWT({"user": userName}); //TODO expire and reauth?
-    var token = jwt.sign(SecretKey("super secret key"));
+    var jwt = JWT({"user": userName});
+    var token = jwt.sign(SecretKey("super secret key")); // TODO
     return token;
   }
 }
-
-// Future<Response> logout(Request request) async {
-//   // erst user dann admin tabelle checken? oder admin token schicken?
-//   return Response(200);
-// }

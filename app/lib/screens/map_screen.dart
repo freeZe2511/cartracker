@@ -54,18 +54,4 @@ class _MapScreenState extends State<MapScreen> {
     );
   }
 
-  // Manually fetch the current position.
-  void _onClickGetCurrentPosition() {
-    bg.BackgroundGeolocation.getCurrentPosition(
-            persist: true, // <-- do persist this location
-            desiredAccuracy: 0, // <-- desire best possible accuracy
-            timeout: 30, // <-- wait 30s before giving up.
-            samples: 3 // <-- sample 3 location before selecting best.
-            )
-        .then((bg.Location location) {
-      print('[getCurrentPosition] - $location');
-    }).catchError((error) {
-      print('[getCurrentPosition] ERROR: $error');
-    });
-  }
 }
