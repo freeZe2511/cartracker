@@ -178,7 +178,7 @@ describe('cartracker', () => {
     cy.contains('Name').click().click();
     cy.contains('delete_outline').click();
     cy.contains(/^Delete$/).click();
-    cy.contains(cypressTestInputZoneName1).should('not.exist');
+    cy.contains(cypressTestInputZoneName2).should('not.exist');
   });
 
   it('should navigate to impressum', () => {
