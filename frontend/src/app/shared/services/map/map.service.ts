@@ -30,49 +30,56 @@ export class MapService {
 
   public route: any[] = [];
 
-  follows: Map<string, boolean> = new Map();
-  showZoneUser: Map<string, boolean> = new Map();
-  showRoute: Map<string, boolean> = new Map();
-  showZone: Map<string, boolean> = new Map();
-  centers: Map<string, boolean> = new Map();
+  public follows: Map<string, boolean> = new Map();
+  public showZoneUser: Map<string, boolean> = new Map();
+  public showRoute: Map<string, boolean> = new Map();
+  public showZone: Map<string, boolean> = new Map();
+  public centers: Map<string, boolean> = new Map();
 
-  routeHour = 0;
-  routeMin = 0;
-  expanded = -1;
+  public routeHour = 0;
+  public routeMin = 0;
+  public expanded = -1;
 
-  addCircleZoneName: string | undefined;
-  addCircleZone = false;
-  addCircleZoneCenter: L.Circle | undefined;
-  addCircleZoneCenterValue: any;
-  addCircleZoneCircle: L.Circle | undefined;
-  addCircleZoneRadius: number | undefined;
-  addPolyZone = false;
-  addPolyZonePoints: L.Circle[] = [];
-  addPolyZoneLine!: L.Polyline;
-  addPolyZoneFirstPoint!: L.Circle;
-  addPolyZoneName: string | undefined;
+  public addCircleZoneName: string | undefined;
+  public addCircleZone = false;
+  public addCircleZoneCenter: L.Circle | undefined;
+  public addCircleZoneCenterValue: any;
+  public addCircleZoneCircle: L.Circle | undefined;
+  public addCircleZoneRadius: number | undefined;
+  public addPolyZone = false;
+  public addPolyZonePoints: L.Circle[] = [];
+  public addPolyZoneLine!: L.Polyline;
+  public addPolyZoneFirstPoint!: L.Circle;
+  public addPolyZoneName: string | undefined;
 
-  showDetails = true;
-  notifications = true;
-  showZonesBool = false;
+  public showDetails = true;
+  public notifications = true;
+  public showZonesBool = false;
 
   constructor(private httpService: HttpService, private authService: AuthService, private alertService: AlertService, public zoneService: ZoneService, public router: Router) {
   }
 
   // ### INIT ### //
 
+  /**
+   * Initialize zones
+   */
   initZones() {
     this.getZones().subscribe({
       next: (res: any) => {
         for (const zone of res) {
           this.zones.push(zone);
         }
+        this.initUserPositions();
       },
       error: (e: any) => console.error(e),
       // complete: () => console.info('complete loading zones')
     });
   }
 
+  /**
+   * Initialize user positions
+   */
   initUserPositions() {
     this.getUserPositions().subscribe({
       next: (res: any) => {
@@ -90,14 +97,19 @@ export class MapService {
     });
   }
 
+  /**
+   * Initialize map, user, zones, markers and add EventListener on map
+   */
   initMap(map: L.Map) {
     this.map = map;
     this.markers.clear();
     this.users = [];
     this.zones = [];
 
+    // event listener for click on map for zone creation
     this.map.on('click', (e: L.LeafletMouseEvent) => {
 
+      // circle zone mode
       if (this.addCircleZone) {
         this.addCircleZoneCenter?.removeFrom(this.map);
         this.addCircleZoneCenterValue = e.latlng;
@@ -107,6 +119,7 @@ export class MapService {
         }).addTo(this.map);
         if (this.addCircleZoneRadius != undefined) this.addCircleZoneRadiusCircle(this.addCircleZoneRadius);
       }
+      // poly zone mode
       if (this.addPolyZone) {
         let point = e.latlng;
         let marker = L.circle(point, {
@@ -133,22 +146,14 @@ export class MapService {
     })
 
     this.initZones();
-    this.initUserPositions();
-  }
-
-  addCircleZoneRadiusCircle(event: number) {
-    this.addCircleZoneCircle?.removeFrom(this.map);
-    if (event != undefined && this.addCircleZoneCenterValue != undefined) {
-      this.addCircleZoneRadius = event;
-      this.addCircleZoneCircle = L.circle(this.addCircleZoneCenterValue, {
-        radius: this.addCircleZoneRadius * 1000,
-        color: "#101010"
-      }).addTo(this.map);
-    }
+    // this.initUserPositions();
   }
 
   // ### UPDATE PIPE ### //
 
+  /**
+   * Update loop for markers on map
+   */
   updateUserMarkers(): void {
     this.timeInterval = interval(1000).pipe(
       switchMap(() => this.getUserPositions()),)
@@ -157,6 +162,7 @@ export class MapService {
           next: (res: any) => {
             this.users = res;
             for (const user of res) {
+              // to prevent marker flickering when marker not moving but newly drawn
               if (this.isNewMarker(user)) {
                 this.addNewMarker(user);
               } else {
@@ -172,16 +178,25 @@ export class MapService {
 
   // ### HTTP CALLS ### //
 
+  /**
+   * Call httpService to get user with positions data
+   */
   getUserPositions(): any {
     return this.httpService.get(environment.backendURL + "api/v1/pos",
       {headers: this.authService.authHeader});
   }
 
+  /**
+   * Call httpService to get zone data
+   */
   getZones(): any {
     return this.httpService.get(environment.backendURL + "api/v1/zones",
       {headers: this.authService.authHeader});
   }
 
+  /**
+   * Call httpService to get user route data
+   */
   getUserRoute(user: User, hours: number, minutes: number) {
     let data: string = user.id + "&&" + hours.toString() + "&&" + minutes.toString();
     this.httpService.get(environment.backendURL + "api/v1/route/" + data,
@@ -202,6 +217,9 @@ export class MapService {
 
   // ### MARKER LOGIC ### //
 
+  /**
+   * Add marker on map when not drawn yet
+   */
   addNewMarker(user: User): void {
     if (user.latestPositions != undefined && user.latestPositions[0] != undefined) {
       const pos = user.latestPositions[0];
@@ -218,6 +236,7 @@ export class MapService {
         direction: 'top',
       }).addTo(this.map);
 
+      // track all markers on map
       this.markers.set(user.id, newMarker);
 
       newMarker.on("click", () => {
@@ -225,6 +244,7 @@ export class MapService {
         this.centerMarker();
       })
 
+      // track last status and movement
       let lastInZone = this.usersInZones.get(user.id);
       let lastIsMoving = this.usersIsMoving.get(user.id);
       let inZone = pos.inZone;
@@ -235,6 +255,7 @@ export class MapService {
         fillOpacity: isMoving ? 1 : 0.25
       })
 
+      // alerts based on entering/ leaving zone or changing status
       if (lastInZone && !inZone && this.notifications) this.alertService.onLeave(user.username + " left " + this.findZone(user.zoneid!)!.name)
       if (!lastInZone && inZone && this.notifications) this.alertService.onEnter(user.username + " entered " + this.findZone(user.zoneid!)!.name);
       if (lastIsMoving && !isMoving && this.notifications) this.alertService.onInfo("Inactive ", user.username + " inactive in " + this.findZone(user.zoneid!)!.name);
@@ -248,6 +269,10 @@ export class MapService {
     }
   }
 
+  /**
+   * Set positions of marker when already on map
+   * @param user
+   */
   addExistingMarker(user: User): void {
     if (user.latestPositions != undefined && user.latestPositions[0] != undefined) {
       const pos = user.latestPositions[0];
@@ -256,6 +281,7 @@ export class MapService {
       let lastIsMoving = this.usersIsMoving.get(user.id);
       let isMoving = pos.isMoving;
 
+      // alerts based on changing status
       if (lastIsMoving && !isMoving && this.notifications) this.alertService.onInfo("Inactive", user.username + " inactive in " + this.findZone(user.zoneid!)!.name);
       if (!lastIsMoving && isMoving && this.notifications) this.alertService.onInfo("Active", user.username + " active in " + this.findZone(user.zoneid!)!.name);
       this.usersIsMoving.set(user.id, isMoving);
@@ -267,6 +293,10 @@ export class MapService {
     }
   }
 
+  /**
+   * Get content for tooltip based if details shown
+   * @param user
+   */
   getContent(user: User): string{
     const pos = user.latestPositions![0];
     if(this.showDetails){
@@ -277,6 +307,10 @@ export class MapService {
     }
   }
 
+  /**
+   * Checks if marker already on map
+   * @param user
+   */
   isNewMarker(user: User) {
     if (user.latestPositions != undefined && user.latestPositions[0] != undefined) {
       let pos = this.markers.get(user.id)?.getLatLng();
@@ -502,7 +536,17 @@ export class MapService {
     } else {
       this.zonesMap.get(zone.id!)!.removeFrom(this.map);
     }
+  }
 
+  addCircleZoneRadiusCircle(event: number) {
+    this.addCircleZoneCircle?.removeFrom(this.map);
+    if (event != undefined && this.addCircleZoneCenterValue != undefined) {
+      this.addCircleZoneRadius = event;
+      this.addCircleZoneCircle = L.circle(this.addCircleZoneCenterValue, {
+        radius: this.addCircleZoneRadius * 1000,
+        color: "#101010"
+      }).addTo(this.map);
+    }
   }
 
   createCircleZone() {

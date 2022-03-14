@@ -9,6 +9,9 @@ export interface User {
   latestPositions?: Position[];
 }
 
+/**
+ * (User) Position model
+ */
 export interface Position {
   _id: string,
   id: string, //userid

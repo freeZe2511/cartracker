@@ -9,6 +9,10 @@ export class AlertService {
   constructor(private service: NotificationsService) {
   }
 
+  /**
+   * Display success alert
+   * @param message
+   */
   onSuccess(message: string) {
     this.service.success('Success', message, {
       position: ['top', 'center'],
@@ -18,6 +22,10 @@ export class AlertService {
     });
   }
 
+  /**
+   * Display error alert
+   * @param message
+   */
   onError(message: string) {
     this.service.error('Error', message, {
       position: ['top', 'center'],
@@ -27,6 +35,11 @@ export class AlertService {
     });
   }
 
+  /**
+   * Display info alert
+   * @param message
+   * @param title
+   */
   onInfo(title: string, message: string){
     this.service.info(title, message, {
       position: ['top', 'center'],
@@ -36,6 +49,10 @@ export class AlertService {
     });
   }
 
+  /**
+   * Display leave zone alert
+   * @param message
+   */
   onLeave(message: string) {
     this.service.info('User left', message, {
       position: ['top', 'center'],
@@ -45,6 +62,10 @@ export class AlertService {
     });
   }
 
+  /**
+   * Display enter zone alert
+   * @param message
+   */
   onEnter(message: string) {
     this.service.info('User entered', message, {
       position: ['top', 'center'],
@@ -54,6 +75,10 @@ export class AlertService {
     });
   }
 
+  /**
+   * Display cancel alert
+   * @param message
+   */
   onCancel(message: string) {
     this.service.info('Cancelled', message, {
       position: ['top', 'center'],

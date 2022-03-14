@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {environment} from "../../../../environments/environment";
 import {HttpService} from "../http/http.service";
 import {AuthService} from "../auth/auth.service";
@@ -10,10 +10,15 @@ import {AlertService} from "../alert/alert.service";
 })
 export class ZoneService {
 
-  constructor(private httpService: HttpService, private authService: AuthService, private alertService: AlertService) { }
+  constructor(private httpService: HttpService, private authService: AuthService, private alertService: AlertService) {
+  }
 
+  /**
+   * Call httpService post to create zone with provided data
+   * @param zone
+   */
   public createZone(zone: Zone) {
-      this.httpService.post(environment.backendURL + "api/v1/zone", {
+    this.httpService.post(environment.backendURL + "api/v1/zone", {
       name: zone.name,
       radius: zone.radius,
       pos: zone.pos
@@ -27,6 +32,10 @@ export class ZoneService {
     });
   }
 
+  /**
+   * Call httpService put to update zone with provided data
+   * @param zone
+   */
   public updateZone(zone: Zone) {
     this.httpService.put(environment.backendURL + "api/v1/zone/" + zone.id, {
       name: zone.name,
@@ -45,8 +54,12 @@ export class ZoneService {
     });
   }
 
-  public deleteZone(id: string) {
-    this.httpService.delete(environment.backendURL + "api/v1/zone/" + id, {headers: this.authService.authHeader}).subscribe({
+  /**
+   * Call httpService delete to create zone with zoneid
+   * @param zoneid
+   */
+  public deleteZone(zoneid: string) {
+    this.httpService.delete(environment.backendURL + "api/v1/zone/" + zoneid, {headers: this.authService.authHeader}).subscribe({
       next: (res: any) => {
         // console.log(res);
         this.alertService.onSuccess('Zone was deleted');

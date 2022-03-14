@@ -18,6 +18,9 @@ export class MapComponent implements OnInit, OnDestroy {
   constructor(public mapService: MapService) {
   }
 
+  /**
+   * Init users, zones, map with MapService
+   */
   ngOnInit(): void {
     this.initMap();
     this.mapService.initMap(this.map);
@@ -26,6 +29,9 @@ export class MapComponent implements OnInit, OnDestroy {
     this.zones = this.mapService.zones;
   }
 
+  /**
+   * Reset Data on component destruction
+   */
   ngOnDestroy() {
     this.users = [];
     this.zones = [];
@@ -49,6 +55,9 @@ export class MapComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Init Leaflet Map with OSM as base layer
+   */
   public initMap(): void {
     const options = {
       zoom: 10,

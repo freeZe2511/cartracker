@@ -10,6 +10,9 @@ export class AuthGuard implements CanActivate {
   constructor(private _auth: AuthService, private _router:Router) {
   }
 
+  /**
+   * Determines user logged in status to en-/disable navigation
+   */
   canActivate(): any {
     if (!this._auth.isLoggedIn) {
       console.log("not logged in");
