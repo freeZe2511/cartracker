@@ -43,6 +43,7 @@ dependencies:
   flutter_map: ^0.14.0
   mockito: ^5.1.0
   maps_toolkit: ^2.0.0
+  dartdoc: ^4.1.0
 
 
 dev_dependencies:

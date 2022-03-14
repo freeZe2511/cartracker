@@ -9,13 +9,9 @@ import 'package:vector_math/vector_math.dart';
 import 'package:maps_toolkit/maps_toolkit.dart';
 
 class HttpService {
-  // http for debugging else https
-  String url = 'http://tim-eggers.de:9090';
+  String url = 'https://tim-eggers.de:9090';
 
   Future<bool> logIn(String username, String password) async {
-    bool authorized = false;
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-
     final uri = Uri.parse(url + '/auth/login');
     final headers = {'Content-Type': 'application/json'};
     Map<String, dynamic> body = {'username': username, 'password': password};
@@ -27,9 +23,15 @@ class HttpService {
       encoding: Encoding.getByName('utf-8'),
     );
 
-    switch (res.statusCode) {
+    return await authorize(res.statusCode, jsonDecode(res.body));
+  }
+
+  authorize(num statusCode, var body) async {
+    bool authorized = false;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    switch (statusCode) {
       case 200:
-        body = jsonDecode(res.body);
 
         if (body["zone"] != null) {
           var zone = body["zone"];
@@ -75,6 +77,8 @@ class HttpService {
   }
 
   postPosition(bg.Location location) async {
+    print(location);
+
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String token = prefs.getString("jwt")!;
     String userid = prefs.getString("userid")!;
@@ -113,7 +117,6 @@ class HttpService {
   }
 
   bool isInZone(String userid, double lat, double lng, List<String> zoneList) {
-
     var zoneId = zoneList[0];
     var zoneName = zoneList[1];
     var zoneRadius = zoneList[2];
@@ -145,7 +148,7 @@ class HttpService {
   bool checkCircleZone(double zoneLat, double zoneLng, double userLat,
       double userLng, num radius) {
     // radius in m
-    const radiusEarth = SphericalUtil.earthRadius; // in km
+    const radiusEarth = 6371; // in km
     double distanceLat = radians(userLat - zoneLat);
     double distanceLon = radians(userLng - zoneLng);
     num a = sin(distanceLat / 2) * sin(distanceLat / 2) +
