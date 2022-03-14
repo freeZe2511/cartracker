@@ -1,3 +1,4 @@
+import 'package:cartracker_backend/config.dart';
 import 'package:cartracker_backend/database/database.dart';
 import 'package:cartracker_backend/routing/service.dart';
 import 'package:cartracker_backend/routing/utils.dart';
@@ -15,10 +16,6 @@ void main() async {
   await Database.init();
   final service = Service();
 
-  final _ip = '0.0.0.0';
-  final _port = 9090;
-  final _secret = "super secret key";
-
   // false for localhost dev TODO environments
   bool prod = true;
 
@@ -26,11 +23,11 @@ void main() async {
   final _handler = Pipeline()
       .addMiddleware(corsHeaders(headers: overrideHeaders))
       .addMiddleware(logRequests())
-      .addMiddleware(handleAuth(_secret))
+      .addMiddleware(handleAuth(Config.config["jwt_key"]!))
       .addHandler(service.handler);
 
   // Server based on
-  final server = await serve(_handler, _ip, _port,
+  final server = await serve(_handler, Config.config["ip"]!, int.parse(Config.config["portServer"]!),
       securityContext: prod ? getSecurityContext() : null);
 
   print("Server running on locahost:${server.port}");
