@@ -63,8 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void _initPlatformState() {
     // 1.  Listen to events (See docs for all 12 available events).
     bg.BackgroundGeolocation.onLocation(_onLocation, _onLocationError);
-    bg.BackgroundGeolocation.onMotionChange(_onMotionChange);
-    bg.BackgroundGeolocation.onActivityChange(_onActivityChange);
+    // bg.BackgroundGeolocation.onMotionChange(_onMotionChange);
 
     bg.BackgroundGeolocation.ready(bg.Config(
       desiredAccuracy: bg.Config.DESIRED_ACCURACY_HIGH,
@@ -114,9 +113,7 @@ class _HomeScreenState extends State<HomeScreen> {
             samples: 1 // <-- sample 3 location before selecting best.
             )
         .then((bg.Location location) {
-      print('[getCurrentPosition] - $location');
     }).catchError((error) {
-      print('[getCurrentPosition] ERROR: $error');
     });
   }
 
@@ -137,21 +134,17 @@ class _HomeScreenState extends State<HomeScreen> {
     print('[location] ERROR - $error');
   }
 
-  void _onMotionChange(bg.Location location) {
-    print('[motionchange] - $location');
-
-    if(mounted){
-      setState(() {
-        _content = encoder.convert(location.toMap());
-        counter += 1;
-      });
-    }
-    httpService.postPosition(location);
-  }
-
-  void _onActivityChange(bg.ActivityChangeEvent event) {
-    print('[activitychange] - $event');
-  }
+  // void _onMotionChange(bg.Location location) {
+  //   print('[motionchange] - $location');
+  //
+  //   if(mounted){
+  //     setState(() {
+  //       _content = encoder.convert(location.toMap());
+  //       counter += 1;
+  //     });
+  //   }
+  //   httpService.postPosition(location);
+  // }
 
   @override
   Widget build(BuildContext context) {

@@ -40,11 +40,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // if (loading) {
-    //   return Center(
-    //     child: CircularProgressIndicator(),
-    //   );
-    // } else {
     return Scaffold(
       body: Center(
         child: SizedBox(

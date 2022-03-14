@@ -39,7 +39,6 @@ export class MapService {
   routeHour = 0;
   routeMin = 0;
   expanded = -1;
-  showZonesBool = false;
 
   addCircleZoneName: string | undefined;
   addCircleZone = false;
@@ -55,6 +54,7 @@ export class MapService {
 
   showDetails = true;
   notifications = true;
+  showZonesBool = false;
 
   constructor(private httpService: HttpService, private authService: AuthService, private alertService: AlertService, public zoneService: ZoneService, public router: Router) {
   }
@@ -271,7 +271,7 @@ export class MapService {
     const pos = user.latestPositions![0];
     if(this.showDetails){
       let speed = pos.speed < 0 ? 0 : pos.speed * 3.6
-      return "<strong>" + user.username + "</strong>" + "<br>" + pos.lat + ', ' + pos.lng + "<br>" + speed + "km/h";
+      return "<strong>" + user.username + "</strong>" + "<br>" + pos.lat.toFixed(8) + ', ' + pos.lng.toFixed(8) + "<br>" + speed.toFixed(2) + "km/h";
     } else {
       return "<strong>" + user.username + "</strong>";
     }
@@ -288,10 +288,12 @@ export class MapService {
   // ### RESET DATA ### //
 
   resetDataMaps(x: string) {
+    this.showZonesBool = false;
     this.routeHour = 0;
     this.routeMin = 0;
     this.route = [];
     this.expanded = -1;
+    // this.showZonesBool = false;
     this.follows.forEach((v, k, m) => m.set(k, false));
     this.showZoneUser.forEach((v, k, m) => m.set(k, false));
     this.showRoute.forEach((v, k, m) => m.set(k, false));

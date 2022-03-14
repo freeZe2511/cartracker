@@ -44,6 +44,7 @@ class UserController {
     String password = body["password"];
     String zoneid = body["zoneid"]; //TODO check again if zone
 
+    var res = await UserDao.checkUsername(username);
     if (await UserDao.checkUsername(username) == null) {
       await UserDao.update(id, username, password, zoneid); // User
       return Response(200);

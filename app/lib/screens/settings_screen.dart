@@ -48,135 +48,70 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  late bg.State _state;
-
-  List<Map> commonSettings = [];
+  bool _state = false;
 
   @override
   void initState() {
     super.initState();
-    for (var item in PLUGIN_SETTINGS["common"]!) {
-      commonSettings.add(item);
-    }
     bg.BackgroundGeolocation.state.then((bg.State state) {
       setState(() {
-        _state = state;
+        _state = state.map["stopOnTerminate"];
       });
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    String name = "stopOnTerminate";
+    bool value = _state;
     return Scaffold(
       appBar: AppBar(
         title: Text("Settings"),
       ),
-      body: _buildList(commonSettings),
-    );
-  }
-
-  Widget _buildList(List<Map> settings) {
-    return ListView.builder(
-      itemExtent: 60,
-      itemCount: settings.length,
-      itemBuilder: (BuildContext context, int index) {
-        return _buildField(settings[index]);
-      },
-    );
-  }
-
-  Widget _buildField(Map<dynamic, dynamic> setting) {
-    String name = setting['name'];
-    String inputType = setting['inputType'];
-    print('[buildField] - $name: $inputType');
-    Widget field;
-    switch (inputType) {
-      case INPUT_TYPE_SELECT:
-        field = _buildSelectField(setting);
-        break;
-      case INPUT_TYPE_TOGGLE:
-        field = _buildSwitchField(setting);
-        break;
-      // case INPUT_TYPE_TEXT:
-      //   field = _buildTextField(setting);
-      //   break;
-      default:
-        field = Text('field: $name - Unsupported inputType: $inputType');
-        break;
-    }
-    return field;
-  }
-
-  // TODO (now just placeholder)
-  Widget _buildSelectField(Map<dynamic, dynamic> setting) {
-    String name = setting['name'];
-
-    return InputDecorator(
-      decoration: InputDecoration(
-        contentPadding: EdgeInsets.only(top: 0.0, left: 10.0, bottom: 0.0),
-        labelStyle: TextStyle(color: Colors.blue),
-        //labelText: name
-      ),
-      child: Row(
-        children: <Widget>[
-          Expanded(flex: 3, child: _buildLabel(name)),
-          Expanded(
-            flex: 1,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: const <Widget>[
-                Text("select to do ")
-              ],
+      body: Column(
+        children: [
+          InputDecorator(
+            decoration: InputDecoration(
+              contentPadding:
+                  EdgeInsets.only(top: 0.0, left: 10.0, bottom: 0.0),
+              labelStyle: TextStyle(color: Colors.blue),
+              //labelText: name
             ),
-          )
-        ],
-      ),
-    );
-  }
-
-  Widget _buildSwitchField(Map<dynamic, dynamic> setting) {
-    String name = setting['name'];
-    bool value = _state.map[name];
-    return InputDecorator(
-      decoration: InputDecoration(
-        contentPadding: EdgeInsets.only(top: 0.0, left: 10.0, bottom: 0.0),
-        labelStyle: TextStyle(color: Colors.blue),
-        //labelText: name
-      ),
-      child: Row(
-        children: <Widget>[
-          Expanded(flex: 3, child: _buildLabel(name)),
-          Expanded(
-            flex: 1,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.end,
+            child: Row(
               children: <Widget>[
-                Switch(
-                    value: value, onChanged: _createSwitchChangeHandler(name))
+                Expanded(
+                  flex: 3,
+                  child: Text(
+                    name,
+                    style: TextStyle(color: Colors.blue, fontSize: 15.0),
+                  ),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: <Widget>[
+                      Switch(
+                        value: value,
+                        onChanged: (bool value) {
+                          bg.Config config = bg.Config().set(name, value);
+                          bg.BackgroundGeolocation.setConfig(config)
+                              .then((bg.State state) {
+                            setState(() {
+                              _state = state.map["stopOnTerminate"];
+                            });
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                )
               ],
             ),
-          )
+          ),
         ],
       ),
     );
-  }
-
-  Text _buildLabel(String label) {
-    return Text(label, style: TextStyle(color: Colors.blue, fontSize: 15.0));
-  }
-
-  Function(bool) _createSwitchChangeHandler(String field) {
-    return (bool value) {
-      bg.Config config = bg.Config().set(field, value);
-      bg.BackgroundGeolocation.setConfig(config).then((bg.State state) {
-        setState(() {
-          _state = state;
-        });
-      });
-    };
   }
 }
-
-
