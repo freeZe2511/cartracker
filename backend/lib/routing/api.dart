@@ -5,6 +5,9 @@ import 'package:cartracker_backend/routing/utils.dart';
 import 'package:shelf_plus/shelf_plus.dart';
 import 'package:shelf_router/shelf_router.dart';
 
+/// Api class handles any data request (not auth),
+///
+/// valid Bearer Token needed here
 class Api {
   Handler get router {
     // Controller to handle routes

@@ -53,6 +53,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   void initState() {
     super.initState();
+    // get setting state
     bg.BackgroundGeolocation.state.then((bg.State state) {
       setState(() {
         _state = state.map["stopOnTerminate"];

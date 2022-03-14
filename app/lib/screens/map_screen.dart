@@ -31,6 +31,7 @@ class _MapScreenState extends State<MapScreen> {
     _mapController = MapController();
   }
 
+  /// Handler when position on map is changed
   void _onPositionChanged(MapPosition pos, bool hasGesture) {
     _mapOptions.crs.scale(_mapController.zoom);
   }
