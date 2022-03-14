@@ -20,7 +20,7 @@ void main() async {
   final _secret = "super secret key";
 
   // false for localhost dev TODO environments
-  bool prod = false;
+  bool prod = true;
 
   // Pipeline with all Middlewares and Handlers
   final _handler = Pipeline()
