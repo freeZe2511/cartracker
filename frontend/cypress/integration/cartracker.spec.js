@@ -2,13 +2,13 @@ describe('cartracker', () => {
 
   const username = 'admin';
   const password = 'admin1';
-  const cypressTestInputUsername1 = 'Cypress1';
-  const cypressTestInputPassword1 = 'cPassword1';
-  const cypressTestInputZoneName1 = 'cZName1';
+  const cypressTestInputUsername1 = 'aCypressB';
+  const cypressTestInputPassword1 = 'acPasswordB';
+  const cypressTestInputZoneName1 = 'acZNameB';
   const cypressTestInputZoneRadius1 = '10';
-  const cypressTestInputUsername2 = 'Cypress2';
-  const cypressTestInputPassword2 = 'cPassword2';
-  const cypressTestInputZoneName2 = 'cZName2';
+  const cypressTestInputUsername2 = 'aCypressA';
+  const cypressTestInputPassword2 = 'acPasswordA';
+  const cypressTestInputZoneName2 = 'acZNameA';
   const cypressTestInputZoneRadius2 = '50';
 
   beforeEach(() => {
@@ -56,7 +56,6 @@ describe('cartracker', () => {
 
   it('should add user', () => {
     cy.get('span:nth-child(5)').click();
-
     cy.contains('library_add').click();
     cy.wait(500);
     cy.get('input').first().type(cypressTestInputUsername2);
@@ -66,6 +65,7 @@ describe('cartracker', () => {
     cy.get('*[class="mat-option-text"]').contains('Gießen').click();
     cy.wait(500);
     cy.contains(/^Create$/).click();
+    cy.contains(cypressTestInputUsername2);
   })
 
   it('should zoom at user on map', () => {
@@ -76,6 +76,7 @@ describe('cartracker', () => {
 
   it('should edit user', () => {
     cy.get('span:nth-child(5)').click();
+    cy.contains('Name').click().click();
     cy.contains('edit').click();
     cy.wait(500);
     cy.get('input').first().type(cypressTestInputUsername1);
@@ -91,6 +92,7 @@ describe('cartracker', () => {
 
   it('should turn visibility on and off', () => {
     cy.get('span:nth-child(5)').click();
+    cy.contains('Name').click().click();
     cy.contains('visibility_off').click();
     cy.contains(cypressTestInputPassword1);
     cy.contains('visibility').click();
@@ -99,6 +101,7 @@ describe('cartracker', () => {
 
   it('should delete user', () => {
     cy.get('span:nth-child(5)').click();
+    cy.contains('Name').click().click();
     cy.contains('delete_outline').click();
     cy.contains(/^Delete$/).click();
     cy.contains(cypressTestInputUsername1).should('not.exist');
@@ -113,16 +116,18 @@ describe('cartracker', () => {
     cy.contains('Radius (in km)');
   });
 
-  // it('should create zone', () => {
-  //   cy.get('span:nth-child(7)').click();
-  //   cy.contains('library_add').click();
-  //   cy.get('*[class="mat-radio-inner-circle"]').first().click();
-  //   cy.contains(/^Create$/).click();
-  //   cy.get('#map').click();
-  //   cy.get('input').first().click();  Wie komme ich an diese Felder?
-  //   cy.get('input').last().click();
-  //   cy.contains('check').click();
-  // });
+  it('should create zone', () => {
+    cy.get('span:nth-child(7)').click();
+    cy.contains('library_add').click();
+    cy.get('*[class="mat-radio-inner-circle"]').first().click();
+    cy.contains(/^Create$/).click();
+    cy.get('#map').click().click(500,500);
+    cy.get('input[type="number"]').last().type('50').trigger('change');
+    cy.get('input[type="text"]').first().type(cypressTestInputZoneName2);
+    cy.contains('check').click();
+    cy.get('span:nth-child(7)').click();
+    cy.contains(cypressTestInputZoneName2);
+  });
 
   it('should zoom at zone', () => {
     cy.get('span:nth-child(7)').click();
@@ -132,10 +137,11 @@ describe('cartracker', () => {
 
   it('should edit zone', () => {
     cy.get('span:nth-child(7)').click();
+    cy.contains('Name').click().click();
     cy.contains('edit').click();
-    cy.wait(500);
+    cy.wait(250);
     cy.get('input').first().type(cypressTestInputZoneName1);
-    cy.wait(500);
+    cy.wait(250);
     cy.get('input').last().type(cypressTestInputZoneRadius1);
     cy.contains(/^Update$/).click();
     cy.contains(cypressTestInputZoneName1);
@@ -143,6 +149,7 @@ describe('cartracker', () => {
 
   it('should delete zone', () => {
     cy.get('span:nth-child(7)').click();
+    cy.contains('Name').click().click();
     cy.contains('delete_outline').click();
     cy.contains(/^Delete$/).click();
     cy.contains(cypressTestInputZoneName1).should('not.exist');
