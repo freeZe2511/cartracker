@@ -11,29 +11,29 @@ The MongoDB Address for MongoDbCompass: `mongodb://localhost:27017/?readPreferen
 Server running on port 9090
 ### CREATE / POST
 
-Login: `localhost:9090/api/v1/login`
+Login: `https://tim-eggers.de:9090/api/v1/login`
 
-Create Position: `localhost:9090/api/v1/pos`
+Create Position: `https://tim-eggers.de:9090/api/v1/pos`
 
-Create User: `localhost:9090/api/v1/user`
+Create User: `https://tim-eggers.de:9090/api/v1/user`
 
-Create Zone: `localhost:9090/api/v1/zone`
+Create Zone: `https://tim-eggers.de:9090/api/v1/zone`
 
 ### READ / GET
-Get Latest User Position: `localhost:9090/api/v1/pos`
+Get Latest User Position: `https://tim-eggers.de:9090/api/v1/pos`
 
-Get Route: `localhost:9090/api/v1/route/<id>&&<hours>&&<minutes>`
+Get Route: `https://tim-eggers.de:9090/api/v1/route/<id>&&<hours>&&<minutes>`
 
-Get Users: `localhost:9090/api/v1/users`
+Get Users: `https://tim-eggers.de:9090/api/v1/users`
 
-Get Zones: `localhost:9090/api/v1/zones`
+Get Zones: `https://tim-eggers.de:9090/api/v1/zones`
 
 ### UPDATE / PUT
-Update User: `localhost:9090/api/v1/user/<id>`
+Update User: `https://tim-eggers.de:9090/api/v1/user/<id>`
 
-Update Zone: `localhost:9090/api/v1/zone/<id>`
+Update Zone: `https://tim-eggers.de:9090/api/v1/zone/<id>`
 
 ### DELETE
-Delete User: `localhost:9090/api/v1/user/<id>`
+Delete User: `https://tim-eggers.de:9090/api/v1/user/<id>`
 
-Delete Zone: `localhost:9090/api/v1/zone/<id>`
+Delete Zone: `https://tim-eggers.de:9090/api/v1/zone/<id>`
