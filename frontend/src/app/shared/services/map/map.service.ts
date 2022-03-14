@@ -321,6 +321,10 @@ export class MapService {
 
   // ### RESET DATA ### //
 
+  /**
+   * Resets data variables and maps to avoid race conditions
+   * @param x
+   */
   resetDataMaps(x: string) {
     this.showZonesBool = false;
     this.routeHour = 0;
@@ -346,6 +350,9 @@ export class MapService {
 
   // ### MAP PAN LOGIC ### //
 
+  /**
+   * Center marker of user if possible
+   */
   centerMarker() {
     this.follows.forEach((v, k, m) => {
       if (v) {
@@ -363,6 +370,9 @@ export class MapService {
     });
   }
 
+  /**
+   * Center zone
+   */
   centerZone() {
     this.centers.forEach((v, k, m) => {
       if (v) {
@@ -376,10 +386,18 @@ export class MapService {
     });
   }
 
+  /**
+   * Center circle zone center
+   * @param zone
+   */
   centerCircleZone(zone: Zone) {
     this.map.panTo([zone.pos[0].lat, zone.pos[0].lng]);
   }
 
+  /**
+   * Center polygon zone center by calculating center
+   * @param zone
+   */
   centerPolyZone(zone: Zone) {
     let outer: helpers.Position[] = [];
     zone.pos.forEach((e: { lat: any; lng: any; }) => {
@@ -394,6 +412,10 @@ export class MapService {
     this.map.panTo([centroid.geometry.coordinates[0], centroid.geometry.coordinates[1]]);
   }
 
+  /**
+   * Set user to follow
+   * @param user
+   */
   setFollows(user: User) {
     this.follows.forEach((v, k, m) => m.set(k, false));
     this.follows.set(user.id, true);
@@ -407,6 +429,11 @@ export class MapService {
 
   // ### ROUTE LOGIC ### //
 
+  /**
+   * Show user route depending on boolean event of slideToggle
+   * @param user
+   * @param event
+   */
   showUserRoute(user: User, event: boolean) {
     this.showRoute.set(user.id, event);
 
@@ -420,6 +447,11 @@ export class MapService {
 
   }
 
+  /**
+   * Draw user route depending on boolean event
+   * @param user
+   * @param event
+   */
   drawUserRoute(user: User, event: boolean) {
     if (event) {
       let polyline = L.polyline(this.route).addTo(this.map);
@@ -432,6 +464,10 @@ export class MapService {
 
   // ### ZONE LOGIC ### //
 
+  /**
+   * Setting variables for circle zone creation based on boolean event
+   * @param event
+   */
   toggleCircleZone(event: boolean) {
     this.addCircleZone = event;
     this.addPolyZone = false;
@@ -444,6 +480,10 @@ export class MapService {
     this.addCircleZoneRadius = undefined;
   }
 
+  /**
+   * Setting variables for poly zone creation based boolean event
+   * @param event
+   */
   togglePolyZone(event: boolean) {
     this.addPolyZone = event;
     this.addCircleZone = false;
@@ -456,6 +496,10 @@ export class MapService {
     this.addPolyZoneName = undefined;
   }
 
+  /**
+   * Showing all Zones on map based on boolean event
+   * @param event
+   */
   showAllZones(event: boolean) {
     if (event) {
       for (let zone of this.zones) {
@@ -469,6 +513,11 @@ export class MapService {
     }
   }
 
+  /**
+   * Show specific zone on map based on boolean event
+   * @param zone
+   * @param event
+   */
   showZoneMap(zone: Zone, event: boolean) {
     if (zone.id != "1") {
       this.showZone.set(zone.id!, event);
@@ -478,11 +527,21 @@ export class MapService {
     }
   }
 
+  /**
+   * Show specific user zone on map based on boolean event
+   * @param user
+   * @param event
+   */
   showUserZone(user: User, event: boolean) {
     this.showZoneUser.set(user.id, event);
     this.drawUserZone(user, event);
   }
 
+  /**
+   * Draw specific zone on map based on boolean event
+   * @param user
+   * @param event
+   */
   drawUserZone(user: User, event: boolean) {
     let zoneid = user.zoneid;
     for (let zone of this.zones) {
@@ -494,6 +553,11 @@ export class MapService {
     }
   }
 
+  /**
+   * Draws zone based on type and boolean event
+   * @param zone
+   * @param event
+   */
   drawZone(zone: Zone, event: boolean) {
     if (zone.radius != 0) {
       this.drawCircleZone(zone, event);
@@ -502,6 +566,11 @@ export class MapService {
     }
   }
 
+  /**
+   * Draws circle zone on map
+   * @param zone
+   * @param event
+   */
   drawCircleZone(zone: Zone, event: boolean) {
     let center: LatLngTuple = [zone.pos[0].lat, zone.pos[0].lng]
     let options = {
@@ -517,6 +586,11 @@ export class MapService {
     }
   }
 
+  /**
+   * Draws poly zone on map
+   * @param zone
+   * @param event
+   */
   drawPolyZone(zone: Zone, event: boolean) {
     let options = {
       color: 'red',
@@ -538,6 +612,10 @@ export class MapService {
     }
   }
 
+  /**
+   * Draws circle zone radius at creation
+   * @param event
+   */
   addCircleZoneRadiusCircle(event: number) {
     this.addCircleZoneCircle?.removeFrom(this.map);
     if (event != undefined && this.addCircleZoneCenterValue != undefined) {
@@ -549,6 +627,9 @@ export class MapService {
     }
   }
 
+  /**
+   * Calls zoneService to create circle zone and navigates to zone table
+   */
   createCircleZone() {
     this.zoneService.createZone({
       name: this.addCircleZoneName!,
@@ -558,6 +639,9 @@ export class MapService {
     this.router.navigate(['zones'])
   }
 
+  /**
+   * Calls zoneService to create poly zone and navigates to zone table
+   */
   createPolyZone() {
     let pos: Pos[] = [];
     this.addPolyZonePoints.forEach((v) => {
@@ -574,15 +658,27 @@ export class MapService {
 
   // ### HELPER LOGIC ### //
 
+  /**
+   * Converts Time from ObjID from MongoDB
+   * @param id
+   */
   convertTimeFromObjID(id: string) {
     let timeStamp = parseInt(id.substr(0, 8), 16) * 1000
     return new Date(timeStamp)  // TODO refactor into nice format
   }
 
+  /**
+   * Find zone in zone array
+   * @param zoneid
+   */
   findZone(zoneid: string) {
     return this.zones.find(z => z.id === zoneid);
   }
 
+  /**
+   * Determine zone type of zone
+   * @param zone
+   */
   findZoneType(zone: Zone) {
     if (zone.name == "None") {
       return "None";

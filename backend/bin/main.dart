@@ -19,15 +19,17 @@ void main() async {
   final _port = 9090;
   final _secret = "super secret key";
 
-  // false for localhost dev
+  // false for localhost dev TODO environments
   bool prod = false;
 
+  // Pipeline with all Middlewares and Handlers
   final _handler = Pipeline()
       .addMiddleware(corsHeaders(headers: overrideHeaders))
       .addMiddleware(logRequests())
       .addMiddleware(handleAuth(_secret))
       .addHandler(service.handler);
 
+  // Server based on
   final server = await serve(_handler, _ip, _port,
       securityContext: prod ? getSecurityContext() : null);
 

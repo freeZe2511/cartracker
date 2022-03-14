@@ -13,6 +13,9 @@ class AdminDao {
         .insert(a.toJson());
   }
 
+  /// Function to check if given username and password match in database
+  ///
+  /// If valid return id, else null
   static Future<String?> findOne(String username, String password) async {
     try {
       var u = await Database.db

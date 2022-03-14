@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import * as L from 'leaflet';
 import {MapService} from "../../shared/services/map/map.service";
 import {User} from "../../shared/models/user";
@@ -50,7 +50,7 @@ export class MapComponent implements OnInit, OnDestroy {
     this.mapService.addPolyZoneLine?.removeFrom(this.map);
     this.mapService.addPolyZoneName = undefined;
 
-    if(this.mapService.timeInterval) {
+    if (this.mapService.timeInterval) {
       this.mapService.timeInterval.unsubscribe();
     }
   }

@@ -5,8 +5,12 @@ class AdminDataDao {
   static const String _collectionUser = "users";
   static const String _collectionCoords = "coords";
 
-  AdminDataDao._(); // TODO maybe rename, maybe complete refactor
+  AdminDataDao._();
 
+
+  /// Join user data with latest user position
+  ///
+  /// Return joined data
   static Future<List<Map<String, dynamic>>> readFullUsersWithLatestPos() async {
     final pipeline = AggregationPipelineBuilder()
         .addStage(Lookup.withPipeline(
