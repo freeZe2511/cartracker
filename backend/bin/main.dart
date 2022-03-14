@@ -1,3 +1,4 @@
+import 'package:cartracker_backend/config.dart';
 import 'package:cartracker_backend/database/database.dart';
 import 'package:cartracker_backend/routing/service.dart';
 import 'package:cartracker_backend/routing/utils.dart';
@@ -17,16 +18,15 @@ void main() async {
 
   final _ip = '0.0.0.0';
   final _port = 9090;
-  final _secret = "super secret key";
 
   // false for localhost dev TODO environments
-  bool prod = true;
+  bool prod = false;
 
   // Pipeline with all Middlewares and Handlers
   final _handler = Pipeline()
       .addMiddleware(corsHeaders(headers: overrideHeaders))
       .addMiddleware(logRequests())
-      .addMiddleware(handleAuth(_secret))
+      .addMiddleware(handleAuth(Config.config["jwt_key"]!))
       .addHandler(service.handler);
 
   // Server based on
